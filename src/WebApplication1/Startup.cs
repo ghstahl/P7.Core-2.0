@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
@@ -26,10 +27,15 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 using P7.Core;
 using P7.Core.FileProviders;
+using P7.Core.Identity;
 using P7.Core.IoC;
 using P7.Core.Middleware;
 using P7.Core.Startup;
 using P7.Core.TagHelpers;
+using P7.Filters;
+using P7.Razor.FileProvider;
+using P7.RazorProvider.Store.Core;
+using P7.RazorProvider.Store.Core.Interfaces;
 using P7.TwitterAuthentication;
 using Serilog;
 using WebApplication1.Data;
@@ -38,6 +44,33 @@ using WebApplication1.Services;
 
 namespace WebApplication1
 {
+    // this gates all apis with not only being authenticated, but have one of the following claims.
+    class MyAuthApiClaimsProvider : IAuthApiClaimsProvider
+    {
+        public static string LocalClientIdValue => "local";
+        public async Task<List<Claim>> FetchClaimsAsync()
+        {
+            var claims = new List<Claim>
+            {
+                new Claim("client_id", MyAuthApiClaimsProvider.LocalClientIdValue),
+                new Claim("client_id", "resource-owner-client")
+            };
+            return claims;
+        }
+    }
+
+    // this seeds all local identities with a claim {client_id:local}
+    // this is so that downstream api filters can let identites of this type in.
+    // we let in bearer tokens from external systems that we require to have certain claims, in our case client_id.
+    class MyPostAuthClaimsProvider : IPostAuthClaimsProvider
+    {
+        public async Task<List<Claim>> FetchClaims(ClaimsPrincipal principal)
+        {
+            var claims = new List<Claim> { new Claim("client_id", MyAuthApiClaimsProvider.LocalClientIdValue) };
+            return claims;
+        }
+    }
+
     public class Startup
     {
         private readonly IHostingEnvironment _hostingEnvironment;
@@ -92,19 +125,10 @@ namespace WebApplication1
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
-            // If you don't want the cookie to be automatically authenticated and assigned to HttpContext.User, 
-            // remove the CookieAuthenticationDefaults.AuthenticationScheme parameter passed to AddAuthentication.
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options => {
-                    options.LoginPath = "/Account/LogIn";
-                    options.LogoutPath = "/Account/LogOff";
-                })
-                .AddP7Twitter(options =>
-                {
-                    options.ConsumerKey = "uWkHwFNbklXgsLHYzLfRXcThw";
-                    options.ConsumerSecret = "2kyg9WdUiJuU2HeWYJEuvwzaJWoweLadTgG3i0oHI5FeNjD5Iv";
-                });
+            services
+                .AddScoped
+                <Microsoft.AspNetCore.Identity.IUserClaimsPrincipalFactory<ApplicationUser>,
+                    AppClaimsPrincipalFactory<ApplicationUser>>();
 
             services.AddAntiforgery(opts => opts.HeaderName = "X-XSRF-Token");
             services.AddMvc(opts =>
@@ -116,6 +140,16 @@ namespace WebApplication1
 
             });
             services.AddTransient<AngularAntiforgeryCookieResultFilter>();
+
+            var razorLocationStore = new RemoteRazorLocationStore();
+            services.AddSingleton<IRazorLocationStore>(razorLocationStore);
+            services.AddSingleton<RemoteRazorLocationStore>(razorLocationStore);
+            services.Configure<RazorViewEngineOptions>(opts =>
+                opts.FileProviders.Add(
+                    new RazorFileProvider(razorLocationStore)
+                )
+            );
+
             services.AddAuthorization();
 
             // Add application services.
@@ -132,6 +166,19 @@ namespace WebApplication1
             services.AddTransient<ClaimsPrincipal>(
                 s => s.GetService<IHttpContextAccessor>().HttpContext.User);
 
+            // If you don't want the cookie to be automatically authenticated and assigned to HttpContext.User, 
+            // remove the CookieAuthenticationDefaults.AuthenticationScheme parameter passed to AddAuthentication.
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => {
+                    options.LoginPath = "/Account/LogIn";
+                    options.LogoutPath = "/Account/LogOff";
+                })
+                .AddP7Twitter(options =>
+                {
+                    options.ConsumerKey = "uWkHwFNbklXgsLHYzLfRXcThw";
+                    options.ConsumerSecret = "2kyg9WdUiJuU2HeWYJEuvwzaJWoweLadTgG3i0oHI5FeNjD5Iv";
+                });
+
             services.AddAllConfigureServicesRegistrants(Configuration);
             services.AddDependenciesUsingAutofacModules();
             var serviceProvider = services.BuildServiceProvider(Configuration);
@@ -145,6 +192,8 @@ namespace WebApplication1
             ILoggerFactory loggerFactory,
             IApplicationLifetime appLifetime)
         {
+            LoadRazorProviderData();
+
             var supportedCultures = new List<CultureInfo>
             {
                 new CultureInfo("en-US"),
@@ -220,7 +269,25 @@ namespace WebApplication1
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+        private async Task LoadRazorProviderData()
+        {
+            // "https://rawgit.com/ghstahl/P7/master/src/p7.external.spa/Areas/ExtSpa/views.json"
 
+            var store = P7.Core.Global.ServiceProvider.GetServices<RemoteRazorLocationStore>().FirstOrDefault();
+            store.LoadRemoteDataAsync("https://rawgit.com/ghstahl/P7/master/src/p7.external.spa/Areas/ExtSpa/views.json").GetAwaiter().GetResult();
+
+            /*
+            var now = DateTime.UtcNow;
+            await store.InsertAsync(new RazorLocation()
+            {
+                Location = "/Areas/ExtSPA/Views/Home/Index.cshtml",
+                Content =
+                    "@using P7.External.SPA.Models \n@model SectionValue \n<div id=\"spaSection\">\n@Model.Value\n</div>",
+                LastModified = now,
+                LastRequested = now
+            });
+            */
+        }
         private static void ConfigureTagHelperBase(IHostingEnvironment env)
         {
             var version = typeof(Startup).GetTypeInfo()

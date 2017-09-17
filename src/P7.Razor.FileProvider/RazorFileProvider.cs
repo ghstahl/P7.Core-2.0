@@ -32,7 +32,7 @@ namespace P7.Razor.FileProvider
 
         public IDirectoryContents GetDirectoryContents(string subpath)
         {
-            throw new NotImplementedException();
+            return new NotFoundDirectoryContents();
         }
 
         public IChangeToken Watch(string filter)
