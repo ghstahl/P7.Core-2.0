@@ -1,0 +1,19 @@
+{
+  "spas": [
+    {
+      "key": "support",
+      "requireAuth": false,
+      "view": "Support" 
+    },
+    {
+      "key": "Admin",
+      "requireAuth": true,
+      "view": "Admin"
+    },
+    {
+      "key": "Money",
+      "requireAuth": true,
+      "view": "Money"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hugo.Core\Hugo.Core.csproj" />
+    <ProjectReference Include="..\Hugo.Data.Json\Hugo.Data.Json.csproj" />
+    <ProjectReference Include="..\P7.Core\P7.Core.csproj" />
+    <ProjectReference Include="..\P7.Store\P7.Store.csproj" />
+  </ItemGroup>
+
+</Project>

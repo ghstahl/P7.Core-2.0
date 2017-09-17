@@ -1,0 +1,28 @@
+{
+  "views": [
+    {
+      "location": "/Areas/ExtSPA/Views/Home/Index.cshtml",
+      "content": "@using P7.External.SPA.Models \n@model SectionValue \n<div id=\"spaSection\">\n@Model.Value\n</div>"
+    },
+    {
+      "location": "/Areas/ExtSPA/Views/Home/Support.cshtml",
+      "content": "<div>\nWelcome to Support!\n</div>"
+    },
+    {
+      "location": "/Areas/ExtSPA/Views/Home/Admin.cshtml",
+      "content": "@using System.Collections.Generic\n @using P7.External.SPA.Models\n @model System.Collections.Generic.IEnumerable<P7.External.SPA.Models.ClaimType>\n <div>\nWelcome to Admin!\n</div>@foreach (var claimType in Model){<div>@claimType.Type\n@claimType.Value</div>}"
+    },
+    {
+      "location": "/Areas/ExtSPA/Views/Home/Money.cshtml",
+      "content": "<div id=\"root\"></div><script src=\"https://rawgit.com/ghstahl/p7-react-mobx-host/master/dist/bundle.js\"></script>"
+    },
+    {
+      "location": "/Areas/ExtSPA/Views/_ViewImports.cshtml",
+      "content": "@using P7.Core\n @addTagHelper \"*, Microsoft.AspNetCore.Mvc.TagHelpers\"\n @addTagHelper \"*, P7.Core\""
+    },
+    {
+      "location": "/Areas/ExtSPA/Views/_ViewStart.cshtml",
+      "content": "@{Layout = \"_Layout\";}"
+    }
+  ]
+}
