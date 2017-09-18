@@ -5,11 +5,11 @@ namespace P7.Core.Startup
 {
     public abstract class ConfigureServicesRegistrant: IConfigureServicesRegistrant
     {
-        public IConfigurationRoot Configuration { get; private set; }
+        public IConfiguration Configuration { get; private set; }
         protected ConfigureServicesRegistrant( )
         {
         }
-        protected ConfigureServicesRegistrant(IConfigurationRoot configuration)
+        protected ConfigureServicesRegistrant(IConfiguration configuration)
         {
             Configuration = configuration;
         }

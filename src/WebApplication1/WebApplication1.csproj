@@ -35,6 +35,7 @@
     <ProjectReference Include="..\P7.Filters\P7.Filters.csproj" />
     <ProjectReference Include="..\P7.Globalization\P7.Globalization.csproj" />
     <ProjectReference Include="..\P7.HugoStore.Core\P7.HugoStore.Core.csproj" />
+    <ProjectReference Include="..\P7.Main\P7.Main.csproj" />
     <ProjectReference Include="..\P7.Razor.FileProvider\P7.Razor.FileProvider.csproj" />
     <ProjectReference Include="..\P7.RazorProvider.Store.Core\P7.RazorProvider.Store.Core.csproj" />
     <ProjectReference Include="..\P7.SimpleRedirect.Core\P7.SimpleRedirect.Core.csproj" />

@@ -11,7 +11,7 @@ namespace P7.Core
     {
         public static IHostingEnvironment HostingEnvironment { get; set; }
         public static IMemoryCache MemoryCache { get; set; }
-        public static IConfigurationRoot ConfigurationRoot { get; set; }
+        public static IConfiguration Configuration { get; set; }
         public static IServiceProvider ServiceProvider { get; set; }
 
         private static Dictionary<string, object> _arbitraryObjects;

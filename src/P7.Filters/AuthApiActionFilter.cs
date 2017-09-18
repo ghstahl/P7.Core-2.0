@@ -16,7 +16,7 @@ namespace P7.Filters
 
     public class AuthApiActionFilter : ActionFilterAttribute
     {
-        private static IConfigurationRoot _configurationRoot;
+        private static IConfiguration _configuration;
         private IAuthApiClaimsProvider _authApiClaimsProvider;
         private List<Claim> _allowedClaims;
 
@@ -31,15 +31,15 @@ namespace P7.Filters
             }
         }
 
-        public AuthApiActionFilter(IConfigurationRoot configurationRoot, IAuthApiClaimsProvider authApiClaimsProvider)
+        public AuthApiActionFilter(IConfiguration configuration, IAuthApiClaimsProvider authApiClaimsProvider)
         {
-            _configurationRoot = configurationRoot;
+            _configuration = configuration;
             _authApiClaimsProvider = authApiClaimsProvider;
         }
 
-        public AuthApiActionFilter(IConfigurationRoot configurationRoot)
+        public AuthApiActionFilter(IConfiguration configuration)
         {
-            _configurationRoot = configurationRoot;
+            _configuration = configuration;
         }
 
         static bool ClaimsEqual(Claim one, Claim two)

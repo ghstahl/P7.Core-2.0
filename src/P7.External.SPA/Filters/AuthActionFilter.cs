@@ -24,16 +24,16 @@ namespace P7.External.SPA.Filters
         public static string Area { get; set; }
         public static string Controller { get; set; }
         public static string Action { get; set; }
-        private static IConfigurationRoot _configurationRoot;
+        private static IConfiguration _configuration;
         private static IExternalSPAStore _externalSPAStore;
         public static Dictionary<string, SpaRecord> Spas = new Dictionary<string, SpaRecord>();
-        public AuthActionFilter(IConfigurationRoot configurationRoot, IExternalSPAStore externalSpaStore)
+        public AuthActionFilter(IConfiguration configuration, IExternalSPAStore externalSpaStore)
         {
             _externalSPAStore = externalSpaStore;
-            _configurationRoot = configurationRoot;
-            Area = _configurationRoot["Filters:Configuration:AuthActionFilter:Area"];
-            Controller = _configurationRoot["Filters:Configuration:AuthActionFilter:Controller"];
-            Action = _configurationRoot["Filters:Configuration:AuthActionFilter:Action"];
+            _configuration = configuration;
+            Area = _configuration["Filters:Configuration:AuthActionFilter:Area"];
+            Controller = _configuration["Filters:Configuration:AuthActionFilter:Controller"];
+            Action = _configuration["Filters:Configuration:AuthActionFilter:Action"];
         }
         public override void OnActionExecuting(ActionExecutingContext context)
         {

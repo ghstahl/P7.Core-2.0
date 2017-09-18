@@ -17,7 +17,7 @@ namespace P7.Core
 
         }
 
-        public MyConfigureServicesRegistrant(IConfigurationRoot configuration) : base(configuration)
+        public MyConfigureServicesRegistrant(IConfiguration configuration) : base(configuration)
         {
         }
     }

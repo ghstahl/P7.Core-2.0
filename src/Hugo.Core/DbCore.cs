@@ -25,7 +25,7 @@ namespace Hugo.Core
 		public abstract IDbConnection CreateConnection(string connectionStringName);
 		public abstract IDbCommand CreateCommand();
 
-		public static IConfigurationRoot Config { get; }
+		public static IConfiguration Config { get; }
 
 		static DbCore()
 		{

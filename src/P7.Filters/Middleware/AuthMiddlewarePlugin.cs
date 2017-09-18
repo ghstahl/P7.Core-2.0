@@ -9,14 +9,14 @@ namespace P7.Filters.Middleware
         public static string Area { get; set; }
         public static string Controller { get; set; }
         public static string Action { get; set; }
-        private static IConfigurationRoot _configurationRoot;
+        private static IConfiguration _configuration;
 
-        public AuthMiddlewarePlugin(IConfigurationRoot configurationRoot)
+        public AuthMiddlewarePlugin(IConfiguration configuration)
         {
-            _configurationRoot = configurationRoot;
-            Area = _configurationRoot["Filters:Configuration:AuthActionFilter:Area"];
-            Controller = _configurationRoot["Filters:Configuration:AuthActionFilter:Controller"];
-            Action = _configurationRoot["Filters:Configuration:AuthActionFilter:Action"];
+            _configuration = configuration;
+            Area = _configuration["Filters:Configuration:AuthActionFilter:Area"];
+            Controller = _configuration["Filters:Configuration:AuthActionFilter:Controller"];
+            Action = _configuration["Filters:Configuration:AuthActionFilter:Action"];
         }
 
         private static string _redirectPath = null;
