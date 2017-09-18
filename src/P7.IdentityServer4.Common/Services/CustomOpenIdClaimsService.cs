@@ -49,15 +49,16 @@ namespace P7.IdentityServer4.Common.Services
             }
         }
 
-        public override Task<IEnumerable<Claim>> GetAccessTokenClaimsAsync(ClaimsPrincipal subject, Client client, Resources resources, ValidatedRequest request)
+        public override Task<IEnumerable<Claim>> GetAccessTokenClaimsAsync(ClaimsPrincipal subject, Resources resources, ValidatedRequest request)
         {
+         
             if (!request.Raw.ContainsAny(RequiredArgument))
             {
                 var ex = new Exception(string.Format("RequiredArgument failed need the following [{0}]", string.Join(",", RequiredArgument.ToArray())));
                 _logger.LogError(LoggingEvents.REQUIRED_ITEMS_MISSING,ex);
                 throw ex;
             }
-            var result = base.GetAccessTokenClaimsAsync(subject, client, resources, request);
+            var result = base.GetAccessTokenClaimsAsync(subject, resources, request);
             var rr = request.Raw.AllKeys.ToDictionary(k => k, k => request.Raw[k]);
             List<Claim> finalClaims = new List<Claim>(result.Result);
             string output = JsonConvert.SerializeObject(rr);

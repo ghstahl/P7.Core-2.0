@@ -9,6 +9,7 @@ namespace P7.IdentityServer4.Common
         AbstractClientModel<
             string,
             string,
+            string,
             string
         >
     {
@@ -19,6 +20,14 @@ namespace P7.IdentityServer4.Common
 
         public FlattenedClientModel(Client client) : base(client)
         {
+        }
+
+        public override string Serialize(Dictionary<string, string> dict)
+        {
+            if (dict == null)
+                return "{}";
+            var simpleDocument = new SimpleJsonJsonDocument<Dictionary<string, string>>(dict).DocumentJson;
+            return simpleDocument;
         }
 
         public override string Serialize(List<string> stringList)
@@ -34,6 +43,13 @@ namespace P7.IdentityServer4.Common
             obj = string.IsNullOrEmpty(obj) ? "[]" : obj;
             var simpleDocument = new SimpleJsonJsonDocument<List<string>>(obj);
             var document = (List<string>) simpleDocument.Document;
+            return await Task.FromResult(document);
+        }
+        public override async Task<IDictionary<string, string>> DeserializeStringDictionaryAsync(string obj)
+        {
+            obj = string.IsNullOrEmpty(obj) ? "{}" : obj;
+            var simpleDocument = new SimpleJsonJsonDocument<Dictionary<string, string>>(obj);
+            var document = (Dictionary<string,string>)simpleDocument.Document;
             return await Task.FromResult(document);
         }
 

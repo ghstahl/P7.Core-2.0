@@ -13,8 +13,8 @@ namespace P7.IdentityServer4.Common
         AbstractClientModel<
             List<ClaimModel>,
             List<Secret>,
-            List<string>
-        >
+            List<string>,
+            Dictionary<string,string>>
     {
         public ClientModel()
             : base()
@@ -23,6 +23,11 @@ namespace P7.IdentityServer4.Common
 
         public ClientModel(Client client) : base(client)
         {
+        }
+
+        public override Dictionary<string, string> Serialize(Dictionary<string, string> dict)
+        {
+            return dict;
         }
 
         public override List<string> Serialize(List<string> stringList)
@@ -49,7 +54,10 @@ namespace P7.IdentityServer4.Common
         {
             return await Task.FromResult(obj);
         }
-
+        public override async Task<IDictionary<string, string>> DeserializeStringDictionaryAsync(Dictionary<string, string> obj)
+        {
+            return await Task.FromResult(obj);
+        }
         public override async Task<List<Secret>> DeserializeSecretsAsync(List<Secret> obj)
         {
             return await Task.FromResult(obj);
@@ -76,13 +84,18 @@ namespace P7.IdentityServer4.Common
                 && AllowRememberConsent.SafeEquals(other.AllowRememberConsent)
                 && AlwaysSendClientClaims.SafeEquals(other.AlwaysSendClientClaims)
                 && AuthorizationCodeLifetime.SafeEquals(other.AuthorizationCodeLifetime)
+                && BackChannelLogoutSessionRequired.SafeEquals(other.BackChannelLogoutSessionRequired)
+                && BackChannelLogoutUri.SafeEquals(other.BackChannelLogoutUri)
                 && Claims.SafeListEquals(other.Claims)
                 && ClientId.SafeEquals(other.ClientId)
                 && ClientName.SafeEquals(other.ClientName)
                 && ClientSecrets.SafeListEquals(other.ClientSecrets)
                 && ClientUri.SafeEquals(other.ClientUri)
+                && ConsentLifetime.SafeEquals(other.ConsentLifetime)
                 && Enabled.SafeEquals(other.Enabled)
                 && EnableLocalLogin.SafeEquals(other.EnableLocalLogin)
+                && FrontChannelLogoutSessionRequired.SafeEquals(other.FrontChannelLogoutSessionRequired)
+                && FrontChannelLogoutUri.SafeEquals(other.FrontChannelLogoutUri)
                 && IdentityProviderRestrictions.SafeListEquals(other.IdentityProviderRestrictions)
                 && IdentityTokenLifetime.SafeEquals(other.IdentityTokenLifetime)
                 && IncludeJwtId.SafeEquals(other.IncludeJwtId)
@@ -91,6 +104,7 @@ namespace P7.IdentityServer4.Common
                 && LogoutUri.SafeEquals(other.LogoutUri)
                 && PostLogoutRedirectUris.SafeListEquals(other.PostLogoutRedirectUris)
                 && PrefixClientClaims.SafeEquals(other.PrefixClientClaims)
+                && Properties.SafeEquals(other.Properties)
                 && ProtocolType.SafeEquals(other.ProtocolType)
                 && RedirectUris.SafeListEquals(other.RedirectUris)
                 && RefreshTokenExpiration.SafeEquals(other.RefreshTokenExpiration)

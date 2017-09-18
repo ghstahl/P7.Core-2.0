@@ -27,17 +27,20 @@ namespace P7.IdentityServer4.Common.Services
         private readonly ILogger<CustomArbitraryClaimsService> _logger;
         private static List<string> _requiredArbitraryClaimsArguments;
 
-        private static List<string> RequiredArbitraryClaimsArgument => _requiredArbitraryClaimsArguments ?? (_requiredArbitraryClaimsArguments = new List<string>
-        {
-            "arbitrary-claims"
-        });
+        private static List<string> RequiredArbitraryClaimsArgument => _requiredArbitraryClaimsArguments ??
+                                                                       (_requiredArbitraryClaimsArguments =
+                                                                           new List<string>
+                                                                           {
+                                                                               "arbitrary-claims"
+                                                                           });
 
         private static List<string> _requiredArbitraryScopesArguments;
 
-        private static List<string> RequiredArbitraryScopes => _requiredArbitraryScopesArguments ?? (_requiredArbitraryScopesArguments = new List<string>
-        {
-            "arbitrary-scopes"
-        });
+        private static List<string> RequiredArbitraryScopes => _requiredArbitraryScopesArguments ??
+                                                               (_requiredArbitraryScopesArguments = new List<string>
+                                                               {
+                                                                   "arbitrary-scopes"
+                                                               });
 
         private static List<string> _p7ClaimTypes;
 
@@ -47,7 +50,8 @@ namespace P7.IdentityServer4.Common.Services
             {
                 if (_p7ClaimTypes == null)
                 {
-                    var myConstants = typeof(P7.IdentityServer4.Common.Constants.ClaimTypes).GetConstants<System.String>();
+                    var myConstants =
+                        typeof(P7.IdentityServer4.Common.Constants.ClaimTypes).GetConstants<System.String>();
                     var values = myConstants.GetConstantsValues<System.String>();
                     _p7ClaimTypes = values.ToList();
                 }
@@ -55,13 +59,14 @@ namespace P7.IdentityServer4.Common.Services
             }
         }
 
-        public CustomArbitraryClaimsService(IProfileService profile, ILogger<CustomArbitraryClaimsService> logger) : base(profile, logger)
+        public CustomArbitraryClaimsService(IProfileService profile,
+            ILogger<CustomArbitraryClaimsService> logger) : base(profile, logger)
         {
             _logger = logger;
         }
 
-        public override async Task<IEnumerable<Claim>> GetAccessTokenClaimsAsync(ClaimsPrincipal subject,
-            Client client, Resources resources, ValidatedRequest request)
+        public async override Task<IEnumerable<Claim>> GetAccessTokenClaimsAsync(ClaimsPrincipal subject,
+            Resources resources, ValidatedRequest request)
         {
             var arbitraryClaimsCheck = request.Raw.ContainsAny(RequiredArbitraryClaimsArgument);
             var arbitraryScopesCheck = request.Raw.ContainsAny(RequiredArbitraryScopes);
@@ -74,13 +79,13 @@ namespace P7.IdentityServer4.Common.Services
                 _logger.LogError(LoggingEvents.REQUIRED_ITEMS_MISSING, ex);
                 throw ex;
             }
-            var result = base.GetAccessTokenClaimsAsync(subject, client, resources, request);
+            var result = base.GetAccessTokenClaimsAsync(subject, resources, request);
             var rr = request.Raw.AllKeys.ToDictionary(k => k, k => request.Raw[k]);
             List<Claim> finalClaims = new List<Claim>(result.Result);
 
             if (arbitraryScopesCheck)
             {
-                var newScopes = rr["arbitrary-scopes"].Split(new char[] { ' ', '\t' },
+                var newScopes = rr["arbitrary-scopes"].Split(new char[] {' ', '\t'},
                     StringSplitOptions.RemoveEmptyEntries);
                 foreach (var scope in newScopes)
                 {
@@ -98,7 +103,7 @@ namespace P7.IdentityServer4.Common.Services
                     where string.Compare(value.Key, "client_id", true) != 0
                     select value;
                 var trimmedClaims = query.ToList();
-                finalClaims.AddRange(trimmedClaims.Select(value=>new Claim(value.Key, value.Value)));
+                finalClaims.AddRange(trimmedClaims.Select(value => new Claim(value.Key, value.Value)));
             }
             if (subject != null)
             {
@@ -108,7 +113,6 @@ namespace P7.IdentityServer4.Common.Services
             // if we find any, than add them to the original and send that back.
             IEnumerable<Claim> claimresults = finalClaims;
             return claimresults;
-
         }
     }
 }

@@ -76,12 +76,13 @@ namespace P7.IdentityServer4.Common.Stores
             return api.FirstOrDefault();
         }
 
-        public async Task<Resources> GetAllResources()
+        public async Task<Resources> GetAllResourcesAsync()
         {
             var identityResources = await FetchAllIdentityResourceAsync();
             var apiResources = await FetchAllApiResourceAsync();
             var result = new Resources(identityResources, apiResources);
             return result;
         }
+
     }
 }

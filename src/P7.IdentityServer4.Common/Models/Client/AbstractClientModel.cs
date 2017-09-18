@@ -7,10 +7,11 @@ using IdentityServer4.Models;
 
 namespace P7.IdentityServer4.Common
 {
-    public abstract class AbstractClientModel<TClaims, TSecrets, TStrings> : IClientModel
+    public abstract class AbstractClientModel<TClaims, TSecrets, TStrings, TStringDictionary> : IClientModel
          where TClaims : class
          where TSecrets : class
          where TStrings : class
+         where TStringDictionary : class
     {
         protected AbstractClientModel()
         {
@@ -33,6 +34,9 @@ namespace P7.IdentityServer4.Common
                 AllowRememberConsent = client.AllowRememberConsent;
                 AlwaysSendClientClaims = client.AlwaysSendClientClaims;
                 AuthorizationCodeLifetime = client.AuthorizationCodeLifetime;
+                BackChannelLogoutSessionRequired = client.BackChannelLogoutSessionRequired;
+                BackChannelLogoutUri = client.BackChannelLogoutUri;
+                ConsentLifetime = client.ConsentLifetime;
                 Claims = Serialize(client.Claims);
                 ClientId = client.ClientId;
                 ClientName = client.ClientName;
@@ -40,14 +44,15 @@ namespace P7.IdentityServer4.Common
                 ClientUri = client.ClientUri;
                 Enabled = client.Enabled;
                 EnableLocalLogin = client.EnableLocalLogin;
+                FrontChannelLogoutSessionRequired = client.FrontChannelLogoutSessionRequired;
+                FrontChannelLogoutUri = client.FrontChannelLogoutUri;
                 IdentityProviderRestrictions = Serialize(client.IdentityProviderRestrictions);
                 IdentityTokenLifetime = client.IdentityTokenLifetime;
                 IncludeJwtId = client.IncludeJwtId;
                 LogoUri = client.LogoUri;
-                LogoutSessionRequired = client.LogoutSessionRequired;
-                LogoutUri = client.LogoutUri;
                 PostLogoutRedirectUris = Serialize(client.PostLogoutRedirectUris);
                 PrefixClientClaims = client.PrefixClientClaims;
+                Properties = Serialize(client.Properties);
                 ProtocolType = client.ProtocolType;
                 RedirectUris = Serialize(client.RedirectUris);
                 RefreshTokenExpiration = client.RefreshTokenExpiration;
@@ -64,19 +69,21 @@ namespace P7.IdentityServer4.Common
         {
             return Serialize(clientSecrets.ToList());
         }
-
-        private TStrings Serialize(IEnumerable<string> allowedGrantTypes)
+        private TStringDictionary Serialize(IDictionary<string, string> dict)
         {
-            return Serialize(allowedGrantTypes.ToList());
+            return Serialize(dict.ToDictionary(kvp => kvp.Key, kvp => kvp.Value));
         }
-
-        private TStrings Serialize(ICollection<string> allowedCorsOrigins)
+        public abstract TStringDictionary Serialize(Dictionary<string, string> dict);
+        private TStrings Serialize(ICollection<string> coll)
         {
-            return Serialize(allowedCorsOrigins.ToList());
+            return Serialize(coll.ToList());
         }
-
         public abstract TStrings Serialize(List<string> stringList);
         public abstract Task<List<string>> DeserializeStringsAsync(TStrings obj);
+
+        public abstract Task<IDictionary<string, string>> DeserializeStringDictionaryAsync(
+            TStringDictionary obj);
+
         public abstract TClaims Serialize(List<Claim> claims);
         public TClaims Serialize(ICollection<Claim> claims)
         {
@@ -85,6 +92,7 @@ namespace P7.IdentityServer4.Common
         public abstract Task<List<Claim>> DeserializeClaimsAsync(TClaims obj);
         public abstract TSecrets Serialize(List<Secret> secrets);
         public abstract Task<List<Secret>> DeserializeSecretsAsync(TSecrets obj);
+
 
         public async Task<global::IdentityServer4.Models.Client> MakeClientAsync()
         {
@@ -96,6 +104,7 @@ namespace P7.IdentityServer4.Common
             var identityProviderRestrictions = await DeserializeStringsAsync(IdentityProviderRestrictions);
             var postLogoutRedirectUris = await DeserializeStringsAsync(PostLogoutRedirectUris);
             var redirectUris = await DeserializeStringsAsync(RedirectUris);
+            var properties = await DeserializeStringDictionaryAsync(Properties);
 
             Client client = new Client()
             {
@@ -112,6 +121,9 @@ namespace P7.IdentityServer4.Common
                 AlwaysIncludeUserClaimsInIdToken = AlwaysIncludeUserClaimsInIdToken,
                 AlwaysSendClientClaims = AlwaysSendClientClaims,
                 AuthorizationCodeLifetime = AuthorizationCodeLifetime,
+                BackChannelLogoutSessionRequired = BackChannelLogoutSessionRequired,
+                BackChannelLogoutUri = BackChannelLogoutUri,
+                ConsentLifetime = ConsentLifetime,
                 Claims = claims,
                 ClientId = ClientId,
                 ClientName = ClientName,
@@ -119,14 +131,15 @@ namespace P7.IdentityServer4.Common
                 ClientUri = ClientUri,
                 Enabled = Enabled,
                 EnableLocalLogin = EnableLocalLogin,
+                FrontChannelLogoutSessionRequired = FrontChannelLogoutSessionRequired,
+                FrontChannelLogoutUri = FrontChannelLogoutUri,
                 IdentityProviderRestrictions = identityProviderRestrictions,
                 IdentityTokenLifetime = IdentityTokenLifetime,
                 IncludeJwtId = IncludeJwtId,
                 LogoUri = LogoUri,
-                LogoutSessionRequired = LogoutSessionRequired,
-                LogoutUri = LogoutUri,
                 PostLogoutRedirectUris = postLogoutRedirectUris,
                 PrefixClientClaims = PrefixClientClaims,
+                Properties = properties,
                 ProtocolType = ProtocolType,
                 RedirectUris = redirectUris,
                 RefreshTokenExpiration = RefreshTokenExpiration,
@@ -139,6 +152,8 @@ namespace P7.IdentityServer4.Common
             };
             return client;
         }
+
+
         public int AbsoluteRefreshTokenLifetime { get; set; }
         public int AccessTokenLifetime { get; set; }
         public AccessTokenType AccessTokenType { get; set; }
@@ -152,6 +167,9 @@ namespace P7.IdentityServer4.Common
         public bool AlwaysIncludeUserClaimsInIdToken { get; set; }
         public bool AlwaysSendClientClaims { get; set; }
         public int AuthorizationCodeLifetime { get; set; }
+        public bool BackChannelLogoutSessionRequired { get; set; }
+        public string BackChannelLogoutUri { get; set; }
+        public int? ConsentLifetime { get; set; }
         public TClaims Claims { get; set; }
         public string ClientId { get; set; }
         public string ClientName { get; set; }
@@ -159,6 +177,8 @@ namespace P7.IdentityServer4.Common
         public string ClientUri { get; set; }
         public bool Enabled { get; set; }
         public bool EnableLocalLogin { get; set; }
+        public string FrontChannelLogoutUri { get; set; }
+        public bool FrontChannelLogoutSessionRequired { get; set; }
         public TStrings IdentityProviderRestrictions { get; set; }
         public int IdentityTokenLifetime { get; set; }
         public bool IncludeJwtId { get; set; }
@@ -167,6 +187,7 @@ namespace P7.IdentityServer4.Common
         public string LogoutUri { get; set; }
         public TStrings PostLogoutRedirectUris { get; set; }
         public bool PrefixClientClaims { get; set; }
+        public TStringDictionary Properties { get; set; }
         public string ProtocolType { get; set; }
         public TStrings RedirectUris { get; set; }
         public TokenExpiration RefreshTokenExpiration { get; set; }
