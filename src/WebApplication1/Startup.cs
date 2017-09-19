@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using GraphQL.Language.AST;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -33,6 +34,7 @@ using P7.Core.Middleware;
 using P7.Core.Startup;
 using P7.Core.TagHelpers;
 using P7.Filters;
+using P7.GraphQLCore.Stores;
 using P7.Razor.FileProvider;
 using P7.RazorProvider.Store.Core;
 using P7.RazorProvider.Store.Core.Interfaces;
@@ -193,6 +195,7 @@ namespace WebApplication1
             IApplicationLifetime appLifetime)
         {
             LoadRazorProviderData();
+            LoadGraphQLAuthority();
 
             var supportedCultures = new List<CultureInfo>
             {
@@ -267,6 +270,16 @@ namespace WebApplication1
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+        }
+        private async Task LoadGraphQLAuthority()
+        {
+            var graphQLFieldAuthority = P7.Core.Global.ServiceProvider.GetServices<IGraphQLFieldAuthority>().FirstOrDefault();
+
+            await graphQLFieldAuthority.AddClaimsAsync(OperationType.Mutation, "/blog", new List<Claim>()
+            {
+                new Claim(ClaimTypes.NameIdentifier,""),
+                new Claim("client_id","resource-owner-client"),
             });
         }
         private async Task LoadRazorProviderData()

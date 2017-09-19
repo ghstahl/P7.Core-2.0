@@ -6,6 +6,10 @@ namespace P7.Globalization
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<ResourceQueryInput>();
+
+            //   builder.RegisterType<MyFieldRecordRegistration>().As<IFieldRecordRegistration>();
+            //   builder.RegisterType<MyFieldRecordRegistration2>().As<IFieldRecordRegistration>();
         }
     }
 }

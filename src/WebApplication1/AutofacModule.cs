@@ -9,6 +9,7 @@ using P7.Core.Middleware;
 using P7.Core.Providers;
 using P7.External.SPA.Core;
 using P7.Filters;
+using P7.GraphQLCore.Stores;
 using P7.SimpleRedirect.Core;
 
 namespace WebApplication1
@@ -68,6 +69,10 @@ namespace WebApplication1
 
             builder.Register(c => remoteStaticExternalSpaStore)
                 .As<IExternalSPAStore>()
+                .SingleInstance();
+
+            builder.RegisterType<InMemoryGraphQLFieldAuthority>()
+                .As<IGraphQLFieldAuthority>()
                 .SingleInstance();
 
         }

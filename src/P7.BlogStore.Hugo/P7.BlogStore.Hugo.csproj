@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hugo.Core\Hugo.Core.csproj" />
+    <ProjectReference Include="..\Hugo.Data.Json\Hugo.Data.Json.csproj" />
+    <ProjectReference Include="..\P7.BlogStore.Core\P7.BlogStore.Core.csproj" />
+    <ProjectReference Include="..\P7.HugoStore.Core\P7.HugoStore.Core.csproj" />
+    <ProjectReference Include="..\P7.SimpleDocument.Store.Hugo\P7.SimpleDocument.Store.Hugo.csproj" />
+  </ItemGroup>
+
+</Project>
