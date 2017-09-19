@@ -58,6 +58,16 @@ gulp.task('copy:P7.Main:areas', function () {
         .pipe(gulp.dest('Areas/'));
 });
 
+gulp.task('copy:P7.GraphQLViewer:static', function () {
+    return gulp.src(['../P7.GraphQLViewer/static/**'])
+        .pipe(gulp.dest('wwwroot/static/'));
+});
+
+gulp.task('copy:P7.GraphQLViewer:areas', function () {
+    return gulp.src(['../P7.GraphQLViewer/Areas/**', '!../P7.GraphQLViewer/Areas/*/{Controllers,Controllers/**}'])
+        .pipe(gulp.dest('Areas/'));
+});
+
 gulp.task('copy:brunch:wwwroot', function () {
     return gulp.src(['../brunch/wwwroot/brunched/**'])
         .pipe(gulp.dest('wwwroot/'));
@@ -68,18 +78,19 @@ gulp.task('copy:P7.Main:static', function () {
         .pipe(gulp.dest('wwwroot/static/'));
 });
 
-
-
 gulp.task('watch', [
         'copy:brunch:wwwroot',
         'copy:P7.Main',
-        'copy:P7.Main:areas'    
+        'copy:P7.Main:areas',
+        'copy:P7.GraphQLViewer:static',
+        'copy:P7.GraphQLViewer:areas'
     ],
     function () {
         gulp.watch(['../brunch/wwwroot/brunched/**'], ['copy:brunch:wwwroot']);
         gulp.watch(['../P7.Main/Views/**'], ['copy:P7.Main']);
         gulp.watch(['../P7.Main/Areas/**'], ['copy:P7.Main:areas']);
-  
+        gulp.watch(['../P7.GraphQLViewer/Views/**'], ['copy:P7.GraphQLViewer:static']);
+        gulp.watch(['../P7.GraphQLViewer/Areas/**'], ['copy:P7.GraphQLViewer:areas']); 
     });
 
 gulp.task("min", ["min:js", "min:css"]);

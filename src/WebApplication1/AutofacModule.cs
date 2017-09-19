@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using Autofac;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using P7.BlogStore.Hugo.Extensions;
 using P7.Core;
 using P7.Core.Identity;
 using P7.Core.Middleware;
@@ -16,11 +18,13 @@ namespace WebApplication1
 {
     public class AutofacModule : Module
     {
+        private static string TenantId = "02a6f1a2-e183-486d-be92-658cd48d6d94";
         protected override void Load(ContainerBuilder builder)
         {
+            var env = P7.Core.Global.HostingEnvironment;
             // The generic ILogger<TCategoryName> service was added to the ServiceCollection by ASP.NET Core.
             // It was then registered with Autofac using the Populate method in ConfigureServices.
- 
+
             builder.Register(c => new InMemorySimpleRedirectStore())
                 .As<ISimpleRedirectorStore>()
                 .SingleInstance();
@@ -74,6 +78,10 @@ namespace WebApplication1
             builder.RegisterType<InMemoryGraphQLFieldAuthority>()
                 .As<IGraphQLFieldAuthority>()
                 .SingleInstance();
+
+            var dbPath = Path.Combine(env.ContentRootPath, "App_Data/blogstore");
+            Directory.CreateDirectory(dbPath);
+            builder.AddBlogStoreBiggyConfiguration(dbPath, TenantId);
 
         }
     }
