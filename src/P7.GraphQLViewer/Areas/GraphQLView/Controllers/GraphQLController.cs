@@ -89,7 +89,10 @@ namespace P7.GraphQLViewer.Areas.GraphQLView.Controllers
                 : HttpStatusCode.OK;
 
             var json = _writer.Write(result);
-            return new ObjectResult(json) { StatusCode = (int)httpResult };
+            dynamic obj = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(json);
+
+            var rr =  new ObjectResult(obj) { StatusCode = (int)httpResult };
+            return rr;
         }
     }
 
