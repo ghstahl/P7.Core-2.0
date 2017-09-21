@@ -31,6 +31,7 @@ using P7.Core.FileProviders;
 using P7.Core.Identity;
 using P7.Core.IoC;
 using P7.Core.Middleware;
+using P7.Core.Scheduler.Scheduling;
 using P7.Core.Startup;
 using P7.Core.TagHelpers;
 using P7.Filters;
@@ -183,8 +184,18 @@ namespace WebApplication1
 
             services.AddAllConfigureServicesRegistrants(Configuration);
             services.AddDependenciesUsingAutofacModules();
+
+            services.AddScheduler((sender, args) =>
+            {
+                Console.Write(args.Exception.Message);
+                args.SetObserved();
+            });
+
+
             var serviceProvider = services.BuildServiceProvider(Configuration);
+
             P7.Core.Global.ServiceProvider = serviceProvider;
+
             return serviceProvider;
         }
 

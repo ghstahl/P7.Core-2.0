@@ -3,12 +3,16 @@ using System.IO;
 using Autofac;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using P7.BlogStore.Hugo.Extensions;
 using P7.Core;
 using P7.Core.Identity;
 using P7.Core.Middleware;
 using P7.Core.Providers;
+using P7.Core.Scheduler;
+using P7.Core.Scheduler.Scheduling;
+using P7.Core.Scheduler.Stores;
 using P7.External.SPA.Core;
 using P7.Filters;
 using P7.GraphQLCore.Stores;
@@ -82,6 +86,22 @@ namespace WebApplication1
             var dbPath = Path.Combine(env.ContentRootPath, "App_Data/blogstore");
             Directory.CreateDirectory(dbPath);
             builder.AddBlogStoreBiggyConfiguration(dbPath, TenantId);
+
+            builder.RegisterType<QuoteOfTheDayTask>()
+                .As<IScheduledTask>()
+                .SingleInstance();
+            builder.RegisterType<SomeOtherTask>()
+                .As<IScheduledTask>()
+                .SingleInstance();
+            builder.RegisterType<SchedulerHostedService>()
+                .As<IHostedService>()
+                .SingleInstance();
+
+            builder.RegisterType<QuoteOfTheDataStore>()
+                .As<IQuoteOfTheDataStore>()
+                .SingleInstance();
+ 
+
 
         }
     }
