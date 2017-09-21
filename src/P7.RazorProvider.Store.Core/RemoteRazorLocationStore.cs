@@ -69,8 +69,19 @@ namespace P7.RazorProvider.Store.Core
 
         public async Task LoadRemoteDataAsync(string url)
         {
-            var result = await GetRemoteDataAsync(url);
-            Insert(result);
+            var results = await GetRemoteDataAsync(url);
+            if (results != null)
+            {
+                var now = DateTime.UtcNow;
+                var lastRequetedTime = now.Subtract(new TimeSpan(0, 1, 0));
+                foreach (var result in results)
+                {
+                    // make sure that there is no confusion that this is new
+                    result.LastModified = now;
+                    result.LastRequested = lastRequetedTime;
+                }
+                Insert(results);
+            }
         }
     }
 }

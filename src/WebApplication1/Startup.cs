@@ -145,6 +145,7 @@ namespace WebApplication1
             services.AddTransient<AngularAntiforgeryCookieResultFilter>();
 
             var razorLocationStore = new RemoteRazorLocationStore();
+            services.AddSingleton<IRemoteRazorLocationStore>(razorLocationStore);
             services.AddSingleton<IRazorLocationStore>(razorLocationStore);
             services.AddSingleton<RemoteRazorLocationStore>(razorLocationStore);
             services.Configure<RazorViewEngineOptions>(opts =>
@@ -205,7 +206,7 @@ namespace WebApplication1
             ILoggerFactory loggerFactory,
             IApplicationLifetime appLifetime)
         {
-            LoadRazorProviderData();
+           // LoadRazorProviderData();
             LoadGraphQLAuthority();
 
             var supportedCultures = new List<CultureInfo>

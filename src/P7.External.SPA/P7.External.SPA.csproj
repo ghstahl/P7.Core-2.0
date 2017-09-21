@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\P7.Core\P7.Core.csproj" />
     <ProjectReference Include="..\P7.External.SPA.Core\P7.External.SPA.Core.csproj" />
+    <ProjectReference Include="..\P7.RazorProvider.Store.Core\P7.RazorProvider.Store.Core.csproj" />
   </ItemGroup>
 
 </Project>

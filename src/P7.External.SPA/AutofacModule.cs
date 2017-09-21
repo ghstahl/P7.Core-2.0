@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using P7.Core.IoC;
 using P7.Core.Middleware;
 using P7.Core.Reflection;
+using P7.Core.Scheduler.Scheduling;
 using P7.External.SPA.Filters;
+using P7.External.SPA.Scheduler;
 using Serilog;
 using Module = Autofac.Module;
 
@@ -32,9 +34,11 @@ namespace P7.Filters
 
 
             builder.RegisterNamedType<AuthActionFilter, ActionFilterAttribute>();
+           
 
-
-
+            builder.RegisterType<RemoteRazorLocationStoreTask>()
+                .As<IScheduledTask>()
+                .SingleInstance();
         }
     }
 }
