@@ -1,17 +1,15 @@
-﻿using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using Autofac;
 using Microsoft.AspNetCore.Mvc.Filters;
 using P7.Core.IoC;
-using P7.Core.Middleware;
-using P7.Core.Reflection;
 using P7.Core.Scheduler.Scheduling;
+using P7.External.SPA.Core;
 using P7.External.SPA.Filters;
 using P7.External.SPA.Scheduler;
 using Serilog;
 using Module = Autofac.Module;
 
-namespace P7.Filters
+namespace P7.External.SPA
 {
     public class AutofacModule : Module
     {
@@ -31,14 +29,23 @@ namespace P7.Filters
             builder.RegisterTypes(derivedTypes).SingleInstance();
 
             */
-
+            builder.RegisterType<RemoteStaticExternalSpaStore>()
+                .As<IRemoteExternalSPAStore>()
+                .As<IExternalSPAStore>()
+                .SingleInstance();
 
             builder.RegisterNamedType<AuthActionFilter, ActionFilterAttribute>();
-           
+
+            
+            builder.RegisterType<RemoteStaticExternalSpaStoreTask>()
+                .As<IScheduledTask>()
+                .SingleInstance();
 
             builder.RegisterType<RemoteRazorLocationStoreTask>()
                 .As<IScheduledTask>()
                 .SingleInstance();
+
+            
         }
     }
 }

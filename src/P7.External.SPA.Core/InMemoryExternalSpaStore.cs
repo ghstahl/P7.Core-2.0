@@ -30,7 +30,13 @@ namespace P7.External.SPA.Core
 
             Records[sKey] = record;
         }
-
+        public void AddRecords(ExternalSPARecord[] records)
+        {
+            foreach (var record in records)
+            {
+                AddRecord(record);
+            }
+        }
         public void RemoveRecord(string key)
         {
             var sKey = key.ToLower();

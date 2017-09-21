@@ -49,36 +49,9 @@ namespace WebApplication1
                 .As<IConfiguration>()
                 .SingleInstance();
 
-            // build external InMemoryStore
-            var remoteStaticExternalSpaStore = new RemoteStaticExternalSpaStore(
-                "https://rawgit.com/ghstahl/P7/master/src/WebApplication5/external.spa.config.json");
-            var records = remoteStaticExternalSpaStore.GetRemoteDataAsync().GetAwaiter().GetResult();
-            foreach (var spa in records.Spas)
-            {
-                remoteStaticExternalSpaStore.AddRecord(spa);
-            }
             builder.RegisterType<MyPostAuthClaimsProvider>().As<IPostAuthClaimsProvider>().SingleInstance();
             builder.RegisterType<MyAuthApiClaimsProvider>().As<IAuthApiClaimsProvider>().SingleInstance();
-
-            /*
-            remoteStaticExternalSpaStore.AddRecord(new ExternalSPARecord()
-            {
-                Key = "Support",
-                RequireAuth = false,
-                RenderTemplate = "<div access_token={%{user.access_token}%}>Well Hello Support</div>"
-            });
-            remoteStaticExternalSpaStore.AddRecord(new ExternalSPARecord()
-            {
-                Key = "admin",
-                RequireAuth = true,
-                RenderTemplate = "<div access_token={%{user.access_token}%}>Well Hello Admin</div>"
-            });
-            */
-
-            builder.Register(c => remoteStaticExternalSpaStore)
-                .As<IExternalSPAStore>()
-                .SingleInstance();
-
+ 
             builder.RegisterType<InMemoryGraphQLFieldAuthority>()
                 .As<IGraphQLFieldAuthority>()
                 .SingleInstance();
@@ -100,8 +73,6 @@ namespace WebApplication1
             builder.RegisterType<QuoteOfTheDataStore>()
                 .As<IQuoteOfTheDataStore>()
                 .SingleInstance();
- 
-
 
         }
     }

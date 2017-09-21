@@ -6,14 +6,9 @@ using Newtonsoft.Json;
 
 namespace P7.External.SPA.Core
 {
-    public class RemoteStaticExternalSpaStore : InMemoryExternalSpaStore
+    public class RemoteStaticExternalSpaStore : InMemoryExternalSpaStore, IRemoteExternalSPAStore
     {
         //"https://rawgit.com/ghstahl/P7/master/src/WebApplication5/external.spa.config.json";
-        private string Url { get; set; }
-        public RemoteStaticExternalSpaStore(string url)
-        {
-            Url = url;
-        }
         public static SpaRecords FromJson(string json) => JsonConvert.DeserializeObject<SpaRecords>(json, Settings);
         public static string ToJson(SpaRecords o) => JsonConvert.SerializeObject((object) o, (JsonSerializerSettings) Settings);
 
@@ -25,10 +20,10 @@ namespace P7.External.SPA.Core
             DateParseHandling = DateParseHandling.None,
         };
 
-        public async Task<SpaRecords> GetRemoteDataAsync()
+        public async Task<SpaRecords> GetRemoteDataAsync(string url)
         {
             var accept = "application/json";
-            var uri = Url;
+            var uri = url;
             var req = (HttpWebRequest)WebRequest.Create(uri);
             req.Accept = accept;
             var content = new MemoryStream();
@@ -45,6 +40,15 @@ namespace P7.External.SPA.Core
                 }
             }
             return spaRecords;
+        }
+
+        public async Task LoadRemoteDataAsync(string url)
+        {
+            var result = await GetRemoteDataAsync(url);
+            if (result.Spas != null)
+            {
+                AddRecords(result.Spas);
+            }
         }
     }
 }

@@ -206,7 +206,7 @@ namespace WebApplication1
             ILoggerFactory loggerFactory,
             IApplicationLifetime appLifetime)
         {
-           // LoadRazorProviderData();
+ 
             LoadGraphQLAuthority();
 
             var supportedCultures = new List<CultureInfo>
@@ -294,25 +294,7 @@ namespace WebApplication1
                 new Claim("client_id","resource-owner-client"),
             });
         }
-        private async Task LoadRazorProviderData()
-        {
-            // "https://rawgit.com/ghstahl/P7/master/src/p7.external.spa/Areas/ExtSpa/views.json"
-
-            var store = P7.Core.Global.ServiceProvider.GetServices<RemoteRazorLocationStore>().FirstOrDefault();
-            store.LoadRemoteDataAsync("https://rawgit.com/ghstahl/P7/master/src/p7.external.spa/Areas/ExtSpa/views.json").GetAwaiter().GetResult();
-
-            /*
-            var now = DateTime.UtcNow;
-            await store.InsertAsync(new RazorLocation()
-            {
-                Location = "/Areas/ExtSPA/Views/Home/Index.cshtml",
-                Content =
-                    "@using P7.External.SPA.Models \n@model SectionValue \n<div id=\"spaSection\">\n@Model.Value\n</div>",
-                LastModified = now,
-                LastRequested = now
-            });
-            */
-        }
+ 
         private static void ConfigureTagHelperBase(IHostingEnvironment env)
         {
             var version = typeof(Startup).GetTypeInfo()
