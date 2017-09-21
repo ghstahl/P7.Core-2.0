@@ -6,7 +6,7 @@
     },
     {
       "location": "/Areas/ExtSPA/Views/Home/Support.cshtml",
-      "content": "<div>\nWelcome to Support!\n</div>"
+      "content": "<div>\nWelcome to Support good sir!\n</div>"
     },
     {
       "location": "/Areas/ExtSPA/Views/Home/Admin.cshtml",
