@@ -7,6 +7,8 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using GraphQL.Language.AST;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -74,6 +76,20 @@ namespace WebApplication1
         }
     }
 
+    public interface IEmailSenderTask
+    {
+        void Send(int userId, string message);
+    }
+
+    public class EmailSender: IEmailSenderTask
+    {
+        public void Send(int userId, string message)
+        {
+           Console.WriteLine(string.Format("{0}:{1}",userId, message));
+
+            // Some processing logic
+        }
+    }
     public class Startup
     {
         private readonly IHostingEnvironment _hostingEnvironment;
@@ -119,6 +135,8 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddHangfire(config => config.UseMemoryStorage());
+
             services.TryAddSingleton(typeof(IStringLocalizerFactory), typeof(ResourceManagerStringLocalizerFactory));
             services.AddLocalization();
 
@@ -200,13 +218,17 @@ namespace WebApplication1
             return serviceProvider;
         }
 
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app,
             IHostingEnvironment env,
             ILoggerFactory loggerFactory,
             IApplicationLifetime appLifetime)
         {
- 
+
+        //    app.UseHangfireDashboard();
+            app.UseHangfireServer();
+
             LoadGraphQLAuthority();
 
             var supportedCultures = new List<CultureInfo>
@@ -283,7 +305,18 @@ namespace WebApplication1
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            BackgroundJob.Enqueue<EmailSender>(x => x.Send(13, "Hello!"));
+            RecurringJob.AddOrUpdate<EmailSender>("some-id", x => x.Send(13, "Hello!"), Cron.MinuteInterval(1));
+            RecurringJob.Trigger("some-id");
         }
+
+        private int _count;
+        public void DoRecurring()
+        {
+            _count = _count + 1;
+            Console.WriteLine("Recurring!" + _count);
+        }
+
         private async Task LoadGraphQLAuthority()
         {
             var graphQLFieldAuthority = P7.Core.Global.ServiceProvider.GetServices<IGraphQLFieldAuthority>().FirstOrDefault();
