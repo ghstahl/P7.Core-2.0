@@ -33,7 +33,7 @@ namespace P7.IdentityServer4.Common.ExtensionGrantValidator
         private readonly IProfileService _profile;
         private readonly IClientStore _clientStore;
         private readonly ITokenResponseGenerator _tokenResponseGenerator;
-
+        private readonly ITokenValidator _tokenValidator;
         private ValidatedTokenRequest _validatedRequest;
         private const string PrependPublic = "public-";
         private const int PrependPublicIndex = 7;
@@ -41,6 +41,7 @@ namespace P7.IdentityServer4.Common.ExtensionGrantValidator
             IdentityServerOptions options,
             IRefreshTokenStore refreshTokenStore,
             ITokenResponseGenerator tokenResponseGenerator,
+            ITokenValidator tokenValidator,
             IProfileService profile,
             IClientStore clientStore,
             IEventService events,
@@ -50,6 +51,7 @@ namespace P7.IdentityServer4.Common.ExtensionGrantValidator
             _events = events;
             _options = options;
             _refreshTokenStore = refreshTokenStore;
+            _tokenValidator = tokenValidator;
             _profile = profile;
             _clientStore = clientStore;
             _tokenResponseGenerator = tokenResponseGenerator;
@@ -109,7 +111,7 @@ namespace P7.IdentityServer4.Common.ExtensionGrantValidator
                 Client = originalClient,
                 Options = _options
             };
-            var result = await ValidateRefreshTokenRequestAsync(nvc);
+            var result = await ValidateRefreshTokenRequestAsync(nvc, originalClient);
             if (result.IsError)
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant);
@@ -138,56 +140,22 @@ namespace P7.IdentityServer4.Common.ExtensionGrantValidator
 
         public string GrantType => "public_refresh_token";
 
-        private async Task<TokenRequestValidationResult> ValidateRefreshTokenRequestAsync(NameValueCollection parameters)
+        private async Task<TokenRequestValidationResult> ValidateRefreshTokenRequestAsync(NameValueCollection parameters, Client client = null)
         {
+           
             _logger.LogDebug("Start validation of refresh token request");
-
             var refreshTokenHandle = parameters.Get(OidcConstants.TokenRequest.RefreshToken);
-            if (refreshTokenHandle.IsMissing())
-            {
-                var error = "Refresh token is missing";
-                LogError(error);
-                await RaiseRefreshTokenRefreshFailureEventAsync(null, error);
+            var refreshTokenValidatorResult = await _tokenValidator.ValidateRefreshTokenAsync(refreshTokenHandle, client);
 
-                return Invalid(OidcConstants.TokenErrors.InvalidRequest);
+            if (refreshTokenValidatorResult.IsError)
+            {
+                return Invalid(refreshTokenValidatorResult.Error);
             }
 
-            if (refreshTokenHandle.Length > _options.InputLengthRestrictions.RefreshToken)
-            {
-                var error = "Refresh token too long";
-                LogError(error);
-                await RaiseRefreshTokenRefreshFailureEventAsync(null, error);
-
-                return Invalid(OidcConstants.TokenErrors.InvalidGrant);
-            }
 
             _validatedRequest.RefreshTokenHandle = refreshTokenHandle;
-
-            /////////////////////////////////////////////
-            // check if refresh token is valid
-            /////////////////////////////////////////////
-            var refreshToken = await _refreshTokenStore.GetRefreshTokenAsync(refreshTokenHandle);
-            if (refreshToken == null)
-            {
-                LogError("Refresh token cannot be found in store: {refreshToken}", refreshTokenHandle);
-                var error = "Refresh token cannot be found in store: " + refreshTokenHandle;
-                await RaiseRefreshTokenRefreshFailureEventAsync(refreshTokenHandle, error);
-
-                return Invalid(OidcConstants.TokenErrors.InvalidGrant);
-            }
-
-            /////////////////////////////////////////////
-            // check if refresh token has expired
-            /////////////////////////////////////////////
-            if (refreshToken.CreationTime.HasExceeded(refreshToken.Lifetime))
-            {
-                var error = "Refresh token has expired";
-                LogError(error);
-                await RaiseRefreshTokenRefreshFailureEventAsync(refreshTokenHandle, error);
-
-                await _refreshTokenStore.RemoveRefreshTokenAsync(refreshTokenHandle);
-                return Invalid(OidcConstants.TokenErrors.InvalidGrant);
-            }
+            var refreshToken = refreshTokenValidatorResult.RefreshToken;
+           
 
             /////////////////////////////////////////////
             // check if client belongs to requested refresh token

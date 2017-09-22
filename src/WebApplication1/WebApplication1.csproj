@@ -13,6 +13,7 @@
     <PackageReference Include="Autofac" Version="4.6.1" />
     <PackageReference Include="GraphQL-Parser" Version="3.0.0" />
     <PackageReference Include="Hangfire" Version="1.6.17" />
+    <PackageReference Include="IdentityServer4" Version="2.0.0-rc1-update1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
@@ -42,6 +43,8 @@
     <ProjectReference Include="..\P7.GraphQLCore\P7.GraphQLCore.csproj" />
     <ProjectReference Include="..\P7.GraphQLViewer\P7.GraphQLViewer.csproj" />
     <ProjectReference Include="..\P7.HugoStore.Core\P7.HugoStore.Core.csproj" />
+    <ProjectReference Include="..\P7.IdentityServer4.BiggyStore\P7.IdentityServer4.BiggyStore.csproj" />
+    <ProjectReference Include="..\P7.IdentityServer4.Common\P7.IdentityServer4.Common.csproj" />
     <ProjectReference Include="..\P7.Main\P7.Main.csproj" />
     <ProjectReference Include="..\P7.Razor.FileProvider\P7.Razor.FileProvider.csproj" />
     <ProjectReference Include="..\P7.RazorProvider.Store.Core\P7.RazorProvider.Store.Core.csproj" />

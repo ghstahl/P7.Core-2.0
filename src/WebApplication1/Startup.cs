@@ -10,6 +10,8 @@ using AspNetCoreRateLimit;
 using GraphQL.Language.AST;
 using Hangfire;
 using Hangfire.MemoryStorage;
+using IdentityServer4.Models;
+using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -37,8 +39,10 @@ using P7.Core.Middleware;
 using P7.Core.Scheduler.Scheduling;
 using P7.Core.Startup;
 using P7.Core.TagHelpers;
-using P7.Filters;
 using P7.GraphQLCore.Stores;
+using P7.IdentityServer4.Common;
+using P7.IdentityServer4.Common.ExtensionGrantValidator;
+using P7.IdentityServer4.Common.Middleware;
 using P7.Razor.FileProvider;
 using P7.RazorProvider.Store.Core;
 using P7.RazorProvider.Store.Core.Interfaces;
@@ -50,32 +54,6 @@ using WebApplication1.Services;
 
 namespace WebApplication1
 {
-    // this gates all apis with not only being authenticated, but have one of the following claims.
-    class MyAuthApiClaimsProvider : IAuthApiClaimsProvider
-    {
-        public static string LocalClientIdValue => "local";
-        public async Task<List<Claim>> FetchClaimsAsync()
-        {
-            var claims = new List<Claim>
-            {
-                new Claim("client_id", MyAuthApiClaimsProvider.LocalClientIdValue),
-                new Claim("client_id", "resource-owner-client")
-            };
-            return claims;
-        }
-    }
-
-    // this seeds all local identities with a claim {client_id:local}
-    // this is so that downstream api filters can let identites of this type in.
-    // we let in bearer tokens from external systems that we require to have certain claims, in our case client_id.
-    class MyPostAuthClaimsProvider : IPostAuthClaimsProvider
-    {
-        public async Task<List<Claim>> FetchClaims(ClaimsPrincipal principal)
-        {
-            var claims = new List<Claim> { new Claim("client_id", MyAuthApiClaimsProvider.LocalClientIdValue) };
-            return claims;
-        }
-    }
 
     public interface IEmailSenderTask
     {
@@ -151,6 +129,12 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+
+
+            services.AddIdentityServer()
+                .AddDeveloperSigningCredential()
+                .AddExtensionGrantValidator<PublicRefreshTokenExtensionGrantValidator>(); ;
+
             // needed to store rate limit counters and ip rules
             services.AddMemoryCache();
 
@@ -200,7 +184,16 @@ namespace WebApplication1
 
             services.AddLogging();
             services.AddWebEncoders();
-            services.AddCors();
+            services.AddCors(o =>
+            {
+                o.AddPolicy("default", policy =>
+                {
+                    policy.AllowAnyOrigin();
+                    policy.AllowAnyHeader();
+                    policy.AllowAnyMethod();
+                    policy.WithExposedHeaders("WWW-Authenticate");
+                });
+            });
 
             services.AddDistributedMemoryCache();
             services.AddSession();
@@ -219,7 +212,13 @@ namespace WebApplication1
                 {
                     options.ConsumerKey = "uWkHwFNbklXgsLHYzLfRXcThw";
                     options.ConsumerSecret = "2kyg9WdUiJuU2HeWYJEuvwzaJWoweLadTgG3i0oHI5FeNjD5Iv";
-                });
+                })
+                .AddJwtBearer(o =>
+                {
+                    o.Authority = "http://localhost:44311";
+                    o.Audience = "arbitrary";
+                    o.RequireHttpsMetadata = false;
+                }); 
 
             services.AddAllConfigureServicesRegistrants(Configuration);
             services.AddDependenciesUsingAutofacModules();
@@ -251,7 +250,7 @@ namespace WebApplication1
             app.UseIpRateLimiting();
 
             LoadGraphQLAuthority();
-
+            LoadIdentityServer4Data();
             var supportedCultures = new List<CultureInfo>
             {
                 new CultureInfo("en-US"),
@@ -318,7 +317,9 @@ namespace WebApplication1
 
             app.UseSession();
             app.UseAuthentication();
-
+            app.UsePublicRefreshToken();
+            app.UseIdentityServer();
+            app.UseCors("default");
             app.UseMvc(routes =>
             {
                 routes.MapRoute("areaRoute", "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
@@ -360,6 +361,67 @@ namespace WebApplication1
                 version += "." + Guid.NewGuid().ToString().GetHashCode();
             }
             P7TagHelperBase.Version = version;
+        }
+        private async Task LoadIdentityServer4Data()
+        {
+            var fullClientStore = P7.Core.Global.ServiceProvider.GetServices<IFullClientStore>().FirstOrDefault();
+
+            await fullClientStore.InsertClientAsync(new Client
+            {
+                ClientId = "client",
+                AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                ClientSecrets =
+                {
+                    new Secret("secret".Sha256())
+                },
+                AllowedScopes = { "arbitrary" }
+            });
+
+            await fullClientStore.InsertClientAsync(new Client
+            {
+                ClientId = "resource-owner-client",
+                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                AllowOfflineAccess = true,
+                RefreshTokenUsage = TokenUsage.OneTimeOnly,
+                ClientSecrets =
+                {
+                    new Secret("secret".Sha256())
+                },
+                AllowedScopes = { "arbitrary" }
+            });
+
+
+
+            await fullClientStore.InsertClientAsync(new Client
+            {
+                ClientId = "public-resource-owner-client",
+                AllowedGrantTypes = new List<string> {"public_refresh_token"},
+                RequireClientSecret = false,
+                AllowedScopes = { "arbitrary" }
+            });
+
+
+            var apiResourceList = new List<ApiResource>
+            {
+                new ApiResource("arbitrary", "Arbitrary Scope")
+                {
+                    ApiSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    }
+                }
+            };
+
+            var resourceStore = P7.Core.Global.ServiceProvider.GetServices<IResourceStore>().FirstOrDefault();
+            var adminResourceStore = P7.Core.Global.ServiceProvider.GetServices<IAdminResourceStore>().FirstOrDefault();
+
+            foreach (var apiResource in apiResourceList)
+            {
+                await adminResourceStore.ApiResourceStore.InsertApiResourceAsync(apiResource);
+            }
+
+            var dd = await adminResourceStore.ApiResourceStore.PageAsync(10, null);
         }
     }
 }

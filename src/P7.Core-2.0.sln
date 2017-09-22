@@ -81,7 +81,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P7.GraphQLViewer", "P7.Grap
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hangfire", "Hangfire", "{93C7914F-87E8-44BD-A917-BDDEFB4A210A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hangfire.MemoryStorage", "Hangfire.MemoryStorage\Hangfire.MemoryStorage.csproj", "{BF0AF54D-E574-4EE9-90AD-E16D5178424A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hangfire.MemoryStorage", "Hangfire.MemoryStorage\Hangfire.MemoryStorage.csproj", "{BF0AF54D-E574-4EE9-90AD-E16D5178424A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
