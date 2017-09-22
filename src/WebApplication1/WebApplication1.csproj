@@ -9,6 +9,7 @@
 
 
   <ItemGroup>
+    <PackageReference Include="AspNetCoreRateLimit" Version="2.1.0" />
     <PackageReference Include="Autofac" Version="4.6.1" />
     <PackageReference Include="GraphQL-Parser" Version="3.0.0" />
     <PackageReference Include="Hangfire" Version="1.6.17" />

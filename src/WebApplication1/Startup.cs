@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AspNetCoreRateLimit;
 using GraphQL.Language.AST;
 using Hangfire;
 using Hangfire.MemoryStorage;
@@ -112,6 +113,7 @@ namespace WebApplication1
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings-ratelimiting.json", optional: true, reloadOnChange: true)
                 .AddJsonFile("appsettings-filters.json", optional: true, reloadOnChange: true)
                 .AddJsonFile("appsettings-filters-graphql.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
@@ -132,9 +134,27 @@ namespace WebApplication1
 
         public IConfiguration Configuration { get; }
 
+        private void ConfigureRateLimitingServices(IServiceCollection services)
+        {
+
+            //load general configuration from appsettings.json
+            services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
+
+            //load ip rules from appsettings.json
+            services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
+
+            // inject counter and rules stores
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+            services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+
+        }
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            // needed to store rate limit counters and ip rules
+            services.AddMemoryCache();
+
+            ConfigureRateLimitingServices(services);
             services.AddHangfire(config => config.UseMemoryStorage());
 
             services.TryAddSingleton(typeof(IStringLocalizerFactory), typeof(ResourceManagerStringLocalizerFactory));
@@ -228,6 +248,7 @@ namespace WebApplication1
 
         //    app.UseHangfireDashboard();
             app.UseHangfireServer();
+            app.UseIpRateLimiting();
 
             LoadGraphQLAuthority();
 
