@@ -1,5 +1,7 @@
-# P7
-An opinionated way to build Asp.Net Core applications
+# P7.Core-2.0
+An opinionated way to build Asp.Net Core applications.  
+Using [.Net Core 2.0](https://www.microsoft.com/net/download/core)  
+
 
 ## Development
 
