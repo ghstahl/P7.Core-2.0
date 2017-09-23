@@ -149,7 +149,9 @@ namespace WebApplication1
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddIdentityServer();
+
             services
                 .AddScoped
                 <Microsoft.AspNetCore.Identity.IUserClaimsPrincipalFactory<ApplicationUser>,

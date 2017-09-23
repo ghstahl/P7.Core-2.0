@@ -65,7 +65,7 @@ namespace P7.External.SPA.Filters
             else
             {
                 var result = from claim in context.HttpContext.User.Claims
-                             where claim.Type == ClaimTypes.NameIdentifier
+                             where claim.Type == ClaimTypes.NameIdentifier ||  claim.Type == "name"
                              select claim;
                 if (!result.Any())
                 {

@@ -29,8 +29,8 @@ namespace P7.Filters
             else
             {
                 var result = from claim in context.HttpContext.User.Claims
-                             where claim.Type == ClaimTypes.NameIdentifier
-                             select claim;
+                    where claim.Type == ClaimTypes.NameIdentifier || claim.Type == "name"
+                    select claim;
                 if (!result.Any())
                 {
                     context.Result = new UnauthorizedResult();

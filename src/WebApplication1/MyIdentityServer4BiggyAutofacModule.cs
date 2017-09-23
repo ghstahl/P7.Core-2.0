@@ -32,9 +32,6 @@ namespace WebApplication1
                 .As<IGraphQLFieldAuthority>()
                 .SingleInstance();
 
-            builder.RegisterType<MyPostAuthClaimsProvider>().As<IPostAuthClaimsProvider>().SingleInstance();
-            builder.RegisterType<MyAuthApiClaimsProvider>().As<IAuthApiClaimsProvider>().SingleInstance();
-
         }
     }
 }
