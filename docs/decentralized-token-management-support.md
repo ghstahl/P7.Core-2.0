@@ -25,7 +25,7 @@ Please visit [JWT.IO](https://jwt.io/) to interigate what is inside the access_t
 #### The ability to create a Client_Credentials Flow type token
 I need to be able to create a Client_Credentials token, where I can pass in an arbitrary user, with arbitrary scopes, and abitrary claims.  I need the service to then manage that token whilst in flight.
 ```
-http://localhost:7791/connect/token POST
+https://localhost:44311/connect/token POST
 grant_type=client_credentials&scope=arbitrary&client_id=client&client_secret=secret&handler=arbitrary-claims-service&arbitrary-claims={"naguid":"1234abcd","In":"Flames"}&arbitrary-scopes=A quick brown fox
 ```
 produces
@@ -41,7 +41,7 @@ I need to be able to create a Resource_Owner token, where I can pass in an arbit
 
 ``` 
 Probably should make this an enhanced grant as well.  The username is carried through, but the password can be anything.
-http://localhost:7791/connect/token POST
+https://localhost:44311/connect/token POST
 grant_type=password&scope=arbitrary offline_access&client_id=resource-owner-client&client_secret=secret&handler=arbitrary-claims-service&arbitrary-claims={"naguid":"1234abcd","In":"Flames"}&username=rat&password=poison&arbitrary-scopes=A quick brown fox
 ```
 produces
@@ -57,7 +57,7 @@ produces
 
 taking the refresh_token from above;
 ```
-http://localhost:7791/connect/token POST
+https://localhost:44311/connect/token POST
 refresh_token=37c43e936af65423bbc62a28dcd9505a008203eeddc75d1043a33be0547ad075&client_id=resource-owner-client
 ```
 produces the following;
@@ -92,7 +92,7 @@ The fact that it is configured to require a password, is what makes it not usabl
 
 ```
 ```
-http://localhost:7791/connect/token POST
+https://localhost:44311/connect/token POST
 grant_type=client_credentials&scope=arbitrary&client_id=client&client_secret=secret&handler=arbitrary-claims-service&arbitrary-claims={"naguid":"1234abcd","In":"Flames"}&arbitrary-scopes=A quick brown fox
 ```
 
@@ -111,7 +111,7 @@ Enter a new client, but by convention its name and settings must be exact.
 The ClientId must be "public-" + the clientId of the client whom you would like the refresh_token to be public.
 RequireClientSecret must be set to false, and we now have an extension_grant that will help use refresh the token called "public_refresh_token".  
 ```
-http://localhost:7791/connect/token POST
+https://localhost:44311/connect/token POST
 refresh_token=37c43e936af65423bbc62a28dcd9505a008203eeddc75d1043a33be0547ad075&client_id=resource-owner-client
 ```
 There is nothing in this request that gives a user a hint as to the backend things in play.
@@ -122,4 +122,13 @@ This intercepts all Requests and is looking for /connect/token, with a client_id
 2. [PublicRefreshTokenExtensionGrantValidator](../src/P7.IdentityServer4.Common/ExtensionGrantValidator/PublicRefreshTokenExtensionGrantValidator.cs)    
 This extension understands the naming convention scheme and final result we are going for.  It bascially strips away the public- part of the client name and refreshes the token of the original client, but this time without requireing a client_secret.
 
-3. The actual response back from IdentitySever4 is not exactly as we like it, so we read the resonse body and correct that to look nice.  This is handled in the [PublicRefreshTokenMiddleware](../src/P7.IdentityServer4.Common/Middleware/PublicRefreshTokenMiddleware.cs) middleware as well.
+3. The actual response back from IdentitySever4 is not exactly as we like it, so we read the resonse body and correct that to look nice.  This is handled in the [PublicRefreshTokenMiddleware](../src/P7.IdentityServer4.Common/Middleware/PublicRefreshTokenMiddleware.cs) middleware as well.  
+
+
+### Important.
+Don't forget to add the PublicRefeshTokenMiddleware, as it changes the incoming client_id to one that has public- prepended to it.
+
+    ```
+    app.UsePublicRefreshToken();
+    app.UseIdentityServer();
+    ```

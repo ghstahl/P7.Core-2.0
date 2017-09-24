@@ -10,7 +10,7 @@ P7 provides a stock graphQL implementation for fetching strings out of the ASP.N
 
 
 ## GraphQL Viewer
-1. Browse to http://localhost:7791/GraphQLView
+1. Browse to https://localhost:44311/GraphQLView
 
 **Query**
 
@@ -23,13 +23,13 @@ query q($id: String!,$treatment: String! ){
 **Query Variables**
 ```graphql
 {
-    "id": "p7.main.Resources.Main,p7.main",
+    "id": "P7.Main.Resources.Main,P7.Main",
   	"treatment":"kva"
 }
 or
 {
-    "id": "p7.main.Resources.Main,p7.main",
-    "treatment":"kvo" 
+    "id": "P7.Main.Resources.Main,P7.Main",
+  	"treatment":"kvo"
 }
 ```  
 **Result**
@@ -48,7 +48,7 @@ or
 {
   "data": {
     "resource": {
-      "Hello": "Hello"
+      "hello": "Hello"
     }
   }
 }
@@ -64,15 +64,15 @@ query q($id: String!,$treatment: String!,$culture: String!){
 **Query Variables**
 ```graphql
 {
-    "id": "p7.main.Resources.Main,p7.main",
-  	"treatment":"kva",
-  	"culture":"fr-FR"
+    "id": "P7.Main.Resources.Main,P7.Main",
+    "treatment":"kva",
+    "culture":"fr-FR"
 }
 or
 {
-    "id": "p7.main.Resources.Main,p7.main",
-  	"treatment":"kvo",
-  	"culture":"fr-FR"
+    "id": "P7.Main.Resources.Main,P7.Main",
+    "treatment":"kvo",
+    "culture":"fr-FR"
 }
 ```  
 
@@ -82,8 +82,8 @@ or
   "data": {
     "resource": [
       {
-        "Key": "Hello",
-        "Value": "Bonjour"
+        "key": "Hello",
+        "value": "Bonjour"
       }
     ]
   }
@@ -92,7 +92,7 @@ or
 {
   "data": {
     "resource": {
-      "Hello": "Bonjour"
+      "hello": "Bonjour"
     }
   }
 }
@@ -102,7 +102,7 @@ or
 #### Insert via Mutation
 
 ```graphql
-mutation Q($input: blogMutationInput!) {
+mutation q($input: blogMutationInput!) {
   blog(input: $input)
 }
 ```
@@ -197,7 +197,7 @@ query q($input: blogQueryInput!) {
 #### Paging Blogs
 #### Query a page of Blog Entries
 ```graphql
-query Q($input: blogsPageQueryInput!) {
+query q($input: blogsPageQueryInput!) {
   blogsPageByNumber(input: $input) {
     tenantId
     id
