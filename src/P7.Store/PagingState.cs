@@ -1,13 +1,14 @@
 ﻿using System;
-using ProtoBuf;
+using ZeroFormatter;
+
 
 namespace P7.Store
 {
-    [ProtoContract]
+    [ZeroFormattable]
     public class PagingState
     {
-        [ProtoMember(1)]
-        public int CurrentIndex { get; set; }
+        [Index(0)]
+        public virtual int CurrentIndex { get; set; }
 
         public override bool Equals(object obj)
         {

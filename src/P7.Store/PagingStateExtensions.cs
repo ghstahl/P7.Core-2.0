@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using ProtoBuf;
+using ZeroFormatter;
 
 namespace P7.Store
 {
@@ -22,13 +22,8 @@ namespace P7.Store
         {
             if (pagingState == null)
                 return null;
-            byte[] byteArray = null;
-            using (var memoryResponse = new MemoryStream())
-            {
-                Serializer.Serialize(memoryResponse, pagingState);
-                byteArray = memoryResponse.ToArray();
-            }
-            return byteArray;
+            var bytes = ZeroFormatterSerializer.Serialize(pagingState);
+            return bytes;
         }
         public static string SerializeToBase64String(this PagingState pagingState)
         {
@@ -42,11 +37,7 @@ namespace P7.Store
         {
             if (bytes == null)
                 return new PagingState() {CurrentIndex = 0};
-            PagingState pagingState = null;
-            using (var memoryResponse = new MemoryStream(bytes))
-            {
-                pagingState = Serializer.Deserialize<PagingState>(memoryResponse);
-            }
+            var pagingState = ZeroFormatterSerializer.Deserialize<PagingState>(bytes);
             return pagingState;
         }
         public static PagingState DeserializePageStateFromBase64String(this string psString)
