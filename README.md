@@ -33,3 +33,16 @@ Microsoft OpenSource Asp.Net everything
 A ton of people from stackoverflow.com  
 Those that contribute their own time to build great open source solutions.  
 
+[aspnet](https://github.com/aspnet) 
+[FakeItEasy](https://github.com/FakeItEasy/FakeItEasy) 
+[ZeroFormatter](https://github.com/neuecc/ZeroFormatter) 
+[IdentityServer4](https://github.com/IdentityServer/IdentityServer4) 
+[graphql-dotnet](https://github.com/graphql-dotnet/graphql-dotnet) 
+[GraphQL-Parser](https://github.com/graphql-dotnet/parser) 
+[graphiql](https://github.com/graphql/graphiql) 
+[Autofac](https://github.com/autofac/Autofac) 
+[Serilog](https://serilog.net/) 
+[NewtonSoft Json.Net](https://www.newtonsoft.com/json) 
+[Hangfire](https://www.hangfire.io/) 
+[AspNetCoreRateLimit](https://github.com/stefanprodan/AspNetCoreRateLimit) 
+
