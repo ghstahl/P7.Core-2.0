@@ -83,6 +83,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hangfire", "Hangfire", "{93
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hangfire.MemoryStorage", "Hangfire.MemoryStorage\Hangfire.MemoryStorage.csproj", "{BF0AF54D-E574-4EE9-90AD-E16D5178424A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P7.SessionContextStore.Core", "P7.SessionContextStore.Core\P7.SessionContextStore.Core.csproj", "{A1CB02CB-C13D-4BFB-AEC5-D52EF02B4EAC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -205,6 +207,10 @@ Global
 		{BF0AF54D-E574-4EE9-90AD-E16D5178424A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF0AF54D-E574-4EE9-90AD-E16D5178424A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF0AF54D-E574-4EE9-90AD-E16D5178424A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1CB02CB-C13D-4BFB-AEC5-D52EF02B4EAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1CB02CB-C13D-4BFB-AEC5-D52EF02B4EAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1CB02CB-C13D-4BFB-AEC5-D52EF02B4EAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1CB02CB-C13D-4BFB-AEC5-D52EF02B4EAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -242,6 +248,7 @@ Global
 		{954CCACE-04ED-43DE-84E0-EB8DF8794EDC} = {A08D76D8-20A9-41B9-9649-C9C972BBC724}
 		{CAAF1728-DFEE-4EC8-91AE-73A36BB32B35} = {0168AD6E-C4F4-413F-BFBA-FBBBF80644FA}
 		{BF0AF54D-E574-4EE9-90AD-E16D5178424A} = {93C7914F-87E8-44BD-A917-BDDEFB4A210A}
+		{A1CB02CB-C13D-4BFB-AEC5-D52EF02B4EAC} = {F892B0DA-2E36-4A4B-85C2-2991E0CACC4F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {607C5673-3DFE-444A-B0B8-45AB798154EB}

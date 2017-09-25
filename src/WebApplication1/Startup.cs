@@ -317,7 +317,10 @@ namespace WebApplication1
             P7.Core.Global.ArbitraryObjects.Add("rewrite-optons", (object)rewriteOptions);
             app.UseP7Rewriter((RewriteOptions)P7.Core.Global.ArbitraryObjects["rewrite-optons"]);
 
+            //enable session before MVC
+            //=========================  
             app.UseSession();
+
             app.UseAuthentication();
             app.UsePublicRefreshToken();
             app.UseIdentityServer();
