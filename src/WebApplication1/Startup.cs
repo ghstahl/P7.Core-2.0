@@ -8,8 +8,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AspNetCoreRateLimit;
 using GraphQL.Language.AST;
-using Hangfire;
-using Hangfire.MemoryStorage;
 using IdentityServer4.Models;
 using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -46,6 +44,7 @@ using P7.IdentityServer4.Common.Middleware;
 using P7.Razor.FileProvider;
 using P7.RazorProvider.Store.Core;
 using P7.RazorProvider.Store.Core.Interfaces;
+using P7.SessionContextStore.Core;
 using P7.TwitterAuthentication;
 using Serilog;
 using WebApplication1.Data;
@@ -139,7 +138,7 @@ namespace WebApplication1
             services.AddMemoryCache();
 
             ConfigureRateLimitingServices(services);
-            services.AddHangfire(config => config.UseMemoryStorage());
+          //  services.AddHangfire(config => config.UseMemoryStorage());
 
             services.TryAddSingleton(typeof(IStringLocalizerFactory), typeof(ResourceManagerStringLocalizerFactory));
             services.AddLocalization();
@@ -231,6 +230,7 @@ namespace WebApplication1
                 args.SetObserved();
             });
 
+            //services.AddInMemoryRemoteSessionContext();
 
             var serviceProvider = services.BuildServiceProvider(Configuration);
 
@@ -248,7 +248,7 @@ namespace WebApplication1
         {
 
         //    app.UseHangfireDashboard();
-            app.UseHangfireServer();
+           // app.UseHangfireServer();
             app.UseIpRateLimiting();
 
             LoadGraphQLAuthority();
@@ -332,9 +332,9 @@ namespace WebApplication1
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            BackgroundJob.Enqueue<EmailSender>(x => x.Send(13, "Hello!"));
-            RecurringJob.AddOrUpdate<EmailSender>("some-id", x => x.Send(13, "Hello!"), Cron.MinuteInterval(1));
-            RecurringJob.Trigger("some-id");
+            //BackgroundJob.Enqueue<EmailSender>(x => x.Send(13, "Hello!"));
+           // RecurringJob.AddOrUpdate<EmailSender>("some-id", x => x.Send(13, "Hello!"), Cron.MinuteInterval(1));
+           // RecurringJob.Trigger("some-id");
         }
 
         private int _count;

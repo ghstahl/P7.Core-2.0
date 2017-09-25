@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace P7.SessionContextStore.Core
 {
@@ -6,8 +7,11 @@ namespace P7.SessionContextStore.Core
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<SessionContextStore>().As<ISessionContextStore>().SingleInstance();
-            builder.RegisterType<SessionContext>().As<ISessionContext>();
+            builder.RegisterType<SessionContextStore>()
+                .As<ISessionContextStore>()
+                .SingleInstance();
+            builder.RegisterType<SessionContext>()
+                .As<ISessionContext>();
         }
     }
 }

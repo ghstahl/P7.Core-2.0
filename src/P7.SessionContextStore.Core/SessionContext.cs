@@ -19,7 +19,8 @@ namespace P7.SessionContextStore.Core
             _remoteSessionContext.SetContextKey(ContextKey);
 
         }
-        public async Task<T> GetValueAsync<T>(string key)
+
+        public async Task<object> GetValueAsync<T>(string key) where T : class
         {
             object value;
             if (Values.TryGetValue(key, out value))

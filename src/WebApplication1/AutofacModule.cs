@@ -16,7 +16,9 @@ using P7.Core.Scheduler.Stores;
 using P7.External.SPA.Core;
 using P7.Filters;
 using P7.GraphQLCore.Stores;
+using P7.SessionContextStore.Core;
 using P7.SimpleRedirect.Core;
+using WebApplication1.Scheduler;
 
 namespace WebApplication1
 {
@@ -74,6 +76,14 @@ namespace WebApplication1
                 .As<IQuoteOfTheDataStore>()
                 .SingleInstance();
 
+            builder.RegisterType<InMemoryRemoteSessionContext>()
+                .As<IInMemoryRemoteSessionContext>()
+                .As<IRemoteSessionContext>()
+                .SingleInstance();
+
+            builder.RegisterType<InMemoryRemoteSessionContextTask>()
+                .As<IScheduledTask>()
+                .SingleInstance();
         }
     }
 }
