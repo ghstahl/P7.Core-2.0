@@ -8,11 +8,7 @@ namespace P7.SessionContextStore.Core
         Task<string> GetCurrentContextKeyAsync();
         Task<bool> GetContextKeyExistsAsync(string contextKey);
 
-        Task<T> GetContextValueAsync<T>(string contextKey,string key);
+        Task<IRemoteSessionContext> GetRemoteSessionContextAsync<T>(string contextKey);
     }
 
-    public interface ISessionContextAccessor
-    {
-        T GetValue<T>(string key);
-    }
 }
