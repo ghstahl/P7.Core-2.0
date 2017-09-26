@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\P7.Core\P7.Core.csproj" />
+    <ProjectReference Include="..\P7.SessionContextStore.Core\P7.SessionContextStore.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

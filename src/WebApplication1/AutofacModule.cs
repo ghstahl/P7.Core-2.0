@@ -76,10 +76,7 @@ namespace WebApplication1
                 .As<IQuoteOfTheDataStore>()
                 .SingleInstance();
 
-            builder.RegisterType<InMemoryRemoteSessionContext>()
-                .As<IInMemoryRemoteSessionContext>()
-                .As<IRemoteSessionContext>()
-                .SingleInstance();
+            builder.AddInMemoryRemoteSessionContext();
 
             builder.RegisterType<InMemoryRemoteSessionContextTask>()
                 .As<IScheduledTask>()

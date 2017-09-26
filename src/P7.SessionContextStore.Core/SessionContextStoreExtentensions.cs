@@ -1,15 +1,20 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace P7.SessionContextStore.Core
 {
     public static class SessionContextStoreExtentensions
     {
-        public static IServiceCollection AddInMemoryRemoteSessionContext(this IServiceCollection services)
+        public static ContainerBuilder AddInMemoryRemoteSessionContext(this ContainerBuilder builder)
         {
-            var obj = new InMemoryRemoteSessionContext();
-            services.AddSingleton<IInMemoryRemoteSessionContext>(provider => obj);
-            services.AddSingleton<IRemoteSessionContext>(provider => obj);
-            return services;
+            builder.RegisterType<InMemoryRemoteSessionContextAccessor>()
+                .AsSelf()
+                .As<IRemoteSessionContextAccessor>()
+                .SingleInstance();
+            builder.RegisterType<InMemoryRemoteSessionContext>()
+                .As<IRemoteSessionContext>()
+                .SingleInstance();
+            return builder;
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace P7.SessionContextStore.Core
 {
-    public class SessionContext : ISessionContext
+    public class SessionContext : ILocalSessionContext
     {
         Dictionary<string,object> Values = new Dictionary<string, object>();
         private IRemoteSessionContext _remoteSessionContext;

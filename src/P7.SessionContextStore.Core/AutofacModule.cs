@@ -11,7 +11,7 @@ namespace P7.SessionContextStore.Core
                 .As<ISessionContextStore>()
                 .SingleInstance();
             builder.RegisterType<SessionContext>()
-                .As<ISessionContext>();
+                .As<ILocalSessionContext>();
         }
     }
 }

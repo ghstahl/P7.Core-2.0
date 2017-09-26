@@ -10,7 +10,7 @@ namespace P7.SessionContextStore.Core
     public class SessionContextStore : ISessionContextStore
     {
         private const string SessionContextKey = "67bd2a4e-df62-4ea3-a6ef-16ed31566039";
-        Dictionary<string,ISessionContext> SessionContexts = new Dictionary<string, ISessionContext>();
+        Dictionary<string, ILocalSessionContext> SessionContexts = new Dictionary<string, ILocalSessionContext>();
         private IRemoteSessionContextAccessor _remoteSessionContextAccessor;
         private IServiceProvider _serviceProvider;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -27,23 +27,26 @@ namespace P7.SessionContextStore.Core
 
         public async Task<ISessionContext> GetSessionContextAsync()
         {
-            var contextKey = SessionExtensions.GetString(Session, SessionContextKey);
-            ISessionContext sessionContext;
+            var contextKey = Session.GetString(SessionContextKey);
+            ILocalSessionContext localSessionContext;
             if (string.IsNullOrEmpty(contextKey))
             {
                 // This is the first time, so get the latest contextKey from remote
                 contextKey = await _remoteSessionContextAccessor.GetCurrentContextKeyAsync();
-                SessionExtensions.SetString(Session, SessionContextKey,contextKey);
-                sessionContext = ServiceProviderServiceExtensions.GetServices<ISessionContext>(_serviceProvider).First();
-                sessionContext.SetContextKey(contextKey);
-                SessionContexts.Add(contextKey, sessionContext);
-                return sessionContext;
+                Session.SetString(SessionContextKey, contextKey);
+                localSessionContext = _serviceProvider
+                    .GetServices<ILocalSessionContext>()
+                    .First();
+
+                localSessionContext.SetContextKey(contextKey);
+                SessionContexts.Add(contextKey, localSessionContext);
+                return localSessionContext;
             }
 
-            if (SessionContexts.TryGetValue(contextKey, out sessionContext))
+            if (SessionContexts.TryGetValue(contextKey, out localSessionContext))
             {
                 // all is good and things are working post creation
-                return sessionContext;
+                return localSessionContext;
             }
 
 
@@ -52,10 +55,10 @@ namespace P7.SessionContextStore.Core
             if (exists)
             {
                 // if we got here, it was because some other app created the ISessionContext, we just need to create it here.
-                sessionContext = ServiceProviderServiceExtensions.GetServices<ISessionContext>(_serviceProvider).First();
-                sessionContext.SetContextKey(contextKey);
-                SessionContexts.Add(contextKey, sessionContext);
-                return sessionContext; 
+                localSessionContext = _serviceProvider.GetServices<ILocalSessionContext>().First();
+                localSessionContext.SetContextKey(contextKey);
+                SessionContexts.Add(contextKey, localSessionContext);
+                return localSessionContext; 
 
             }
 
