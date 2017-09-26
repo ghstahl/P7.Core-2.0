@@ -83,7 +83,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hangfire", "Hangfire", "{93
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hangfire.MemoryStorage", "Hangfire.MemoryStorage\Hangfire.MemoryStorage.csproj", "{BF0AF54D-E574-4EE9-90AD-E16D5178424A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P7.SessionContextStore.Core", "P7.SessionContextStore.Core\P7.SessionContextStore.Core.csproj", "{A1CB02CB-C13D-4BFB-AEC5-D52EF02B4EAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P7.SessionContextStore.Core", "P7.SessionContextStore.Core\P7.SessionContextStore.Core.csproj", "{A1CB02CB-C13D-4BFB-AEC5-D52EF02B4EAC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HealthChecks", "HealthChecks", "{796DEC81-5CA6-4299-96B1-FB41F988C53B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P7.Extensions.HealthChecks", "P7.Extensions.HealthChecks\P7.Extensions.HealthChecks.csproj", "{D72E851A-FB78-4318-BA30-898F3ADF43EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P7.AspNetCore.HealthChecks", "P7.AspNetCore.HealthChecks\P7.AspNetCore.HealthChecks.csproj", "{29A5B637-6903-478B-A64E-4EBB4EA571B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -211,6 +217,14 @@ Global
 		{A1CB02CB-C13D-4BFB-AEC5-D52EF02B4EAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1CB02CB-C13D-4BFB-AEC5-D52EF02B4EAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1CB02CB-C13D-4BFB-AEC5-D52EF02B4EAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D72E851A-FB78-4318-BA30-898F3ADF43EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D72E851A-FB78-4318-BA30-898F3ADF43EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D72E851A-FB78-4318-BA30-898F3ADF43EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D72E851A-FB78-4318-BA30-898F3ADF43EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29A5B637-6903-478B-A64E-4EBB4EA571B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29A5B637-6903-478B-A64E-4EBB4EA571B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29A5B637-6903-478B-A64E-4EBB4EA571B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29A5B637-6903-478B-A64E-4EBB4EA571B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -249,6 +263,8 @@ Global
 		{CAAF1728-DFEE-4EC8-91AE-73A36BB32B35} = {0168AD6E-C4F4-413F-BFBA-FBBBF80644FA}
 		{BF0AF54D-E574-4EE9-90AD-E16D5178424A} = {93C7914F-87E8-44BD-A917-BDDEFB4A210A}
 		{A1CB02CB-C13D-4BFB-AEC5-D52EF02B4EAC} = {F892B0DA-2E36-4A4B-85C2-2991E0CACC4F}
+		{D72E851A-FB78-4318-BA30-898F3ADF43EA} = {796DEC81-5CA6-4299-96B1-FB41F988C53B}
+		{29A5B637-6903-478B-A64E-4EBB4EA571B3} = {796DEC81-5CA6-4299-96B1-FB41F988C53B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {607C5673-3DFE-444A-B0B8-45AB798154EB}

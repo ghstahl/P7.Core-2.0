@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using P7.Core.Scheduler.Scheduling;
 using P7.Main.Models;
 using P7.RazorProvider.Store.Core.Interfaces;

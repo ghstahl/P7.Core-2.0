@@ -50,7 +50,7 @@ using Serilog;
 using WebApplication1.Data;
 using WebApplication1.Models;
 using WebApplication1.Services;
-
+using WebApplication1.Health;
 namespace WebApplication1
 {
 
@@ -157,6 +157,7 @@ namespace WebApplication1
                     AppClaimsPrincipalFactory<ApplicationUser>>();
 
             services.AddAntiforgery(opts => opts.HeaderName = "X-XSRF-Token");
+            services.AddMyHealthCheck();
             services.AddMvc(opts =>
             {
                 opts.Filters.AddService(typeof(AngularAntiforgeryCookieResultFilter));
