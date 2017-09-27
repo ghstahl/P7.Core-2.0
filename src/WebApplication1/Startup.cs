@@ -91,6 +91,7 @@ namespace WebApplication1
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile("appsettings-ratelimiting.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings-healthcheck.json", optional: true, reloadOnChange: true)
                 .AddJsonFile("appsettings-filters.json", optional: true, reloadOnChange: true)
                 .AddJsonFile("appsettings-filters-graphql.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
