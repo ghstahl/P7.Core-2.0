@@ -5,6 +5,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.HealthChecks.Internal;
+using P7.Core.Utils;
 
 namespace Microsoft.Extensions.HealthChecks
 {

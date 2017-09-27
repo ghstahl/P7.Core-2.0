@@ -11,7 +11,11 @@ namespace Microsoft.Extensions.HealthChecks
         // System checks
 
         public static HealthCheckBuilder AddPrivateMemorySizeCheck(this HealthCheckBuilder builder, long maxSize)
-            => AddMaxValueCheck(builder, $"PrivateMemorySize({maxSize})", maxSize, () => Process.GetCurrentProcess().PrivateMemorySize64);
+            => AddMaxValueCheck(builder, $"PrivateMemorySize({maxSize})", maxSize, () =>
+            {
+                var size =  Process.GetCurrentProcess().PrivateMemorySize64;
+                return size;
+            });
 
         public static HealthCheckBuilder AddPrivateMemorySizeCheck(this HealthCheckBuilder builder, long maxSize, TimeSpan cacheDuration)
             => AddMaxValueCheck(builder, $"PrivateMemorySize({maxSize})", maxSize, () => Process.GetCurrentProcess().PrivateMemorySize64, cacheDuration);

@@ -158,7 +158,7 @@ namespace WebApplication1
                     AppClaimsPrincipalFactory<ApplicationUser>>();
 
             services.AddAntiforgery(opts => opts.HeaderName = "X-XSRF-Token");
-            services.AddMyHealthCheck();
+            services.AddMyHealthCheck(Configuration);
             services.AddMvc(opts =>
             {
                 opts.Filters.AddService(typeof(AngularAntiforgeryCookieResultFilter));

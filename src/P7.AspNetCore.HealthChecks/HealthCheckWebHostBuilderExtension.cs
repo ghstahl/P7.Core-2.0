@@ -4,6 +4,7 @@
 using System;
 using Microsoft.AspNetCore.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
+using P7.Core.Utils;
 
 namespace Microsoft.AspNetCore.Hosting
 {

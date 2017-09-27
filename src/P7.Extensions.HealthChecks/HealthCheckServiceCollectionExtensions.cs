@@ -4,6 +4,7 @@
 using System;
 using System.Linq;
 using Microsoft.Extensions.HealthChecks;
+using P7.Core.Utils;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

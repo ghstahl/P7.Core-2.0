@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using P7.Core.Utils;
 
 namespace Microsoft.Extensions.HealthChecks
 {

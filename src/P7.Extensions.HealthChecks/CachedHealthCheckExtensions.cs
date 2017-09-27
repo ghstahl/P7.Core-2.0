@@ -4,6 +4,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using P7.Core.Utils;
 
 namespace Microsoft.Extensions.HealthChecks
 {
