@@ -24,7 +24,7 @@ Don't forget to install the [.Net Core 2.0 SDK](https://www.microsoft.com/net/do
 ### [GraphQL Support](docs/graphQL.md)  
 ### [Decentralized Token Management Support](docs/decentralized-token-management-support.md)
 ### [Opt-Out IFilterProvider](docs/opt-out-filter-provider.md)
-
+### [Health Checks](docs/health-checks.md)
 
 
 
