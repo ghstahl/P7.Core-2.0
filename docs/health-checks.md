@@ -4,6 +4,7 @@
 
 ## Temporary
 At the moment HealthChecks has not yet been built using asp.net core 2.0. As soon as the dotnet team does this build, a copy of it is built here using asp.net core 2.0.  
+[P7.AspNetCore.HealthChecks](../src/P7.AspNetCore.HealthChecks)
 
 ## Goal
 Make it all configurable.
