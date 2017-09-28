@@ -3,7 +3,7 @@
     {
       "key": "support",
       "requireAuth": false,
-      "view": "Support" 
+      "view": "Support"
     },
     {
       "key": "Admin",
@@ -14,6 +14,11 @@
       "key": "Money",
       "requireAuth": true,
       "view": "Money"
+    },
+    {
+      "key": "Moon",
+      "requireAuth": true,
+      "view": "Moon"
     }
   ]
 }

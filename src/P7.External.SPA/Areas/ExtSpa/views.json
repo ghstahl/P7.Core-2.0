@@ -13,6 +13,10 @@
       "content": "@using System.Collections.Generic\n @using P7.External.SPA.Models\n @model System.Collections.Generic.IEnumerable<P7.External.SPA.Models.ClaimType>\n <div>\nWelcome to Admin!\n</div>@foreach (var claimType in Model){<div>@claimType.Type\n@claimType.Value</div>}"
     },
     {
+      "location": "/Areas/ExtSPA/Views/Home/Moon.cshtml",
+      "content": "<link rel=\"stylesheet\" href=\"http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css\"/><link rel=\"stylesheet\" href=\"https://rawgit.com/ghstahl/asset-repo/master/moon/one/style.css\" /><main class=\"app\"><top-bar></top-bar><router-view></router-view></main><script src=\"https://rawgit.com/ghstahl/asset-repo/master/moon/one/public/bundle.min.js\"></script>"
+    },
+    {
       "location": "/Areas/ExtSPA/Views/Home/Money.cshtml",
       "content": "<div id=\"root\"></div><script src=\"https://rawgit.com/ghstahl/p7-react-mobx-host/master/dist/bundle.js\"></script>"
     },
