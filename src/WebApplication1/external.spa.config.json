@@ -21,6 +21,11 @@
       "view": "2048"
     },
     {
+      "key": "Earth",
+      "requireAuth": true,
+      "view": "Earth"
+    },
+    {
       "key": "Moon",
       "requireAuth": true,
       "view": "Moon"
