@@ -24,6 +24,11 @@
       "key": "GraphiQL",
       "requireAuth": true,
       "view": "GraphiQL"
+    },
+    {
+      "key": "2048",
+      "requireAuth": true,
+      "view": "2048"
     }
   ]
 }
