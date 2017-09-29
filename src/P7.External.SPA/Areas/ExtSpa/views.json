@@ -18,7 +18,7 @@
     },
     {
       "location": "/Areas/ExtSPA/Views/Home/GraphQL.cshtml",
-      "content": "@section head{<link rel=\"stylesheet\" href=\"https://rawgit.com/ghstahl/P7.Core-2.0/master/src/P7.GraphQLViewer/static/P7.GraphQLViewer/style.css\" \/>}<div id=\"app\"><\/div>@section scripts{<script src=\"https://rawgit.com/ghstahl/P7.Core-2.0/master/src/P7.GraphQLViewer/static/P7.GraphQLViewer/bundle.js\" type=\"text\/javascript\"><\/script>}"
+      "content": "@section head{\r\n    <link rel=\"stylesheet\" href=\"https:\/\/rawgit.com\/ghstahl\/P7.Core-2.0\/master\/src\/P7.GraphQLViewer\/static\/P7.GraphQLViewer\/style.css\" \/>\r\n}\r\n<div id=\"app\"><\/div>\r\n@section scripts{   \r\n    <script src=\"https:\/\/rawgit.com\/ghstahl\/P7.Core-2.0\/master\/src\/P7.GraphQLViewer\/static\/P7.GraphQLViewer\/bundle.js\" type=\"text\/javascript\"><\/script>   \r\n}"
     },
     {
       "location": "/Areas/ExtSPA/Views/Home/Money.cshtml",
