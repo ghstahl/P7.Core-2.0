@@ -21,9 +21,9 @@
       "view": "2048"
     },
     {
-      "key": "Earth",
+      "key": "Music",
       "requireAuth": true,
-      "view": "Earth"
+      "view": "Music"
     },
     {
       "key": "Moon",
