@@ -7,7 +7,7 @@ namespace P7.External.SPA.Scheduler
 {
     public class RemoteStaticExternalSpaStoreTask : IScheduledTask
     {
-        private const string Url = "https://rawgit.com/ghstahl/P7/master/src/WebApplication5/external.spa.config.json";
+        private const string Url = "https://rawgit.com/ghstahl/P7.Core-2.0/master/src/WebApplication1/external.spa.config.json";
         private IRemoteExternalSPAStore RemoteExternalSPAStore { get; set; }
         public RemoteStaticExternalSpaStoreTask(IRemoteExternalSPAStore store)
         {

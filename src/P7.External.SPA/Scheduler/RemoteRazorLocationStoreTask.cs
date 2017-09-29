@@ -10,7 +10,7 @@ namespace P7.External.SPA.Scheduler
 {
     public class RemoteRazorLocationStoreTask : IScheduledTask
     {
-        private const string Url = "https://rawgit.com/ghstahl/P7/master/src/p7.external.spa/Areas/ExtSpa/views.json";
+        private const string Url = "https://rawgit.com/ghstahl/P7.Core-2.0/master/src/P7.External.SPA/Areas/ExtSpa/views.json";
         private IRemoteRazorLocationStore RemoteRazorLocationStore { get; set; }
         public RemoteRazorLocationStoreTask(IRemoteRazorLocationStore store)
         {
