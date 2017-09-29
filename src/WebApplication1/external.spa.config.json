@@ -26,9 +26,9 @@
       "view": "GraphiQL"
     },
     {
-      "key": "2048",
+      "key": "Stock",
       "requireAuth": true,
-      "view": "2048"
+      "view": "Stock"
     }
   ]
 }

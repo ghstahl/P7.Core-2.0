@@ -17,8 +17,8 @@
       "content": "<link rel=\"stylesheet\" href=\"https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css\"/><link rel=\"stylesheet\" href=\"https://rawgit.com/ghstahl/asset-repo/master/moon/one/style.css\" /><main class=\"app\"><top-bar></top-bar><router-view></router-view></main><script src=\"https://rawgit.com/ghstahl/asset-repo/master/moon/one/public/bundle.min.js\"></script>"
     },    
     {
-      "location": "/Areas/ExtSPA/Views/Home/2048.cshtml",
-      "content": "@section head{\r\n  <link rel=\"stylesheet\" href=\"https:\/\/neil-ni.github.io\/ng2-2048\/assets\/main.css?1467077964312\" \/>\r\n}\r\n\r\n<my-app>\r\nLoading...\r\n<\/my-app>\r\n\r\n@section scripts{\r\n  <script>\r\n    function module() {}\r\n  <\/script>   \r\n  <script src=\"https:\/\/neil-ni.github.io\/ng2-2048\/js\/shims.js?1467077964310\" type=\"text\/javascript\"><\/script>   \r\n  <script src=\"https:\/\/neil-ni.github.io\/ng2-2048\/js\/app.js?1467077964311\" type=\"text\/javascript\"><\/script>   \r\n}"
+      "location": "/Areas/ExtSPA/Views/Home/Stock.cshtml",
+      "content": "<App>loading...</App>\r\n@section scripts{\r\n  <script src=\"https://angular2-samples.azurewebsites.net/lib/angular2-polyfills.js\"></script>\r\n  <script src=\"https://angular2-samples.azurewebsites.net/lib/system.js\"></script>\r\n  <script src=\"https://angular2-samples.azurewebsites.net/lib/Rx.js\"></script>\r\n  <script src=\"https://angular2-samples.azurewebsites.net/lib/angular2.dev.js\"></script>\r\n  <script src=\"https://angular2-samples.azurewebsites.net/lib/http.dev.js\"></script>\r\n  <script>\r\n    System.config({packages: {'app': {defaultExtension: 'js'}}});\r\n    System.import('app/bootstrap').catch(console.error.bind(console));\r\n  </script>   \r\n}"
     },
     {
       "location": "/Areas/ExtSPA/Views/Home/GraphiQL.cshtml",
@@ -38,5 +38,3 @@
     } 
   ]
 }
-
- 
