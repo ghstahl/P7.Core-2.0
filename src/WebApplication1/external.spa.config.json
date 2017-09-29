@@ -21,9 +21,9 @@
       "view": "Moon"
     },
     {
-      "key": "GraphQL",
+      "key": "GraphiQL",
       "requireAuth": true,
-      "view": "GraphQL"
+      "view": "GraphiQL"
     }
   ]
 }

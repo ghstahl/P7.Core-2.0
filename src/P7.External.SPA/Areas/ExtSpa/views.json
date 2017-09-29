@@ -17,7 +17,7 @@
       "content": "<link rel=\"stylesheet\" href=\"https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css\"/><link rel=\"stylesheet\" href=\"https://rawgit.com/ghstahl/asset-repo/master/moon/one/style.css\" /><main class=\"app\"><top-bar></top-bar><router-view></router-view></main><script src=\"https://rawgit.com/ghstahl/asset-repo/master/moon/one/public/bundle.min.js\"></script>"
     },
     {
-      "location": "/Areas/ExtSPA/Views/Home/GraphQL.cshtml",
+      "location": "/Areas/ExtSPA/Views/Home/GraphiQL.cshtml",
       "content": "@section head{\r\n    <link rel=\"stylesheet\" href=\"https:\/\/rawgit.com\/ghstahl\/P7.Core-2.0\/master\/src\/P7.GraphQLViewer\/static\/P7.GraphQLViewer\/style.css\" \/>\r\n}\r\n<div id=\"app\"><\/div>\r\n@section scripts{   \r\n    <script src=\"https:\/\/rawgit.com\/ghstahl\/P7.Core-2.0\/master\/src\/P7.GraphQLViewer\/static\/P7.GraphQLViewer\/bundle.js\" type=\"text\/javascript\"><\/script>   \r\n}"
     },
     {
