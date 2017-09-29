@@ -14,7 +14,7 @@
     },
     {
       "location": "/Areas/ExtSPA/Views/Home/Moon.cshtml",
-      "content": "<link rel=\"stylesheet\" href=\"http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css\"/><link rel=\"stylesheet\" href=\"https://rawgit.com/ghstahl/asset-repo/master/moon/one/style.css\" /><main class=\"app\"><top-bar></top-bar><router-view></router-view></main><script src=\"https://rawgit.com/ghstahl/asset-repo/master/moon/one/public/bundle.min.js\"></script>"
+      "content": "<link rel=\"stylesheet\" href=\"https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css\"/><link rel=\"stylesheet\" href=\"https://rawgit.com/ghstahl/asset-repo/master/moon/one/style.css\" /><main class=\"app\"><top-bar></top-bar><router-view></router-view></main><script src=\"https://rawgit.com/ghstahl/asset-repo/master/moon/one/public/bundle.min.js\"></script>"
     },
     {
       "location": "/Areas/ExtSPA/Views/Home/Money.cshtml",
