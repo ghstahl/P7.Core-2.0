@@ -29,6 +29,11 @@
       "key": "Stock",
       "requireAuth": true,
       "view": "Stock"
+    },
+    {
+      "key": "MyApp",
+      "requireAuth": true,
+      "view": "MyApp"
     }
   ]
 }
