@@ -13,10 +13,6 @@
       "content": "@using System.Collections.Generic\n @using P7.External.SPA.Models\n @model System.Collections.Generic.IEnumerable<P7.External.SPA.Models.ClaimType>\n <div>\nWelcome to Admin!\n</div>@foreach (var claimType in Model){<div>@claimType.Type\n@claimType.Value</div>}"
     },
     {
-      "location": "/Areas/ExtSPA/Views/Home/2048.cshtml",
-      "content": "@section head{\r\n  <link rel=\"stylesheet\" href=\"https:\/\/neil-ni.github.io\/ng2-2048\/assets\/main.css?1467077964312\" \/>\r\n}\r\n\r\n<my-app>\r\nLoading...\r\n<\/my-app>\r\n\r\n@section scripts{\r\n  <script>\r\n    function module() {}\r\n  <\/script>   \r\n  <script src=\"https:\/\/neil-ni.github.io\/ng2-2048\/js\/shims.js?1467077964310\" type=\"text\/javascript\"><\/script>   \r\n  <script src=\"https:\/\/neil-ni.github.io\/ng2-2048\/js\/app.js?1467077964311\" type=\"text\/javascript\"><\/script>   \r\n}"
-    },
-    {
       "location": "/Areas/ExtSPA/Views/Home/Moon.cshtml",
       "content": "<link rel=\"stylesheet\" href=\"https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css\"/><link rel=\"stylesheet\" href=\"https://rawgit.com/ghstahl/asset-repo/master/moon/one/style.css\" /><main class=\"app\"><top-bar></top-bar><router-view></router-view></main><script src=\"https://rawgit.com/ghstahl/asset-repo/master/moon/one/public/bundle.min.js\"></script>"
     },    
@@ -27,10 +23,6 @@
     {
       "location": "/Areas/ExtSPA/Views/Home/GraphiQL.cshtml",
       "content": "@section head{\r\n    <link rel=\"stylesheet\" href=\"https:\/\/rawgit.com\/ghstahl\/P7.Core-2.0\/master\/src\/P7.GraphQLViewer\/static\/P7.GraphQLViewer\/style.css\" \/>\r\n}\r\n<div id=\"app\"><\/div>\r\n@section scripts{   \r\n    <script src=\"https:\/\/rawgit.com\/ghstahl\/P7.Core-2.0\/master\/src\/P7.GraphQLViewer\/static\/P7.GraphQLViewer\/bundle.js\" type=\"text\/javascript\"><\/script>   \r\n}"
-    },
-    {
-      "location": "/Areas/ExtSPA/Views/Home/Music.cshtml",
-      "content": "@section head{\r\n\t<script src=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/vue-music\/playlist.js\" type=\"text\/javascript\"><\/script>\r\n  <link href=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/vue-music\/app.7537d8e9dcdda2b84ce0e9fce7ffc137.css\" rel=\"stylesheet\">\r\n}\r\n\r\n<div id=\"app\"><\/div>\r\n\r\n@section scripts{\r\n\t<script src=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/vue-music\/manifest.e84154d8bf195dd33ba5.js\" type=\"text\/javascript\"><\/script>\r\n\t<script src=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/vue-music\/vendor.6e74483ae5f7181f6ed6.js\" type=\"text\/javascript\"><\/script>\r\n  <script src=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/vue-music\/app.b6b3c1df5f6e1cfc74be.js\" type=\"text\/javascript\"><\/script>\r\n}"
     },
     {
       "location": "/Areas/ExtSPA/Views/Home/Money.cshtml",
@@ -46,9 +38,8 @@
     },
     {
       "location": "/Areas/ExtSPA/Views/Home/MyApp.cshtml",
-      "content": "@section head{\r\n  <base href=\"\/\">\r\n  <link rel=\"stylesheet\" href=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\/dist\/css\/app.6a783dcbac5923b7c1bf.css\" \/>\r\n}\r\n\r\n<my-app>Loading...<\/my-app>\r\n\r\n@section scripts{   \r\n \r\n  <script type=\"text\/javascript\" src=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\/dist\/js\/polyfills.6a783dcbac5923b7c1bf.js\">\r\n  <\/script><script type=\"text\/javascript\" src=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\/dist\/js\/vendor.6a783dcbac5923b7c1bf.js\">\r\n  <\/script><script type=\"text\/javascript\" src=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\/dist\/js\/app.6a783dcbac5923b7c1bf.js\"><\/script>   \r\n}"
+      "content": "@section head{\r\n  <base href=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\">\r\n  <link rel=\"stylesheet\" href=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\/dist\/css\/app.6a783dcbac5923b7c1bf.css\" \/>\r\n}\r\n\r\n<my-app>Loading...<\/my-app>\r\n\r\n@section scripts{   \r\n \r\n  <script type=\"text\/javascript\" src=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\/dist\/js\/polyfills.6a783dcbac5923b7c1bf.js\">\r\n  <\/script><script type=\"text\/javascript\" src=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\/dist\/js\/vendor.6a783dcbac5923b7c1bf.js\">\r\n  <\/script><script type=\"text\/javascript\" src=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\/dist\/js\/app.6a783dcbac5923b7c1bf.js\"><\/script>   \r\n}"
     } 
   ]
 }
-
 
