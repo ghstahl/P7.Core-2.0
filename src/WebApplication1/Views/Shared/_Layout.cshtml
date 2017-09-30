@@ -34,10 +34,17 @@
                     <li><a asp-area="Main" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="Main" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="Main" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    <li><a href="/espa/money/">Money</a></li>
-                    <li><a href="/espa/Admin/">Admin</a></li>
-                    <li><a href="/espa/Support/">Support</a></li>
-                    <li><a href="/espa/GraphiQL/">GraphiQL</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">eSPA<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/espa/money/">Money</a></li>
+                            <li><a href="/espa/Admin/">Admin</a></li>
+                            <li><a href="/espa/Support/">Support</a></li>
+                            <li><a href="/espa/GraphiQL/">GraphiQL</a></li>
+                            <li><a href="/espa/MyApp/">MyApp</a></li>
+                        </ul>
+                    </li>
+                    
 
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
