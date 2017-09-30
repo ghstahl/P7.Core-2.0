@@ -38,7 +38,7 @@
     },
     {
       "location": "/Areas/ExtSPA/Views/Home/MyApp.cshtml",
-      "content": "@section head{\r\n  <base href=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\">\r\n  <link rel=\"stylesheet\" href=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\/dist\/css\/app.6a783dcbac5923b7c1bf.css\" \/>\r\n}\r\n\r\n<my-app>Loading...<\/my-app>\r\n\r\n@section scripts{   \r\n \r\n  <script type=\"text\/javascript\" src=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\/dist\/js\/polyfills.6a783dcbac5923b7c1bf.js\">\r\n  <\/script><script type=\"text\/javascript\" src=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\/dist\/js\/vendor.6a783dcbac5923b7c1bf.js\">\r\n  <\/script><script type=\"text\/javascript\" src=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\/dist\/js\/app.6a783dcbac5923b7c1bf.js\"><\/script>   \r\n}"
+      "content": "@section head{\r\n  <base href=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\">\r\n  <link rel=\"stylesheet\" href=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\/dist\/css\/app.css\" \/>\r\n}\r\n\r\n<my-app>Loading...<\/my-app>\r\n\r\n@section scripts{   \r\n \r\n  <script type=\"text\/javascript\" src=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\/dist\/js\/polyfills.js\">\r\n  <\/script><script type=\"text\/javascript\" src=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\/dist\/js\/vendor.js\">\r\n  <\/script><script type=\"text\/javascript\" src=\"https:\/\/rawgit.com\/ghstahl\/asset-repo\/master\/angular4\/my-app\/dist\/js\/app.js\"><\/script>   \r\n}"
     } 
   ]
 }
