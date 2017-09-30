@@ -16,6 +16,16 @@
       "view": "Money"
     },
     {
+      "key": "2048",
+      "requireAuth": true,
+      "view": "2048"
+    },
+    {
+      "key": "Music",
+      "requireAuth": true,
+      "view": "Music"
+    },
+    {
       "key": "Moon",
       "requireAuth": true,
       "view": "Moon"
