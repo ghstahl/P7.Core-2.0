@@ -9,7 +9,9 @@ From a console
 
 ```cmd
 :> git clone https://github.com/ghstahl/P7.Core-2.0.git
-:> cd P7\src\WebApplication1
+:> cd {P7.Core-2.0}/src
+:> npm install
+:> cd {P7.Core-2.0}\src\WebApplication1
 :> gulp watch
 ```
 This will monitor plugin projects that have static assests and copy them to the main webapp project.
