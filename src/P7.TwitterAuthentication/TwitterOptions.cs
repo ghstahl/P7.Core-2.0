@@ -4,7 +4,6 @@
 using System;
 using System.Globalization;
 using System.Security.Claims;
-using ClassLibrary1;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Authentication.Twitter;
