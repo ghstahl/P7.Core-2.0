@@ -5,6 +5,8 @@
     <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
     <UserSecretsId>aspnet-WebApplication1-2D018904-164F-417B-9162-0C4531225D26</UserSecretsId>
+    <ApplicationInsightsResourceId>/subscriptions/9c49d330-f620-4dd5-a0c3-eb98602b15db/resourcegroups/Default-Web-WestUS/providers/microsoft.insights/components/p7Core2</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/9c49d330-f620-4dd5-a0c3-eb98602b15db/resourcegroups/Default-Web-WestUS/providers/microsoft.insights/components/p7Core2</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
 
@@ -14,6 +16,7 @@
     <PackageReference Include="GraphQL-Parser" Version="3.0.0" />
     <PackageReference Include="IdentityServer4" Version="2.0.0-rc1-update1" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.0.0-rc1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
@@ -53,6 +56,10 @@
     <ProjectReference Include="..\P7.SimpleRedirect.Core\P7.SimpleRedirect.Core.csproj" />
     <ProjectReference Include="..\P7.SimpleRedirector\P7.SimpleRedirector.csproj" />
     <ProjectReference Include="..\P7.TwitterAuthentication\P7.TwitterAuthentication.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 </Project>

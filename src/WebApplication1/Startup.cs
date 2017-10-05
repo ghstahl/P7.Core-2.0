@@ -11,6 +11,7 @@ using GraphQL.Language.AST;
 using IdentityServer4.Models;
 using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore;
@@ -28,6 +29,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Newtonsoft.Json.Serialization;
 using P7.Core;
 using P7.Core.FileProviders;
@@ -210,6 +212,36 @@ namespace WebApplication1
                 .AddCookie(options => {
                     options.LoginPath = "/Account/LogIn";
                     options.LogoutPath = "/Account/LogOff";
+                })
+
+                .AddOpenIdConnect(GoogleDefaults.AuthenticationScheme, GoogleDefaults.DisplayName, o =>
+                {
+                    var googleOpenIdConnectOptions = new GoogleOpenIdConnectOptions();
+                    o.CallbackPath = googleOpenIdConnectOptions.CallbackPath;
+
+                    o.ClientId = "1096301616546-edbl612881t7rkpljp3qa3juminskulo.apps.googleusercontent.com";
+                    o.ClientSecret = "gOKwmN181CgsnQQDWqTSZjFs";
+
+                    o.Authority = googleOpenIdConnectOptions.Authority;
+                    o.ResponseType = o.ResponseType;
+                    o.GetClaimsFromUserInfoEndpoint = o.GetClaimsFromUserInfoEndpoint;
+                    o.SaveTokens = o.SaveTokens;
+
+                    o.Events = new OpenIdConnectEvents()
+                    {
+                        OnRedirectToIdentityProvider = (context) =>
+                        {
+                            if (context.Request.Path != "/Account/ExternalLogin" 
+                            && context.Request.Path != "/Manage/LinkLogin")
+                            {
+                                context.Response.Redirect("/account/login");
+                                context.HandleResponse();
+                            }
+
+                            return Task.FromResult(0);
+                        }
+                    };
+
                 })
                 .AddP7Twitter(options =>
                 {
