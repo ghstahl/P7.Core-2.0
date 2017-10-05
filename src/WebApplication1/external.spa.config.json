@@ -17,12 +17,12 @@
     },
     {
       "key": "2048",
-      "requireAuth": true,
+      "requireAuth": false,
       "view": "2048"
     },
     {
       "key": "Music",
-      "requireAuth": true,
+      "requireAuth": false,
       "view": "Music"
     },
     {
@@ -32,7 +32,7 @@
     },
     {
       "key": "GraphiQL",
-      "requireAuth": true,
+      "requireAuth": false,
       "view": "GraphiQL"
     },
     {
@@ -42,7 +42,7 @@
     },
     {
       "key": "MyApp",
-      "requireAuth": true,
+      "requireAuth": false,
       "view": "MyApp"
     }
   ]
