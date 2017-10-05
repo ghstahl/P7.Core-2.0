@@ -206,6 +206,21 @@ namespace WebApplication1
             services.AddTransient<ClaimsPrincipal>(
                 s => s.GetService<IHttpContextAccessor>().HttpContext.User);
 
+            /*
+             * MANAGE USER Secrets
+  
+             // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
+          
+            {
+              "Twitter-ConsumerKey": "the key",
+              "Twitter-ConsumerSecret": "the secret",
+              "Google-ClientId": "guid.apps.googleusercontent.com",
+              "Google-ClientSecret": "the secret"
+            }
+
+
+             * 
+             */
             // If you don't want the cookie to be automatically authenticated and assigned to HttpContext.User, 
             // remove the CookieAuthenticationDefaults.AuthenticationScheme parameter passed to AddAuthentication.
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -219,8 +234,8 @@ namespace WebApplication1
                     var googleOpenIdConnectOptions = new GoogleOpenIdConnectOptions();
                     o.CallbackPath = googleOpenIdConnectOptions.CallbackPath;
 
-                    o.ClientId = "1096301616546-edbl612881t7rkpljp3qa3juminskulo.apps.googleusercontent.com";
-                    o.ClientSecret = "gOKwmN181CgsnQQDWqTSZjFs";
+                    o.ClientId = Configuration["Google-ClientId"];
+                    o.ClientSecret = Configuration["Google-ClientSecret"];
 
                     o.Authority = googleOpenIdConnectOptions.Authority;
                     o.ResponseType = o.ResponseType;
@@ -245,8 +260,8 @@ namespace WebApplication1
                 })
                 .AddP7Twitter(options =>
                 {
-                    options.ConsumerKey = "uWkHwFNbklXgsLHYzLfRXcThw";
-                    options.ConsumerSecret = "2kyg9WdUiJuU2HeWYJEuvwzaJWoweLadTgG3i0oHI5FeNjD5Iv";
+                    options.ConsumerKey = Configuration["Twitter-ConsumerKey"];
+                    options.ConsumerSecret = Configuration["Twitter-ConsumerSecret"];
                 })
                 .AddJwtBearer(o =>
                 {
