@@ -8,7 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ClassLibrary1 {
+namespace P7.TwitterAuthentication
+{
     using System;
     
     
