@@ -87,9 +87,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P7.SessionContextStore.Core
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HealthChecks", "HealthChecks", "{796DEC81-5CA6-4299-96B1-FB41F988C53B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P7.Extensions.HealthChecks", "P7.Extensions.HealthChecks\P7.Extensions.HealthChecks.csproj", "{D72E851A-FB78-4318-BA30-898F3ADF43EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P7.Extensions.HealthChecks", "P7.Extensions.HealthChecks\P7.Extensions.HealthChecks.csproj", "{D72E851A-FB78-4318-BA30-898F3ADF43EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P7.AspNetCore.HealthChecks", "P7.AspNetCore.HealthChecks\P7.AspNetCore.HealthChecks.csproj", "{29A5B637-6903-478B-A64E-4EBB4EA571B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P7.AspNetCore.HealthChecks", "P7.AspNetCore.HealthChecks\P7.AspNetCore.HealthChecks.csproj", "{29A5B637-6903-478B-A64E-4EBB4EA571B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".vs", ".vs", "{F2623CA2-E7D8-4081-AD43-13F3CA62BD9D}"
+	ProjectSection(SolutionItems) = preProject
+		.vs\config\applicationhost.config = .vs\config\applicationhost.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
