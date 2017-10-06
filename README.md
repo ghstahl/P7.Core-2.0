@@ -5,7 +5,13 @@ Using [.Net Core 2.0](https://www.microsoft.com/net/download/core)
 
 ## Development
 
-From a console
+### Important......
+
+<pre>
+Make sure you are running Visual Studio as <b>Administrator</b>!
+</pre>
+
+### From a console
 
 ```cmd
 :> git clone https://github.com/ghstahl/P7.Core-2.0.git
