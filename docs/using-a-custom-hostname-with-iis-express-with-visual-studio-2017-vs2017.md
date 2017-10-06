@@ -5,20 +5,37 @@ reference
 
 ## Setup
 
-[applicationhost.config](../src/.vs/config/applicationhost.config)  
 
+applicationhost.config is located in the following location;
+```
+../src/.vs/config/applicationhost.config)  
+```
+
+For the most part this seems to work, but I have run into a bunch of problems with vs2017 not being able to launch IIS Express when I make the following change;
+
+Simply add the following;
+```
+<binding protocol="https" bindingInformation="*:44311:p7core.127.0.0.1.xip.io" />
+```
+to the following site node;
+```
+<site name="WebApplication1" id="2">
+...
+</site>
+```
+My final looks like this;
 ```
 <site name="WebApplication1" id="2">
     <application path="/" applicationPool="Clr4IntegratedAppPool">
-        <virtualDirectory path="/" physicalPath="H:\github\ghstahl\P7.Core-2.0\src\WebApplication1" />
+      <virtualDirectory path="/" physicalPath="H:\github\ghstahl\P7.Core-2.0\src\WebApplication1" />
     </application>
     <bindings>
-                <binding protocol="http" bindingInformation="*:9815:localhost" />
-                <binding protocol="https" bindingInformation="*:44311:localhost" />
-                <binding protocol="https" bindingInformation="*:44311:p7core.127.0.0.1.xip.io" />
+      <binding protocol="https" bindingInformation="*:44311:p7core.127.0.0.1.xip.io" />
+      <binding protocol="https" bindingInformation="*:44311:localhost" />
     </bindings>
 </site>
 ```
+
 
 [launchSettings.json](../src/WebApplication1/Properties/launchSettings.json) 
 
