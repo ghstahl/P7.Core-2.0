@@ -8,7 +8,7 @@ reference
 
 applicationhost.config is located in the following location;
 ```
-../src/.vs/config/applicationhost.config)  
+../src/.vs/config/applicationhost.config
 ```
 
 For the most part this seems to work, but I have run into a bunch of problems with vs2017 not being able to launch IIS Express when I make the following change;
@@ -37,5 +37,21 @@ My final looks like this;
 ```
 
 
-[launchSettings.json](../src/WebApplication1/Properties/launchSettings.json) 
+[launchSettings.json](../src/WebApplication1/Properties/launchSettings.json) is configured to launch to the following;
+```
+https://localhost:44311/
+```
+
+Using the following url should work as well;
+```
+https://p7core.127.0.0.1.xip.io:44311/
+```
+
+I have whitelisted the following domains in my Google OpenID configuration;
+```
+https://localhost:44311/
+https://p7core.127.0.0.1.xip.io:44311/
+```
+
+
 
