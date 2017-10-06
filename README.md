@@ -8,7 +8,7 @@ Using [.Net Core 2.0](https://www.microsoft.com/net/download/core)
 ### Important......
 
 <pre>
-Make sure you are running Visual Studio as <b>Administrator</b>!
+Make sure you are running <b>Visual Studio</b> as <b>Administrator</b>!
 </pre>
 
 ### From a console
