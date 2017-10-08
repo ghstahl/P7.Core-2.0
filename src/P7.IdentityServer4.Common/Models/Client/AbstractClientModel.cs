@@ -51,7 +51,6 @@ namespace P7.IdentityServer4.Common
                 IncludeJwtId = client.IncludeJwtId;
                 LogoUri = client.LogoUri;
                 PostLogoutRedirectUris = Serialize(client.PostLogoutRedirectUris);
-                PrefixClientClaims = client.PrefixClientClaims;
                 Properties = Serialize(client.Properties);
                 ProtocolType = client.ProtocolType;
                 RedirectUris = Serialize(client.RedirectUris);
@@ -138,7 +137,6 @@ namespace P7.IdentityServer4.Common
                 IncludeJwtId = IncludeJwtId,
                 LogoUri = LogoUri,
                 PostLogoutRedirectUris = postLogoutRedirectUris,
-                PrefixClientClaims = PrefixClientClaims,
                 Properties = properties,
                 ProtocolType = ProtocolType,
                 RedirectUris = redirectUris,
@@ -186,7 +184,6 @@ namespace P7.IdentityServer4.Common
         public bool LogoutSessionRequired { get; set; }
         public string LogoutUri { get; set; }
         public TStrings PostLogoutRedirectUris { get; set; }
-        public bool PrefixClientClaims { get; set; }
         public TStringDictionary Properties { get; set; }
         public string ProtocolType { get; set; }
         public TStrings RedirectUris { get; set; }

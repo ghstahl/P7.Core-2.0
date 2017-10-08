@@ -103,7 +103,6 @@ namespace P7.IdentityServer4.Common
                 && LogoutSessionRequired.SafeEquals(other.LogoutSessionRequired)
                 && LogoutUri.SafeEquals(other.LogoutUri)
                 && PostLogoutRedirectUris.SafeListEquals(other.PostLogoutRedirectUris)
-                && PrefixClientClaims.SafeEquals(other.PrefixClientClaims)
                 && Properties.SafeEquals(other.Properties)
                 && ProtocolType.SafeEquals(other.ProtocolType)
                 && RedirectUris.SafeListEquals(other.RedirectUris)

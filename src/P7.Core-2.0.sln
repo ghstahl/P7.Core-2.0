@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{49239892-D807-42AB-8BD8-57E39B505511}"
 EndProject
@@ -95,6 +95,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".vs", ".vs", "{F2623CA2-E7D
 	ProjectSection(SolutionItems) = preProject
 		.vs\config\applicationhost.config = .vs\config\applicationhost.config
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P7.IdentityServer4.AspNetIdentity.Common", "P7.IdentityServer4.AspNetIdentity.Common\P7.IdentityServer4.AspNetIdentity.Common.csproj", "{223FE139-02FF-45EB-8EA2-2E5B54DEACE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -230,6 +232,10 @@ Global
 		{29A5B637-6903-478B-A64E-4EBB4EA571B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29A5B637-6903-478B-A64E-4EBB4EA571B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29A5B637-6903-478B-A64E-4EBB4EA571B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{223FE139-02FF-45EB-8EA2-2E5B54DEACE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{223FE139-02FF-45EB-8EA2-2E5B54DEACE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{223FE139-02FF-45EB-8EA2-2E5B54DEACE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{223FE139-02FF-45EB-8EA2-2E5B54DEACE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -270,6 +276,7 @@ Global
 		{A1CB02CB-C13D-4BFB-AEC5-D52EF02B4EAC} = {F892B0DA-2E36-4A4B-85C2-2991E0CACC4F}
 		{D72E851A-FB78-4318-BA30-898F3ADF43EA} = {796DEC81-5CA6-4299-96B1-FB41F988C53B}
 		{29A5B637-6903-478B-A64E-4EBB4EA571B3} = {796DEC81-5CA6-4299-96B1-FB41F988C53B}
+		{223FE139-02FF-45EB-8EA2-2E5B54DEACE0} = {460E01E1-42A4-4EC0-8685-FF6C32B0009F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {607C5673-3DFE-444A-B0B8-45AB798154EB}

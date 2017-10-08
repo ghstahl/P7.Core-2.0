@@ -200,7 +200,6 @@ namespace Test.P7.IdentityServer4.BiggyStore
                     IncludeJwtId = true,
                     LogoUri = UniqueGuid,
                     PostLogoutRedirectUris = new List<string>() { UniqueGuid },
-                    PrefixClientClaims = true,
                     RedirectUris = new List<string>() { UniqueGuid },
                     RefreshTokenExpiration = TokenExpiration.Absolute,
                     RefreshTokenUsage = TokenUsage.OneTimeOnly,

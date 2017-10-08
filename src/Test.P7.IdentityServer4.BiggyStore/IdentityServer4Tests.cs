@@ -97,7 +97,6 @@ namespace Test.P7.IdentityServer4.BiggyStore
                 LogoUri = "LogoUri",
                
                 PostLogoutRedirectUris = new List<string>() { "a" },
-                PrefixClientClaims = true,
                 Properties = new Dictionary<string, string>() { { "a","a"} },
                 RedirectUris = new List<string>() { "a" },
                 RefreshTokenExpiration = TokenExpiration.Absolute,
