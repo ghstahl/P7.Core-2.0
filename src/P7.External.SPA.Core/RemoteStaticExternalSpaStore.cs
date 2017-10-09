@@ -42,13 +42,15 @@ namespace P7.External.SPA.Core
             return spaRecords;
         }
 
-        public async Task LoadRemoteDataAsync(string url)
+        public async Task<bool> LoadRemoteDataAsync(string url)
         {
             var result = await GetRemoteDataAsync(url);
             if (result.Spas != null)
             {
                 AddRecords(result.Spas);
+                return true;
             }
+            return false;
         }
     }
 }

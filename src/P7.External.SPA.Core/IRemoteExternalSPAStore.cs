@@ -4,6 +4,6 @@ namespace P7.External.SPA.Core
 {
     public interface IRemoteExternalSPAStore : IExternalSPAStore
     {
-        Task LoadRemoteDataAsync(string url);
+        Task<bool> LoadRemoteDataAsync(string url);
     }
 }

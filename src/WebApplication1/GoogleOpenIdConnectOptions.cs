@@ -16,10 +16,8 @@ namespace WebApplication1
         /// </summary>
         public GoogleOpenIdConnectOptions()
         {
-            
+
             CallbackPath = new PathString("/signin-google");
-            ClientId = "1096301616546-edbl612881t7rkpljp3qa3juminskulo.apps.googleusercontent.com";
-            ClientSecret = "gOKwmN181CgsnQQDWqTSZjFs";
             Authority = "https://accounts.google.com";
 
             ResponseType = OpenIdConnectResponseType.Code;
@@ -51,4 +49,5 @@ namespace WebApplication1
             ClaimActionCollectionMapExtensions.MapCustomJson(ClaimActions, ClaimTypes.Email, GoogleHelper.GetEmail);
         }
     }
+
 }
