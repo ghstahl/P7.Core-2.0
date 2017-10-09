@@ -2,6 +2,32 @@
 ## Discovery
 ```
 https://localhost:44311/.well-known/openid-configuration
+produces:
+
+{
+	"issuer": "https://localhost:44311",
+	"jwks_uri": "https://localhost:44311/.well-known/openid-configuration/jwks",
+	"authorization_endpoint": "https://localhost:44311/connect/authorize",
+	"token_endpoint": "https://localhost:44311/connect/token",
+	"userinfo_endpoint": "https://localhost:44311/connect/userinfo",
+	"end_session_endpoint": "https://localhost:44311/connect/endsession",
+	"check_session_iframe": "https://localhost:44311/connect/checksession",
+	"revocation_endpoint": "https://localhost:44311/connect/revocation",
+	"introspection_endpoint": "https://localhost:44311/connect/introspect",
+	"frontchannel_logout_supported": true,
+	"frontchannel_logout_session_supported": true,
+	"backchannel_logout_supported": true,
+	"backchannel_logout_session_supported": true,
+	"scopes_supported": ["arbitrary", "offline_access"],
+	"claims_supported": [],
+	"grant_types_supported": ["authorization_code", "client_credentials", "refresh_token", "implicit", "password", "public_refresh_token"],
+	"response_types_supported": ["code", "token", "id_token", "id_token token", "code id_token", "code token", "code id_token token"],
+	"response_modes_supported": ["form_post", "query", "fragment"],
+	"token_endpoint_auth_methods_supported": ["client_secret_basic", "client_secret_post"],
+	"subject_types_supported": ["public"],
+	"id_token_signing_alg_values_supported": ["RS256"],
+	"code_challenge_methods_supported": ["plain", "S256"]
+}
 ```
 
 P7 will support a decentralized token management system using the following open source project as the core engine;  
