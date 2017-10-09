@@ -1,4 +1,8 @@
 # Decentralized Token Management Support
+## Discovery
+```
+https://localhost:44311/.well-known/openid-configuration
+```
 
 P7 will support a decentralized token management system using the following open source project as the core engine;  
 [OpenID Connect and OAuth 2.0 Framework for ASP.NET Core](https://github.com/IdentityServer/IdentityServer4)  
