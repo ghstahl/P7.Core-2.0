@@ -46,6 +46,7 @@
     <ProjectReference Include="..\P7.Globalization\P7.Globalization.csproj" />
     <ProjectReference Include="..\P7.GraphQLCore\P7.GraphQLCore.csproj" />
     <ProjectReference Include="..\P7.GraphQLViewer\P7.GraphQLViewer.csproj" />
+    <ProjectReference Include="..\P7.HealthCheck.Core\P7.HealthCheck.Core.csproj" />
     <ProjectReference Include="..\P7.HugoStore.Core\P7.HugoStore.Core.csproj" />
     <ProjectReference Include="..\P7.IdentityServer4.AspNetIdentity.Common\P7.IdentityServer4.AspNetIdentity.Common.csproj" />
     <ProjectReference Include="..\P7.IdentityServer4.BiggyStore\P7.IdentityServer4.BiggyStore.csproj" />

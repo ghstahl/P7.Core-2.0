@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
 using Newtonsoft.Json;
+using P7.HealthCheck.Core;
 
 namespace WebApplication1.Health
 {
@@ -49,7 +50,7 @@ namespace WebApplication1.Health
                         });
                     }
                 }
-               
+                checks.AddCheck<AggregateHealthCheck>("aggregate-health");
                 /*
                 checks.AddUrlCheck("https://github.com")
                     .AddHealthCheckGroup(

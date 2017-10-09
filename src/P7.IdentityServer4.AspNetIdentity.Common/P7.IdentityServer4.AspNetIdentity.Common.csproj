@@ -9,4 +9,8 @@
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\P7.Core\P7.Core.csproj" />
+  </ItemGroup>
+
 </Project>
