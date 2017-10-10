@@ -143,7 +143,7 @@ namespace WebApplication1
             services.AddMemoryCache();
 
             ConfigureRateLimitingServices(services);
-          //  services.AddHangfire(config => config.UseMemoryStorage());
+            //  services.AddHangfire(config => config.UseMemoryStorage());
 
             services.TryAddSingleton(typeof(IStringLocalizerFactory), typeof(ResourceManagerStringLocalizerFactory));
             services.AddLocalization();
@@ -207,71 +207,7 @@ namespace WebApplication1
 
             services.AddTransient<ClaimsPrincipal>(
                 s => s.GetService<IHttpContextAccessor>().HttpContext.User);
-
-            /*
-             * MANAGE USER Secrets
-  
-             // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-          
-            {
-              "Twitter-ConsumerKey": "the key",
-              "Twitter-ConsumerSecret": "the secret",
-              "Google-ClientId": "guid.apps.googleusercontent.com",
-              "Google-ClientSecret": "the secret"
-            }
-
-
-             * 
-             */
-            // If you don't want the cookie to be automatically authenticated and assigned to HttpContext.User, 
-            // remove the CookieAuthenticationDefaults.AuthenticationScheme parameter passed to AddAuthentication.
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options => {
-                    options.LoginPath = "/Account/LogIn";
-                    options.LogoutPath = "/Account/LogOff";
-                })
-                .AddNortonOpenIdConnect(Configuration["Norton-ClientId"],
-                    Configuration["Norton-ClientSecret"])
-                .AddOpenIdConnect(GoogleDefaults.AuthenticationScheme, GoogleDefaults.DisplayName, o =>
-                {
-                    var googleOpenIdConnectOptions = new GoogleOpenIdConnectOptions();
-                    o.CallbackPath = googleOpenIdConnectOptions.CallbackPath;
-
-                    o.ClientId = Configuration["Google-ClientId"];
-                    o.ClientSecret = Configuration["Google-ClientSecret"];
-
-                    o.Authority = googleOpenIdConnectOptions.Authority;
-                    o.ResponseType = o.ResponseType;
-                    o.GetClaimsFromUserInfoEndpoint = o.GetClaimsFromUserInfoEndpoint;
-                    o.SaveTokens = o.SaveTokens;
-
-                    o.Events = new OpenIdConnectEvents()
-                    {
-                        OnRedirectToIdentityProvider = (context) =>
-                        {
-                            if (context.Request.Path != "/Account/ExternalLogin" 
-                            && context.Request.Path != "/Manage/LinkLogin")
-                            {
-                                context.Response.Redirect("/account/login");
-                                context.HandleResponse();
-                            }
-
-                            return Task.FromResult(0);
-                        }
-                    };
-
-                })
-                .AddP7Twitter(options =>
-                {
-                    options.ConsumerKey = Configuration["Twitter-ConsumerKey"];
-                    options.ConsumerSecret = Configuration["Twitter-ConsumerSecret"];
-                })
-                .AddJwtBearer(o =>
-                {
-                    o.Authority = "http://localhost:44311";
-                    o.Audience = "arbitrary";
-                    o.RequireHttpsMetadata = false;
-                }); 
+            AddAuthenticationServices(services);
 
             services.AddAllConfigureServicesRegistrants(Configuration);
             services.AddDependenciesUsingAutofacModules();
@@ -289,6 +225,91 @@ namespace WebApplication1
             P7.Core.Global.ServiceProvider = serviceProvider;
 
             return serviceProvider;
+        }
+
+        private void AddAuthenticationServices(IServiceCollection services)
+        {
+            /*
+                         * MANAGE USER Secrets
+
+                         // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
+
+                        {
+                          "Twitter-ConsumerKey": "the key",
+                          "Twitter-ConsumerSecret": "the secret",
+                          "Google-ClientId": "guid.apps.googleusercontent.com",
+                          "Google-ClientSecret": "the secret",
+                          "Norton-ClientId": "some guid",
+                          "Norton-ClientSecret": "some secret"
+                        }
+
+
+                         * 
+                         */
+            // If you don't want the cookie to be automatically authenticated and assigned to HttpContext.User, 
+            // remove the CookieAuthenticationDefaults.AuthenticationScheme parameter passed to AddAuthentication.
+            var authenticationBuilder = services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Account/LogIn";
+                    options.LogoutPath = "/Account/LogOff";
+                });
+            if (!(string.IsNullOrEmpty(Configuration["Norton-ClientId"]) ||
+                string.IsNullOrEmpty(Configuration["Norton-ClientSecret"])))
+            {
+                authenticationBuilder.AddNortonOpenIdConnect(
+                    Configuration["Norton-ClientId"],
+                    Configuration["Norton-ClientSecret"]);
+            }
+            if (!(string.IsNullOrEmpty(Configuration["Twitter-ConsumerKey"]) ||
+                  string.IsNullOrEmpty(Configuration["Twitter-ConsumerSecret"])))
+            {
+                authenticationBuilder.AddP7Twitter(options =>
+                {
+                    options.ConsumerKey = Configuration["Twitter-ConsumerKey"];
+                    options.ConsumerSecret = Configuration["Twitter-ConsumerSecret"];
+                });
+            }
+            if (!(string.IsNullOrEmpty(Configuration["Google-ClientId"]) ||
+                  string.IsNullOrEmpty(Configuration["Google-ClientSecret"])))
+            {
+                authenticationBuilder.AddOpenIdConnect(GoogleDefaults.AuthenticationScheme, GoogleDefaults.DisplayName,
+                    o =>
+                    {
+                        var googleOpenIdConnectOptions = new GoogleOpenIdConnectOptions();
+                        o.CallbackPath = googleOpenIdConnectOptions.CallbackPath;
+
+                        o.ClientId = Configuration["Google-ClientId"];
+                        o.ClientSecret = Configuration["Google-ClientSecret"];
+
+                        o.Authority = googleOpenIdConnectOptions.Authority;
+                        o.ResponseType = o.ResponseType;
+                        o.GetClaimsFromUserInfoEndpoint = o.GetClaimsFromUserInfoEndpoint;
+                        o.SaveTokens = o.SaveTokens;
+
+                        o.Events = new OpenIdConnectEvents()
+                        {
+                            OnRedirectToIdentityProvider = (context) =>
+                            {
+                                if (context.Request.Path != "/Account/ExternalLogin"
+                                    && context.Request.Path != "/Manage/LinkLogin")
+                                {
+                                    context.Response.Redirect("/account/login");
+                                    context.HandleResponse();
+                                }
+
+                                return Task.FromResult(0);
+                            }
+                        };
+
+                    });
+            }
+            authenticationBuilder.AddJwtBearer(o =>
+            {
+                o.Authority = "http://localhost:44311";
+                o.Audience = "arbitrary";
+                o.RequireHttpsMetadata = false;
+            });
         }
 
 
