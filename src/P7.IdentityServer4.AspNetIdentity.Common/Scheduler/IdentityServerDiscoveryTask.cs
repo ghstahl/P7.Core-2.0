@@ -14,6 +14,7 @@ namespace P7.IdentityServer4.AspNetIdentity.Scheduler
         private IRemoteIdentityServerDiscoveryStore RemoteIdentityServerDiscoveryStore { get; set; }
         private IHealthCheckStore HealthCheckStore { get; set; }
         public IdentityServerDiscoveryTask(
+            IOptions<IdentityServerResourceClientCredentials> identityServerResourceClientCredentials,
             IOptions<IdentityServerConfig> options,
             IRemoteIdentityServerDiscoveryStore remoteIdentityServerDiscoveryStore, 
             IHealthCheckStore healthCheckStore)

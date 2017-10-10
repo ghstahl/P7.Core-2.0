@@ -1,14 +1,26 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using P7.IdentityServer4.AspNetIdentity.Configuration;
+using P7.IdentityServer4.Common.Models.oidc;
+using Converter = P7.IdentityServer4.AspNetIdentity.Configuration.Converter;
 
 namespace P7.IdentityServer4.AspNetIdentity.Stores
 {
-    public class RemoteIdentityServerDiscoveryStore : IRemoteIdentityServerDiscoveryStore
+    public class RemoteIdentityServerDiscoveryStore : IRemoteIdentityServerDiscoveryStore, IIdentityServerTokenStore
     {
+        private IOptions<IdentityServerResourceClientCredentials> IdentityServerResourceClientCredentials { get; set; }
+
+        public RemoteIdentityServerDiscoveryStore(
+            IOptions<IdentityServerResourceClientCredentials> identityServerResourceClientCredentials)
+        {
+            IdentityServerResourceClientCredentials = identityServerResourceClientCredentials;
+        }
+
         // "https://localhost:44311/.well-known/openid-configuration";
         public static OpenidConfiguration FromJson(string json) 
             => JsonConvert.DeserializeObject<OpenidConfiguration>(json, Converter.Settings);
@@ -50,6 +62,37 @@ namespace P7.IdentityServer4.AspNetIdentity.Stores
         public OpenidConfiguration GetOpenidConfiguration()
         {
             return OpenidConfiguration;
+        }
+
+        public async Task<OIDCRecord> FetchArbitraryResourceOwnerTokens(string clientId, string clientSecret, Dictionary<string, string> arbitraryClaims,
+            string userName, string[] arbitraryScopes)
+        {
+            List<string>  finalQueryList = new List<string>();
+            string _s;
+
+            _s = $"client_id={clientId}";
+            finalQueryList.Add(_s);
+
+            _s = $"client_secret={clientSecret}";
+            finalQueryList.Add(_s);
+
+            _s = "handler=arbitrary-claims-service";
+            finalQueryList.Add(_s);
+
+            var _s_arbitraryClaims = JsonConvert.SerializeObject(arbitraryClaims);
+            _s = $"arbitrary-claims={_s_arbitraryClaims}";
+            finalQueryList.Add(_s);
+
+            _s = $"username={userName}";
+            finalQueryList.Add(_s);
+
+            _s = $"arbitrary-scopes={string.Join(" ", arbitraryScopes)}";
+            finalQueryList.Add(_s);
+
+            var _s_finalQuery =  string.Join(" ", finalQueryList);
+
+
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\P7.Core\P7.Core.csproj" />
     <ProjectReference Include="..\P7.HealthCheck.Core\P7.HealthCheck.Core.csproj" />
+    <ProjectReference Include="..\P7.IdentityServer4.Common\P7.IdentityServer4.Common.csproj" />
   </ItemGroup>
 
 </Project>
