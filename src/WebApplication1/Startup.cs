@@ -283,9 +283,9 @@ namespace WebApplication1
                         o.ClientSecret = Configuration["Google-ClientSecret"];
 
                         o.Authority = googleOpenIdConnectOptions.Authority;
-                        o.ResponseType = o.ResponseType;
-                        o.GetClaimsFromUserInfoEndpoint = o.GetClaimsFromUserInfoEndpoint;
-                        o.SaveTokens = o.SaveTokens;
+                        o.ResponseType = googleOpenIdConnectOptions.ResponseType;
+                        o.GetClaimsFromUserInfoEndpoint = googleOpenIdConnectOptions.GetClaimsFromUserInfoEndpoint;
+                        o.SaveTokens = googleOpenIdConnectOptions.SaveTokens;
 
                         o.Events = new OpenIdConnectEvents()
                         {
