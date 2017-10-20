@@ -43,7 +43,6 @@ using P7.GraphQLCore.Stores;
 using P7.IdentityServer4.Common;
 using P7.IdentityServer4.Common.ExtensionGrantValidator;
 using P7.IdentityServer4.Common.Middleware;
-using P7.Norton.AspNetIdentity;
 using P7.Razor.FileProvider;
 using P7.RazorProvider.Store.Core;
 using P7.RazorProvider.Store.Core.Interfaces;
@@ -254,13 +253,6 @@ namespace WebApplication1
                     options.LoginPath = "/Account/LogIn";
                     options.LogoutPath = "/Account/LogOff";
                 });
-            if (!(string.IsNullOrEmpty(Configuration["Norton-ClientId"]) ||
-                string.IsNullOrEmpty(Configuration["Norton-ClientSecret"])))
-            {
-                authenticationBuilder.AddNortonOpenIdConnect(
-                    Configuration["Norton-ClientId"],
-                    Configuration["Norton-ClientSecret"]);
-            }
             if (!(string.IsNullOrEmpty(Configuration["Twitter-ConsumerKey"]) ||
                   string.IsNullOrEmpty(Configuration["Twitter-ConsumerSecret"])))
             {
