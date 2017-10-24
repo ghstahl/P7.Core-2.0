@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace P7.AspNetCore.Identity.InMemory
 {
     /// <summary>
-    /// Test user class
+    /// Memory user class
     /// </summary>
     public class MemoryUser : MemoryUser<string>
     {
@@ -27,7 +27,7 @@ namespace P7.AspNetCore.Identity.InMemory
     }
 
     /// <summary>
-    /// Test user
+    /// Memory user
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
     public class MemoryUser<TKey> where TKey : IEquatable<TKey>
@@ -126,21 +126,21 @@ namespace P7.AspNetCore.Identity.InMemory
         /// <summary>
         /// Navigation property
         /// </summary>
-        public virtual ICollection<TestUserRole<TKey>> Roles { get; private set; } = new List<TestUserRole<TKey>>();
+        public virtual ICollection<MemoryUserRole<TKey>> Roles { get; private set; } = new List<MemoryUserRole<TKey>>();
 
         /// <summary>
         /// Navigation property
         /// </summary>
-        public virtual ICollection<TestUserClaim<TKey>> Claims { get; private set; } = new List<TestUserClaim<TKey>>();
+        public virtual ICollection<MemoryUserClaim<TKey>> Claims { get; private set; } = new List<MemoryUserClaim<TKey>>();
 
         /// <summary>
         /// Navigation property
         /// </summary>
-        public virtual ICollection<TestUserLogin<TKey>> Logins { get; private set; } = new List<TestUserLogin<TKey>>();
+        public virtual ICollection<MemoryUserLogin<TKey>> Logins { get; private set; } = new List<MemoryUserLogin<TKey>>();
 
         /// <summary>
         /// Navigation property
         /// </summary>
-        public virtual ICollection<TestUserToken<TKey>> Tokens { get; private set; } = new List<TestUserToken<TKey>>();
+        public virtual ICollection<MemoryUserToken<TKey>> Tokens { get; private set; } = new List<MemoryUserToken<TKey>>();
     }
 }

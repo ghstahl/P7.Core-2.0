@@ -54,7 +54,7 @@ namespace P7.AspNetCore.Identity.InMemory
         /// <summary>
         /// Navigation property for claims in the role
         /// </summary>
-        public virtual ICollection<TestRoleClaim<TKey>> Claims { get; private set; } = new List<TestRoleClaim<TKey>>();
+        public virtual ICollection<MemoryRoleClaim<TKey>> Claims { get; private set; } = new List<MemoryRoleClaim<TKey>>();
 
         /// <summary>
         ///     Role name

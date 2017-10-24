@@ -44,7 +44,7 @@ namespace P7.AspNetCore.Identity.InMemory
         {
             foreach (var claim in claims)
             {
-                user.Claims.Add(new TestUserClaim { ClaimType = claim.Type, ClaimValue = claim.Value, UserId = user.Id });
+                user.Claims.Add(new MemoryUserClaim { ClaimType = claim.Type, ClaimValue = claim.Value, UserId = user.Id });
             }
             return Task.FromResult(0);
         }
@@ -163,7 +163,7 @@ namespace P7.AspNetCore.Identity.InMemory
         public virtual Task AddLoginAsync(TUser user, UserLoginInfo login,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            user.Logins.Add(new TestUserLogin
+            user.Logins.Add(new MemoryUserLogin
             {
                 UserId = user.Id,
                 ProviderKey = login.ProviderKey,
@@ -309,7 +309,7 @@ namespace P7.AspNetCore.Identity.InMemory
             var roleEntity = _roles.Values.SingleOrDefault(r => r.NormalizedName == role);
             if (roleEntity != null)
             {
-                user.Roles.Add(new TestUserRole { RoleId = roleEntity.Id, UserId = user.Id });
+                user.Roles.Add(new MemoryUserRole { RoleId = roleEntity.Id, UserId = user.Id });
             }
             return Task.FromResult(0);
         }
@@ -376,7 +376,7 @@ namespace P7.AspNetCore.Identity.InMemory
             return Task.FromResult(0);
         }
 
-        // RoleId == rolename for inmemory store tests
+        // RoleId == rolename for inmemory store Memorys
         public Task<IList<TUser>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (String.IsNullOrEmpty(roleName))
@@ -470,7 +470,7 @@ namespace P7.AspNetCore.Identity.InMemory
 
         public Task AddClaimAsync(TRole role, Claim claim, CancellationToken cancellationToken = default(CancellationToken))
         {
-            role.Claims.Add(new TestRoleClaim<string> { ClaimType = claim.Type, ClaimValue = claim.Value, RoleId = role.Id });
+            role.Claims.Add(new MemoryRoleClaim<string> { ClaimType = claim.Type, ClaimValue = claim.Value, RoleId = role.Id });
             return Task.FromResult(0);
         }
 
@@ -510,7 +510,7 @@ namespace P7.AspNetCore.Identity.InMemory
             }
             else
             {
-                user.Tokens.Add(new TestUserToken
+                user.Tokens.Add(new MemoryUserToken
                 {
                     UserId = user.Id,
                     LoginProvider = loginProvider,
