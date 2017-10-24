@@ -19,7 +19,13 @@ namespace ReferenceWebApp
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseHealthChecks("/health", TimeSpan.FromSeconds(3))     // Or to host on a separate port: .UseHealthChecks(port)
+                .UseIISIntegration()
+                .UseSetting("detailedErrors", "true")
+                .CaptureStartupErrors(true)
                 .UseStartup<Startup>()
+                .UseApplicationInsights()
                 .Build();
     }
 }

@@ -8,9 +8,19 @@
 
 
   <ItemGroup>
+    <PackageReference Include="AspNetCoreRateLimit" Version="2.1.0" />
+    <PackageReference Include="Autofac" Version="4.6.2" />
+    <PackageReference Include="GraphQL-Parser" Version="3.0.0" />
+    <PackageReference Include="IdentityServer4" Version="2.0.1" />
+    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.0.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
+    <PackageReference Include="Serilog" Version="2.5.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
+    <PackageReference Include="Serilog.Sinks.Literate" Version="3.0.0" />
+    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,7 +30,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AspNetCore2.Authentication.InMemoryStores\AspNetCore2.Authentication.InMemoryStores.csproj" />
+    <ProjectReference Include="..\P7.AspNetCore.HealthChecks\P7.AspNetCore.HealthChecks.csproj" />
+    <ProjectReference Include="..\P7.AspNetCore.Identity.InMemory\P7.AspNetCore.Identity.InMemory.csproj" />
+    <ProjectReference Include="..\P7.BlogStore.Hugo\P7.BlogStore.Hugo.csproj" />
+    <ProjectReference Include="..\P7.Core\P7.Core.csproj" />
+    <ProjectReference Include="..\P7.Extensions.HealthChecks\P7.Extensions.HealthChecks.csproj" />
+    <ProjectReference Include="..\P7.Filters\P7.Filters.csproj" />
+    <ProjectReference Include="..\P7.GraphQLCore\P7.GraphQLCore.csproj" />
+    <ProjectReference Include="..\P7.HealthCheck.Core\P7.HealthCheck.Core.csproj" />
+    <ProjectReference Include="..\P7.IdentityServer4.AspNetIdentity.Common\P7.IdentityServer4.AspNetIdentity.Common.csproj" />
+    <ProjectReference Include="..\P7.IdentityServer4.BiggyStore\P7.IdentityServer4.BiggyStore.csproj" />
+    <ProjectReference Include="..\P7.Razor.FileProvider\P7.Razor.FileProvider.csproj" />
+    <ProjectReference Include="..\P7.RazorProvider.Store.Core\P7.RazorProvider.Store.Core.csproj" />
+    <ProjectReference Include="..\P7.SessionContextStore.Core\P7.SessionContextStore.Core.csproj" />
+    <ProjectReference Include="..\P7.SimpleRedirect.Core\P7.SimpleRedirect.Core.csproj" />
+    <ProjectReference Include="..\P7.TwitterAuthentication\P7.TwitterAuthentication.csproj" />
   </ItemGroup>
 
 </Project>

@@ -10,7 +10,6 @@ using AspNetCore2.Authentication.InMemoryStores.Models;
 
 namespace AspNetCore2.Authentication.InMemoryStores
 {
-
     public class InMemoryUserStore<TUser> :
         IUserStore<TUser>,
         IUserLoginStore<TUser>,

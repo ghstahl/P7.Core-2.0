@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspNetCore2.Authentication.InMemoryStores;
+ 
 using Microsoft.AspNetCore.Identity;
+using P7.AspNetCore.Identity.InMemory;
 
 namespace ReferenceWebApp.Models
 {
+    public class ApplicationRole : MemoryRole
+    {
+    }
+
     // Add profile data for application users by adding properties to the ApplicationUser class
-    public class ApplicationUser : MemoryIdentityUser
+    public class ApplicationUser : MemoryUser
     {
     }
 }

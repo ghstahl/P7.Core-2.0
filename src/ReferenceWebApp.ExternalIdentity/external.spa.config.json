@@ -1,0 +1,49 @@
+{
+  "spas": [
+    {
+      "key": "support",
+      "requireAuth": false,
+      "view": "Support"
+    },
+    {
+      "key": "Admin",
+      "requireAuth": true,
+      "view": "Admin"
+    },
+    {
+      "key": "Money",
+      "requireAuth": true,
+      "view": "Money"
+    },
+    {
+      "key": "2048",
+      "requireAuth": false,
+      "view": "2048"
+    },
+    {
+      "key": "Music",
+      "requireAuth": false,
+      "view": "Music"
+    },
+    {
+      "key": "Moon",
+      "requireAuth": true,
+      "view": "Moon"
+    },
+    {
+      "key": "GraphiQL",
+      "requireAuth": false,
+      "view": "GraphiQL"
+    },
+    {
+      "key": "Stock",
+      "requireAuth": true,
+      "view": "Stock"
+    },
+    {
+      "key": "MyApp",
+      "requireAuth": false,
+      "view": "MyApp"
+    }
+  ]
+}

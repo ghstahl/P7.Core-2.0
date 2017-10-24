@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
@@ -13,19 +15,21 @@ namespace ReferenceWebApp.InMemory
 {
     public static class InMemoryIdentityServiceCollectionExtensions
     {
-        public static IdentityBuilder AddIdentity<TUser>(this IServiceCollection services, IConfiguration configuration)
-            where TUser : class => services.AddIdentity<TUser>(configuration,null);
+        public static IServiceCollection AddAuthentication<TUser>(this IServiceCollection services, IConfiguration configuration)
+            where TUser : class => services.AddAuthentication<TUser>(configuration, null);
 
-        public static IdentityBuilder AddIdentity<TUser>(this IServiceCollection services, IConfiguration configuration,Action<IdentityOptions> setupAction)
+        public static IServiceCollection AddAuthentication<TUser>(this IServiceCollection services, IConfiguration configuration, Action<IdentityOptions> setupAction)
             where TUser : class
         {
+           
             // Services used by identity
             var authenticationBuilder = services.AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
-                    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
-                    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-                })
+            {
+                options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+            });
+            /*
                 .AddCookie(IdentityConstants.ApplicationScheme, o =>
                 {
                     o.LoginPath = new PathString("/Account/Login");
@@ -46,6 +50,7 @@ namespace ReferenceWebApp.InMemory
                     o.Cookie.Name = IdentityConstants.TwoFactorUserIdScheme;
                     o.ExpireTimeSpan = TimeSpan.FromMinutes(5);
                 });
+           */     
             if (!(string.IsNullOrEmpty(configuration["Google-ClientId"]) ||
                   string.IsNullOrEmpty(configuration["Google-ClientSecret"])))
             {
@@ -80,6 +85,7 @@ namespace ReferenceWebApp.InMemory
 
                     });
             }
+            /*
             // Hosting doesn't add IHttpContextAccessor by default
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -102,6 +108,8 @@ namespace ReferenceWebApp.InMemory
             }
 
             return new IdentityBuilder(typeof(TUser), services);
+            */
+            return services;
         }
     }
 }

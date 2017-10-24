@@ -1,13 +1,30 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using P7.Filters;
 
 namespace ReferenceWebApp.InMemory
 {
+    class MyAuthApiClaimsProvider : IAuthApiClaimsProvider
+    {
+        // this gates all apis with not only being authenticated, but have one of the following claims.
+        public static string LocalClientIdValue => "local";
+        public async Task<List<Claim>> FetchClaimsAsync()
+        {
+            var claims = new List<Claim>
+            {
+                new Claim("client_id", MyAuthApiClaimsProvider.LocalClientIdValue),
+                new Claim("client_id", "resource-owner-client")
+            };
+            return claims;
+        }
+    }
+
     public class GoogleOpenIdConnectOptions : OpenIdConnectOptions
     {
         /// <summary>

@@ -5,13 +5,15 @@ using Microsoft.Extensions.Options;
 
 namespace P7.Core.Identity
 {
-    public class AppClaimsPrincipalFactory<T> : UserClaimsPrincipalFactory<T, IdentityRole> where T : class
+    public class AppClaimsPrincipalFactory<TUser,TRole> : UserClaimsPrincipalFactory<TUser, TRole> 
+        where TUser : class
+        where TRole : class
     {
         public readonly IPostAuthClaimsProvider _postAuthClaimsProvider;
 
         public AppClaimsPrincipalFactory(
-            UserManager<T> userManager
-            , RoleManager<IdentityRole> roleManager
+            UserManager<TUser> userManager
+            , RoleManager<TRole> roleManager
             , IOptions<IdentityOptions> optionsAccessor
             , IPostAuthClaimsProvider postAuthClaimsProvider)
             : base(userManager, roleManager, optionsAccessor)
@@ -19,7 +21,7 @@ namespace P7.Core.Identity
             _postAuthClaimsProvider = postAuthClaimsProvider;
         }
 
-        public async override Task<ClaimsPrincipal> CreateAsync(T user)
+        public async override Task<ClaimsPrincipal> CreateAsync(TUser user)
         {
             var principal = await base.CreateAsync(user);
             var claims = await _postAuthClaimsProvider.FetchClaims(principal);
