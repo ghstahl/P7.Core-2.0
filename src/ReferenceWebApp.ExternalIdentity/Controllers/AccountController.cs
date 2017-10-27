@@ -68,8 +68,22 @@ namespace ReferenceWebApp.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        public async Task<IActionResult> ExternalLoginWhatIf(string provider, string returnUrl = null)
+        {
+            var result = InternalExternalLogin(provider, returnUrl);
+            return (result);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public IActionResult ExternalLogin(string provider, string returnUrl = null)
+        public async Task<IActionResult> ExternalLogin(string provider, string returnUrl = null)
+        {
+            var result = InternalExternalLogin(provider, returnUrl);
+            return (result);
+        }
+
+        private IActionResult InternalExternalLogin(string provider, string returnUrl = null)
         {
             // Request a redirect to the external login provider.
             var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { returnUrl });
@@ -77,7 +91,6 @@ namespace ReferenceWebApp.Controllers
             var challeng = Challenge(properties, provider);
             return challeng;
         }
-
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)

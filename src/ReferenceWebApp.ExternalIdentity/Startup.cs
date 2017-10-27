@@ -305,6 +305,7 @@ namespace ReferenceWebApp
             ILoggerFactory loggerFactory,
             IApplicationLifetime appLifetime)
         {
+            app.UseMiddleware<Convert302ResponseMiddleware>();
             app.UseIpRateLimiting();
 
             LoadGraphQLAuthority();
