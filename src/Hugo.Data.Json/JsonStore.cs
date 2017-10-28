@@ -384,7 +384,12 @@ namespace Hugo.Data.Json
 				//format for the deserializer...
 				var json = File.ReadAllText(this.DbPath);
 				result = JsonConvert.DeserializeObject<List<T>>(json);
-			}
+			    if (result == null)
+			    {
+			        result = new List<T>();
+                }
+
+            }
 			_items = result.ToList();
 			return result;
 		}

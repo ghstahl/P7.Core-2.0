@@ -50,13 +50,7 @@ namespace ReferenceWebApp.Controllers
             return View();
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Lockout()
-        {
-            return View();
-        }
-
+ 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
@@ -138,11 +132,7 @@ namespace ReferenceWebApp.Controllers
             return RedirectToAction(nameof(Login));
         }
 
-        [HttpGet]
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
+ 
 
         #region Helpers
 
