@@ -158,7 +158,7 @@ namespace WebApplication1
             services
                 .AddScoped
                 <Microsoft.AspNetCore.Identity.IUserClaimsPrincipalFactory<ApplicationUser>,
-                    AppClaimsPrincipalFactory<ApplicationUser>>();
+                    AppClaimsPrincipalFactory<ApplicationUser, IdentityRole>>();
 
             services.AddAntiforgery(opts => opts.HeaderName = "X-XSRF-Token");
             services.AddMyHealthCheck(Configuration);
