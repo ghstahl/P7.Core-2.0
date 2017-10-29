@@ -1,5 +1,5 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top: 0px;
     padding-bottom: 20px;
 }
 
@@ -31,5 +31,8 @@
     /* Hide captions */
     .carousel-caption {
         display: none;
+    }
+    #menu-toggle:checked + .nav-menu {
+        display: block;
     }
 }
