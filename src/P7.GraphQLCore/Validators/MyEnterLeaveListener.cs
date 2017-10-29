@@ -7,6 +7,7 @@ using System.Text;
 using GraphQL;
 using GraphQL.Language.AST;
 using GraphQL.Validation;
+using P7.Core.Utils;
 
 namespace P7.GraphQLCore.Validators
 {
@@ -24,25 +25,15 @@ namespace P7.GraphQLCore.Validators
         public string CurrentFieldPath { get; private set; }
     }
 
-    public interface IEventSource<T>
-    {
-        void RegisterEventSink(T sink);
-        void UnregisterEventSink(T sink);
-    }
+    
     public interface IEnterLeaveListenerEventSink
     {
         void OnEvent(EnterLeaveListenerState enterLeaveListenerState);
     }
-    public class MyEnterLeaveListener : INodeVisitor, IEventSource<IEnterLeaveListenerEventSink>
+    public class MyEnterLeaveListener : EventSource<IEnterLeaveListenerEventSink>,INodeVisitor
     {
         private OperationType OperationType { get; set; }
-        private List<IEnterLeaveListenerEventSink> _eventSinks;
 
-        private List<IEnterLeaveListenerEventSink> EventSinks
-        {
-            get { return _eventSinks ?? (_eventSinks = new List<IEnterLeaveListenerEventSink>()); }
-            set { _eventSinks = value; }
-        } 
 
         private Stack<string> _runningPath;
 
@@ -134,27 +125,6 @@ namespace P7.GraphQLCore.Validators
             {
                 eventSink.OnEvent(state);
             }
-        }
-        public void RegisterEventSink(IEnterLeaveListenerEventSink sink)
-        {
-            var query = from item in EventSinks
-                where item == sink
-                select item;
-
-            if (!query.Any())
-            {
-                EventSinks.Add(sink);
-            }
-        }
-
-        public void UnregisterEventSink(IEnterLeaveListenerEventSink sink)
-        {
-            
-            var query = from item in EventSinks
-                        where item != sink
-                        select item;
-            EventSinks = query.ToList();
-            
         }
     }
 }
