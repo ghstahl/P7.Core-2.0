@@ -57,16 +57,16 @@ namespace ReferenceWebApp.InMemory
                 authenticationBuilder.AddOpenIdConnect(GoogleDefaults.AuthenticationScheme, GoogleDefaults.DisplayName,
                     o =>
                     {
-                        var googleOpenIdConnectOptions = new GoogleOpenIdConnectOptions();
-                        o.CallbackPath = googleOpenIdConnectOptions.CallbackPath;
+                        var openIdConnectOptions = new GoogleOpenIdConnectOptions();
+                        o.CallbackPath = openIdConnectOptions.CallbackPath;
 
                         o.ClientId = configuration["Google-ClientId"];
                         o.ClientSecret = configuration["Google-ClientSecret"];
 
-                        o.Authority = googleOpenIdConnectOptions.Authority;
-                        o.ResponseType = googleOpenIdConnectOptions.ResponseType;
-                        o.GetClaimsFromUserInfoEndpoint = googleOpenIdConnectOptions.GetClaimsFromUserInfoEndpoint;
-                        o.SaveTokens = googleOpenIdConnectOptions.SaveTokens;
+                        o.Authority = openIdConnectOptions.Authority;
+                        o.ResponseType = openIdConnectOptions.ResponseType;
+                        o.GetClaimsFromUserInfoEndpoint = openIdConnectOptions.GetClaimsFromUserInfoEndpoint;
+                        o.SaveTokens = openIdConnectOptions.SaveTokens;
 
                         o.Events = new OpenIdConnectEvents()
                         {
@@ -84,6 +84,42 @@ namespace ReferenceWebApp.InMemory
                             }
                         };
 
+                    });
+            }
+
+
+            if (!(string.IsNullOrEmpty(configuration["Norton-ClientId"]) ||
+                  string.IsNullOrEmpty(configuration["Norton-ClientSecret"])))
+            {
+                authenticationBuilder.AddOpenIdConnect(NortonDefaults.AuthenticationScheme, NortonDefaults.DisplayName,
+                    o =>
+                    {
+                        var openIdConnectOptions = new NortonOpenIdConnectOptions();
+                        o.CallbackPath = openIdConnectOptions.CallbackPath;
+
+                        o.ClientId = configuration["Norton-ClientId"];
+                        o.ClientSecret = configuration["Norton-ClientSecret"];
+
+                        o.Authority = openIdConnectOptions.Authority;
+                        o.ResponseType = openIdConnectOptions.ResponseType;
+                        o.GetClaimsFromUserInfoEndpoint = openIdConnectOptions.GetClaimsFromUserInfoEndpoint;
+                        o.SaveTokens = openIdConnectOptions.SaveTokens;
+
+                        o.Events = new OpenIdConnectEvents()
+                        {
+                            OnRedirectToIdentityProvider = (context) =>
+                            {
+                                if (context.Request.Path != "/Account/ExternalLogin"
+                                    && context.Request.Path != "/Account/ExternalLoginWhatIf"
+                                    && context.Request.Path != "/Manage/LinkLogin")
+                                {
+                                    context.Response.Redirect("/account/login");
+                                    context.HandleResponse();
+                                }
+
+                                return Task.FromResult(0);
+                            }
+                        };
                     });
             }
             /*
