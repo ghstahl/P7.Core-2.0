@@ -31,10 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views.Ori\views.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\GraphQL.AspNetCore\GraphQL.AspNetCore.csproj" />
     <ProjectReference Include="..\Hugo.Data.Json\Hugo.Data.Json.csproj" />
     <ProjectReference Include="..\P7.AspNetCore.HealthChecks\P7.AspNetCore.HealthChecks.csproj" />
@@ -63,6 +59,20 @@
 
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views.Ori\Account\Login.cshtml" />
+    <None Include="Views.Ori\Home\About.cshtml" />
+    <None Include="Views.Ori\Home\Contact.cshtml" />
+    <None Include="Views.Ori\Home\Index.cshtml" />
+    <None Include="Views.Ori\Shared\Error.cshtml" />
+    <None Include="Views.Ori\Shared\_Layout.cshtml" />
+    <None Include="Views.Ori\Shared\_LoginPartial.bulma.cshtml" />
+    <None Include="Views.Ori\Shared\_LoginPartial.cshtml" />
+    <None Include="Views.Ori\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Views.Ori\_ViewImports.cshtml" />
+    <None Include="Views.Ori\_ViewStart.cshtml" />
   </ItemGroup>
 
 </Project>
