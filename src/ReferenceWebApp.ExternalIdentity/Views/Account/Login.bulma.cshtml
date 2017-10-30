@@ -2,8 +2,9 @@
 @using System.Linq
 @using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Http.Authentication
+@using Microsoft.AspNetCore.Identity
  
-@inject SignInManager<ApplicationUser> SignInManager
+@inject SignInManager<ReferenceWebApp.Models.ApplicationUser> SignInManager
 
 @{
     ViewData["Title"] = "Log in";

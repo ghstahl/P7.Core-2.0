@@ -5,6 +5,8 @@
     <UserSecretsId>aspnet-ReferenceWebApp-A9B39DA4-28BF-4CCA-8BCF-5E4BCF0C882C</UserSecretsId>
     <RootNamespace>ReferenceWebApp</RootNamespace>
     <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
   </PropertyGroup>
 
 
