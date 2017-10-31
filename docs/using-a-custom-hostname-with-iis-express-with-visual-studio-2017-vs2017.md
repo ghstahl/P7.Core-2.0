@@ -26,13 +26,25 @@ to the following site node;
 My final looks like this;
 ```
 <site name="WebApplication1" id="2">
-    <application path="/" applicationPool="Clr4IntegratedAppPool">
-      <virtualDirectory path="/" physicalPath="H:\github\ghstahl\P7.Core-2.0\src\WebApplication1" />
-    </application>
-    <bindings>
-      <binding protocol="https" bindingInformation="*:44311:p7core.127.0.0.1.xip.io" />
-      <binding protocol="https" bindingInformation="*:44311:localhost" />
-    </bindings>
+<application path="/" applicationPool="Clr4IntegratedAppPool">
+  <virtualDirectory path="/" physicalPath="H:\Github\ghstahl\P7.Core-2.0\src\WebApplication1" />
+</application>
+<bindings>
+  <binding protocol="https" bindingInformation="*:44380:p7core2.127.0.0.1.xip.io" />
+  <binding protocol="http" bindingInformation="*:11344:p7core2.127.0.0.1.xip.io" />
+  <binding protocol="http" bindingInformation="*:11344:localhost" />
+  <binding protocol="https" bindingInformation="*:44380:localhost" />
+</bindings>
+</site>
+<site name="ReferenceWebApp.ExternalIdentity" id="3">
+<application path="/" applicationPool="Clr4IntegratedAppPool">
+  <virtualDirectory path="/" physicalPath="H:\Github\ghstahl\P7.Core-2.0\src\ReferenceWebApp.ExternalIdentity" />
+</application>
+<bindings>
+  <binding protocol="http" bindingInformation="*:19901:localhost" />
+  <binding protocol="https" bindingInformation="*:44311:p7core.127.0.0.1.xip.io" />
+  <binding protocol="https" bindingInformation="*:44311:localhost" />
+</bindings>
 </site>
 ```
 
