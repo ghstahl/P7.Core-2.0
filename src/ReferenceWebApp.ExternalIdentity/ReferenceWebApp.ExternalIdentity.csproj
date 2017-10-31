@@ -51,6 +51,7 @@
     <ProjectReference Include="..\P7.IdentityServer4.AspNetIdentity.Common\P7.IdentityServer4.AspNetIdentity.Common.csproj" />
     <ProjectReference Include="..\P7.IdentityServer4.BiggyStore\P7.IdentityServer4.BiggyStore.csproj" />
     <ProjectReference Include="..\P7.IdentityServer4.Common\P7.IdentityServer4.Common.csproj" />
+    <ProjectReference Include="..\P7.Identity\P7.Identity.csproj" />
     <ProjectReference Include="..\P7.Razor.FileProvider\P7.Razor.FileProvider.csproj" />
     <ProjectReference Include="..\P7.RazorProvider.Store.Core\P7.RazorProvider.Store.Core.csproj" />
     <ProjectReference Include="..\P7.SessionContextStore.Core\P7.SessionContextStore.Core.csproj" />

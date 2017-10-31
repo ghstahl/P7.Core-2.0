@@ -112,6 +112,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asp.net rel-2.0.0", "asp.ne
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P7.AspNetCore.Authentication.OpenIdConnect", "P7.AspNetCore.Authentication.OpenIdConnect\P7.AspNetCore.Authentication.OpenIdConnect.csproj", "{F44462C1-188D-459B-8DE2-BF750BA1C26B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P7.Identity", "P7.Identity\P7.Identity.csproj", "{61541CA8-B540-4AA9-B637-01B97244CEDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -274,6 +276,10 @@ Global
 		{F44462C1-188D-459B-8DE2-BF750BA1C26B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F44462C1-188D-459B-8DE2-BF750BA1C26B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F44462C1-188D-459B-8DE2-BF750BA1C26B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61541CA8-B540-4AA9-B637-01B97244CEDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61541CA8-B540-4AA9-B637-01B97244CEDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61541CA8-B540-4AA9-B637-01B97244CEDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61541CA8-B540-4AA9-B637-01B97244CEDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -321,6 +327,7 @@ Global
 		{FBDB8724-BE2C-4B18-A0AD-E85119032A01} = {A08D76D8-20A9-41B9-9649-C9C972BBC724}
 		{CF507803-2983-40B1-BF21-B497624686E4} = {CCCA7579-F361-4887-AF60-4C6047184645}
 		{F44462C1-188D-459B-8DE2-BF750BA1C26B} = {F1D1A6FB-C8F9-4CBB-A0F1-D99EEEA3C69E}
+		{61541CA8-B540-4AA9-B637-01B97244CEDB} = {CCCA7579-F361-4887-AF60-4C6047184645}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {607C5673-3DFE-444A-B0B8-45AB798154EB}
