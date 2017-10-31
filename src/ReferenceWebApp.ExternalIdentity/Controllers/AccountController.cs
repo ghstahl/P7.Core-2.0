@@ -101,26 +101,29 @@ namespace ReferenceWebApp.Controllers
             }
 
             var query = from claim in info.Principal.Claims
-                where claim.Type == ClaimTypes.Name || claim.Type == "name"
+                where claim.Type == "DisplayName"
                 select claim;
             var queryNameId = from claim in info.Principal.Claims
                 where claim.Type == ClaimTypes.NameIdentifier
                 select claim;
             var nameClaim = query.FirstOrDefault();
+            var displayName = nameClaim.Value;
             var nameIdClaim = queryNameId.FirstOrDefault();
+
             
+
             // paranoid
-            var leftoverUser = await _userManager.FindByEmailAsync(nameClaim.Value);
+            var leftoverUser = await _userManager.FindByEmailAsync(displayName);
             if (leftoverUser != null)
             {
                 await _userManager.DeleteAsync(leftoverUser); // just using this inMemory userstore as a scratch holding pad
             }
             // paranoid end
 
-            var user = new ApplicationUser { UserName = nameIdClaim.Value, Email = nameClaim.Value };
+            var user = new ApplicationUser { UserName = nameIdClaim.Value, Email = displayName };
             var result = await _userManager.CreateAsync(user);
             var newUser = await _userManager.FindByIdAsync(user.Id);
-            await _userManager.AddClaimAsync(newUser, new Claim("custom-name", nameClaim.Value));
+            await _userManager.AddClaimAsync(newUser, new Claim("custom-name", displayName));
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);

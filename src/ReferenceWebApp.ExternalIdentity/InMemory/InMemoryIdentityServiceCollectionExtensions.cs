@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -81,6 +83,31 @@ namespace ReferenceWebApp.InMemory
                                 }
 
                                 return Task.FromResult(0);
+                            },
+                            OnTicketReceived = (context) =>
+                            {
+                                ClaimsIdentity identity = (ClaimsIdentity)context.Principal.Identity;
+                                var query = from claim in context.Principal.Claims
+                                    where claim.Type == ClaimTypes.Name || claim.Type == "name"
+                                    select claim;
+                                var nameClaim = query.FirstOrDefault();
+                                var nameIdentifier = identity.FindFirst(ClaimTypes.NameIdentifier);
+
+
+                                var claimsToKeep =
+                                    new List<Claim>
+                                    {
+                                        nameClaim,
+                                        nameIdentifier,
+                                        new Claim("DisplayName", nameClaim.Value),
+                                        new Claim("UserId", nameIdentifier.Value)
+                                    };
+
+                                var newIdentity = new ClaimsIdentity(claimsToKeep, identity.AuthenticationType);
+
+                                context.Principal = new ClaimsPrincipal(newIdentity);
+                                return Task.CompletedTask;
+
                             }
                         };
 
@@ -118,8 +145,26 @@ namespace ReferenceWebApp.InMemory
                                 }
 
                                 return Task.FromResult(0);
+                            },
+                            OnTicketReceived = (context) =>
+                            {
+                                ClaimsIdentity identity = (ClaimsIdentity)context.Principal.Identity;
+                                var givenName = identity.FindFirst(ClaimTypes.GivenName);
+                                var familyName = identity.FindFirst(ClaimTypes.Surname);
+                                var nameIdentifier = identity.FindFirst(ClaimTypes.NameIdentifier);
+                                var userId = identity.FindFirst("UserId");
+
+                             
+                                var claimsToKeep = new List<Claim> { givenName, familyName, nameIdentifier, userId };
+                                claimsToKeep.Add(new Claim("DisplayName",$"{givenName.Value} {familyName.Value}"));
+                                var newIdentity = new ClaimsIdentity(claimsToKeep, identity.AuthenticationType);
+
+                                context.Principal = new ClaimsPrincipal(newIdentity);
+                                return Task.CompletedTask;
                             }
-                        };
+                        }; 
+
+               
                     });
             }
             /*
