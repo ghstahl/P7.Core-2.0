@@ -47,7 +47,10 @@ namespace P7.GraphQLCore.Validators
             var userContext = context.UserContext.As<GraphQLUserContext>();
             var user = userContext.HttpContextAccessor.HttpContext.User;
 
-
+            IEnumerable<string> claimsEnumerable = (from item in user.Claims
+                let c = item.Type
+                select c).ToList();
+//            IEnumerable<string> claimsEnumerable = query.ToList();
             var authenticated = user?.Identity.IsAuthenticated ?? false;
             var myEnterLeaveListenerSink = new MyEnterLeaveListenerSink();
             var currentEnterLeaveListenerState = (ICurrentEnterLeaveListenerState) myEnterLeaveListenerSink;
@@ -59,8 +62,15 @@ namespace P7.GraphQLCore.Validators
                     var opType = op.OperationType;
                     var query = from item in op.SelectionSet.Selections
                         select ((GraphQL.Language.AST.Field) item).Name;
+                    if (op.OperationType == OperationType.Mutation && !authenticated)
+                    {
+                        context.ReportError(new ValidationError(
+                            context.OriginalQuery,
+                            "auth-required",
+                            $"Authorization is required to access {op.Name}.",
+                            op));
+                    }
 
-                     
 
 
                 });
@@ -69,6 +79,17 @@ namespace P7.GraphQLCore.Validators
                 {
                     var currentPath = currentEnterLeaveListenerState.EnterLeaveListenerState.CurrentFieldPath;
                     var fieldDef = context.TypeInfo.GetFieldDef();
+
+                    if (fieldDef.RequiresPermissions() &&
+                        (!authenticated || !fieldDef.CanAccess(claimsEnumerable)))
+                    {
+                        context.ReportError(new ValidationError(
+                            context.OriginalQuery,
+                            "auth-required",
+                            $"You are not authorized to run this query.",
+                            fieldAst));
+                    }
+
                     var lastType = context.TypeInfo.GetLastType() as IGraphType;
                     var parentType = context.TypeInfo.GetParentType();
                     var name = fieldAst.Name;

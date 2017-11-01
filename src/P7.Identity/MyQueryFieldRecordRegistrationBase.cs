@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Security.Claims;
 using GraphQL;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
@@ -34,7 +35,7 @@ namespace P7.Identity
                     
                     return input;
                 },
-                deprecationReason: null);
+                deprecationReason: null).AddPermission("sub");
         }
     }
 }
