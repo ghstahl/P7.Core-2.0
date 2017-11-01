@@ -35,7 +35,7 @@ namespace P7.Identity
                     
                     return input;
                 },
-                deprecationReason: null).AddPermission("sub");
+                deprecationReason: null).AddPermission("x-namedidentifier");
         }
     }
 }
