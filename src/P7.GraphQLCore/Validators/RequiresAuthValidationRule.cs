@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -11,10 +12,36 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using P7.Core.Settings;
 using P7.GraphQLCore.Stores;
 
 namespace P7.GraphQLCore.Validators
 {
+    public class AppSettingsGraphQLPermissionsStore : IPermissionsStore
+    {
+        private IOptions<GraphQLAuthenticationConfig> _settings;
+        public AppSettingsGraphQLPermissionsStore(IOptions<GraphQLAuthenticationConfig> settings)
+        {
+            _settings = settings;
+        }
+
+
+        public IEnumerable<string> GetPermissions(OperationType operationType, string field)
+        {
+            var dataSource = (operationType == OperationType.Query ? _settings.Value.Query.OptOut : _settings.Value.Mutation.OptOut);
+            var query = from item in dataSource
+                where string.Compare(item,field,CultureInfo.CurrentCulture,CompareOptions.IgnoreCase) == 0
+                select item;
+            List<string> permissions = new List<string>();
+            if (!query.Any())
+            {
+                permissions.Add("x-graphql-auth");
+            }
+            return permissions;
+        }
+    }
     interface ICurrentEnterLeaveListenerState
     {
         EnterLeaveListenerState EnterLeaveListenerState { get; }
@@ -36,9 +63,10 @@ namespace P7.GraphQLCore.Validators
         private List<IGraphQLAuthorizationCheck> _graphQLAuthorizationChecks;
         private List<IGraphQLClaimsAuthorizationCheck> _graphQLClaimsAuthorizationChecks;
         private IGraphQLFieldAuthority _graphQLFieldAuthority;
-
-        public TestValidationRule(IGraphQLFieldAuthority graphQLFieldAuthority)
+        private IOptions<GraphQLAuthenticationConfig> _settings;
+        public TestValidationRule(IOptions<GraphQLAuthenticationConfig> settings, IGraphQLFieldAuthority graphQLFieldAuthority)
         {
+            _settings = settings;
             _graphQLFieldAuthority = graphQLFieldAuthority;
         }
         
@@ -59,6 +87,24 @@ namespace P7.GraphQLCore.Validators
                 
                 _.Match<Operation>(op =>
                 {
+                    if (!authenticated)
+                    {
+                        var usages = context.GetRecursiveVariables(op).Select(usage => usage.Node.Name);
+                     
+                        var selectionSet = op.SelectionSet;
+                        foreach (var selection in selectionSet.Selections)
+                        {
+                            var d = selection;
+                            var dd = selection.ToString();
+                            
+                        }
+                        /*
+                        var queryQ = from item in selectionSet.Selections
+                            where _settings.Value.Query.OptOut.Contains(item.)
+                            select item;
+                            */
+
+                    }
                     var opType = op.OperationType;
                     var query = from item in op.SelectionSet.Selections
                         select ((GraphQL.Language.AST.Field) item).Name;

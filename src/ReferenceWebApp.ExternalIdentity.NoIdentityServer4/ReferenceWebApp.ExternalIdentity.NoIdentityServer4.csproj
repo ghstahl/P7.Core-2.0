@@ -73,4 +73,10 @@
     <None Include="Views.Ori\_ViewStart.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="appsettings-filters-graphql.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

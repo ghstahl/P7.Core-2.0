@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using GraphQL;
+using GraphQL.Language.AST;
 using GraphQL.Types;
 using P7.BlogStore.Core.Models;
 using P7.GraphQLCore;
@@ -19,10 +20,11 @@ namespace P7.BlogStore.Core.GraphQL
             _blogStore = blogStore;
         }
 
-        public void AddGraphTypeFields(QueryCore queryCore)
+        public void AddGraphTypeFields(QueryCore queryCore, IPermissionsStore permissionsStore)
         {
-            queryCore.FieldAsync<BlogType>(
-                "droid",
+            var fieldName = "droid";
+            var fieldType = queryCore.FieldAsync<BlogType>(
+                fieldName,
                 arguments: new QueryArguments(new QueryArgument<StringGraphType> {Name = "id"}),
                 resolve: async context =>
                 {
@@ -41,8 +43,15 @@ namespace P7.BlogStore.Core.GraphQL
                     //                    return await Task.Run(() => { return ""; });
                 },
                 deprecationReason: null);
-            queryCore.FieldAsync<BlogPageType>(
-                "droids",
+            var permissions = permissionsStore.GetPermissions(OperationType.Query, fieldName);
+            foreach (var permission in permissions)
+            {
+                fieldType.AddPermission(permission);
+            }
+
+            fieldName = "droids";
+            fieldType = queryCore.FieldAsync<BlogPageType>(
+                fieldName,
                 arguments: new QueryArguments(new QueryArgument<BlogsQueryInput> {Name = "input"}),
                 resolve: async context =>
                 {
@@ -90,7 +99,14 @@ namespace P7.BlogStore.Core.GraphQL
                     //                    return await Task.Run(() => { return ""; });
                 },
                 deprecationReason: null);
-            queryCore.FieldAsync<BlogDocumentType>(name: "blog",
+            permissions = permissionsStore.GetPermissions(OperationType.Query, fieldName);
+            foreach (var permission in permissions)
+            {
+                fieldType.AddPermission(permission);
+            }
+
+            fieldName = "blog";
+            fieldType = queryCore.FieldAsync<BlogDocumentType>(name: fieldName,
                 description: null,
                 arguments: new QueryArguments(new QueryArgument<NonNullGraphType<BlogQueryInput>> {Name = "input"}),
                 resolve: async context =>
@@ -110,7 +126,14 @@ namespace P7.BlogStore.Core.GraphQL
                     //                    return await Task.Run(() => { return ""; });
                 },
                 deprecationReason: null);
-            queryCore.FieldAsync<BlogPageType>(name: "blogsPage",
+            permissions = permissionsStore.GetPermissions(OperationType.Query, fieldName);
+            foreach (var permission in permissions)
+            {
+                fieldType.AddPermission(permission);
+            }
+
+            fieldName = "blogsPage";
+            fieldType = queryCore.FieldAsync<BlogPageType>(name: fieldName,
                 description: null,
                 arguments: new QueryArguments(new QueryArgument<BlogsQueryInput> {Name = "input"}),
                 resolve: async context =>
@@ -155,7 +178,14 @@ namespace P7.BlogStore.Core.GraphQL
                     //                    return await Task.Run(() => { return ""; });
                 },
                 deprecationReason: null);
-            queryCore.FieldAsync<ListGraphType<BlogDocumentType>>(name: "blogsPageByNumber",
+            permissions = permissionsStore.GetPermissions(OperationType.Query, fieldName);
+            foreach (var permission in permissions)
+            {
+                fieldType.AddPermission(permission);
+            }
+
+            fieldName = "blogsPageByNumber";
+            fieldType = queryCore.FieldAsync<ListGraphType<BlogDocumentType>>(name: fieldName,
                 description: null,
                 arguments: new QueryArguments(new QueryArgument<BlogsPageQueryInput> {Name = "input"}),
                 resolve: async context =>
@@ -192,6 +222,13 @@ namespace P7.BlogStore.Core.GraphQL
                     //                    return await Task.Run(() => { return ""; });
                 },
                 deprecationReason: null);
+            permissions = permissionsStore.GetPermissions(OperationType.Query, fieldName);
+            foreach (var permission in permissions)
+            {
+                fieldType.AddPermission(permission);
+            }
         }
+
+ 
     }
 }

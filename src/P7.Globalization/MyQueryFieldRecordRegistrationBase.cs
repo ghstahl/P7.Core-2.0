@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using GraphQL;
+using GraphQL.Language.AST;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
@@ -22,10 +23,11 @@ namespace P7.Globalization
             _resourceFetcher = resourceFetcher;
         }
 
-        public void AddGraphTypeFields(QueryCore queryCore)
+        public void AddGraphTypeFields(QueryCore queryCore, IPermissionsStore permissionsStore)
         {
+            var fieldName = "resource";
 
-            queryCore.FieldAsync<StringGraphType>(name: "resource",
+            var fieldType = queryCore.FieldAsync<StringGraphType>(name: fieldName,
                 description: null,
                 arguments: new QueryArguments(new QueryArgument<ResourceQueryInput> {Name = "input"}),
                 resolve: async context =>
@@ -58,6 +60,11 @@ namespace P7.Globalization
                     return obj;
                 },
                 deprecationReason: null);
+            var permissions = permissionsStore.GetPermissions(OperationType.Query, fieldName);
+            foreach (var permission in permissions)
+            {
+                fieldType.AddPermission(permission);
+            }
         }
     }
 }

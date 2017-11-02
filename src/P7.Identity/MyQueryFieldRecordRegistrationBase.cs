@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Security.Claims;
 using GraphQL;
+using GraphQL.Language.AST;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
@@ -23,19 +24,30 @@ namespace P7.Identity
         public void AddGraphTypeFields(QueryCore queryCore)
         {
 
-            queryCore.FieldAsync<StringGraphType>(name: "accessCode",
+           
+        }
+
+        public void AddGraphTypeFields(QueryCore queryCore, IPermissionsStore permissionsStore)
+        {
+            var fieldType = queryCore.FieldAsync<StringGraphType>(name: "accessCode",
                 description: null,
                 arguments: new QueryArguments(new QueryArgument<IdentityQueryInput> { Name = "input" }),
                 resolve: async context =>
                 {
                     var userContext = context.UserContext.As<GraphQLUserContext>();
-                    
+
                     var input = context.GetArgument<AccessCodeQueryHandle>("input");
 
-                    
+
                     return input;
                 },
-                deprecationReason: null).AddPermission("x-namedidentifier");
+                deprecationReason: null);
+            var permissions = permissionsStore.GetPermissions(OperationType.Query, "accessCode");
+            foreach (var permission in permissions)
+            {
+                fieldType.AddPermission(permission);
+            }
+            
         }
     }
 }

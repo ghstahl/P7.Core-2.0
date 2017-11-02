@@ -9,17 +9,19 @@ namespace P7.GraphQLCore
     public class QueryFieldRecordRegistrationStore : IQueryFieldRecordRegistrationStore
     {
         private IEnumerable<IQueryFieldRecordRegistration> _fieldRecordRegistrations;
-
-        public QueryFieldRecordRegistrationStore(IEnumerable<IQueryFieldRecordRegistration> fieldRecordRegistrations)
+        private IPermissionsStore _permissionsStore;
+        public QueryFieldRecordRegistrationStore(IEnumerable<IQueryFieldRecordRegistration> fieldRecordRegistrations,
+            IPermissionsStore permissionsStore)
         {
             _fieldRecordRegistrations = fieldRecordRegistrations;
+            _permissionsStore = permissionsStore;
         }
 
         public void AddGraphTypeFields(QueryCore queryCore)
         {
             foreach (var item in _fieldRecordRegistrations)
             {
-                item.AddGraphTypeFields(queryCore);
+                item.AddGraphTypeFields(queryCore, _permissionsStore);
             }
         }
     }

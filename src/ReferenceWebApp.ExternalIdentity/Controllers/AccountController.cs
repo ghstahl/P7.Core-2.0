@@ -124,9 +124,7 @@ namespace ReferenceWebApp.Controllers
             var result = await _userManager.CreateAsync(user);
             var newUser = await _userManager.FindByIdAsync(user.Id);
             await _userManager.AddClaimAsync(newUser, new Claim("custom-name", displayName));
-            await _userManager.AddClaimAsync(newUser, new Claim("x-namedidentifier", nameIdClaim.Value));
-            
-
+            await _userManager.AddClaimAsync(newUser, new Claim("x-graphql-auth",""));
 
             if (result.Succeeded)
             {
