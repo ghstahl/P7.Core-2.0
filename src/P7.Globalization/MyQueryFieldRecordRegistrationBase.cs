@@ -23,7 +23,7 @@ namespace P7.Globalization
             _resourceFetcher = resourceFetcher;
         }
 
-        public void AddGraphTypeFields(QueryCore queryCore, IPermissionsStore permissionsStore)
+        public void AddGraphTypeFields(QueryCore queryCore)
         {
             var fieldName = "resource";
 
@@ -60,11 +60,6 @@ namespace P7.Globalization
                     return obj;
                 },
                 deprecationReason: null);
-            var permissions = permissionsStore.GetPermissions(OperationType.Query, fieldName);
-            foreach (var permission in permissions)
-            {
-                fieldType.AddPermission(permission);
-            }
         }
     }
 }

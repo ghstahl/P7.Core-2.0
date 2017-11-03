@@ -20,14 +20,7 @@ namespace P7.Identity
         {
             _httpContextAccessor = httpContextAccessor;
         }
-
         public void AddGraphTypeFields(QueryCore queryCore)
-        {
-
-           
-        }
-
-        public void AddGraphTypeFields(QueryCore queryCore, IPermissionsStore permissionsStore)
         {
             var fieldType = queryCore.FieldAsync<StringGraphType>(name: "accessCode",
                 description: null,
@@ -41,13 +34,7 @@ namespace P7.Identity
 
                     return input;
                 },
-                deprecationReason: null);
-            var permissions = permissionsStore.GetPermissions(OperationType.Query, "accessCode");
-            foreach (var permission in permissions)
-            {
-                fieldType.AddPermission(permission);
-            }
-            
+                deprecationReason: null); 
         }
     }
 }

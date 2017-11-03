@@ -19,29 +19,6 @@ using P7.GraphQLCore.Stores;
 
 namespace P7.GraphQLCore.Validators
 {
-    public class AppSettingsGraphQLPermissionsStore : IPermissionsStore
-    {
-        private IOptions<GraphQLAuthenticationConfig> _settings;
-        public AppSettingsGraphQLPermissionsStore(IOptions<GraphQLAuthenticationConfig> settings)
-        {
-            _settings = settings;
-        }
-
-
-        public IEnumerable<string> GetPermissions(OperationType operationType, string field)
-        {
-            var dataSource = (operationType == OperationType.Query ? _settings.Value.Query.OptOut : _settings.Value.Mutation.OptOut);
-            var query = from item in dataSource
-                where string.Compare(item,field,CultureInfo.CurrentCulture,CompareOptions.IgnoreCase) == 0
-                select item;
-            List<string> permissions = new List<string>();
-            if (!query.Any())
-            {
-                permissions.Add("x-graphql-auth");
-            }
-            return permissions;
-        }
-    }
     interface ICurrentEnterLeaveListenerState
     {
         EnterLeaveListenerState EnterLeaveListenerState { get; }
