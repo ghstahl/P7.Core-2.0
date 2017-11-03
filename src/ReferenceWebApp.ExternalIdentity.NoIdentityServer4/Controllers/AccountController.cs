@@ -8,13 +8,39 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using P7.Core.Startup;
+using P7.GraphQLCore;
 using ReferenceWebApp.Models;
 using ReferenceWebApp.Services;
 
 namespace ReferenceWebApp.Controllers
 {
+    public class ClaimHandle
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
+    public class AccountConfig
+    {
+        public const string WellKnown_SectionName = "account";
+        public List<ClaimHandle> PostLoginClaims { get; set; }
+    }
+    public class MyAccountConfigureServicesRegistrant : ConfigureServicesRegistrant
+    {
+        public override void OnConfigureServices(IServiceCollection services)
+        {
+            services.Configure<AccountConfig>(Configuration.GetSection(AccountConfig.WellKnown_SectionName));
+
+        }
+
+        public MyAccountConfigureServicesRegistrant(IConfiguration configuration) : base(configuration)
+        {
+        }
+    }
     [Authorize]
     [Route("[controller]/[action]")]
     public class AccountController : Controller
@@ -23,13 +49,15 @@ namespace ReferenceWebApp.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
-
+        private IOptions<AccountConfig> _settings;
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
+            IOptions<AccountConfig> settings,
             ILogger<AccountController> logger)
         {
+            _settings = settings;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
@@ -123,8 +151,13 @@ namespace ReferenceWebApp.Controllers
             var user = new ApplicationUser { UserName = nameIdClaim.Value, Email = displayName };
             var result = await _userManager.CreateAsync(user);
             var newUser = await _userManager.FindByIdAsync(user.Id);
-            await _userManager.AddClaimAsync(newUser, new Claim("custom-name", displayName));
-            await _userManager.AddClaimAsync(newUser, new Claim("x-graphql-auth",""));
+
+            var cQuery = from claim in _settings.Value.PostLoginClaims
+                        let c = new Claim(claim.Name, claim.Value)
+                        select c;
+            var eClaims = cQuery.ToList();
+            eClaims.Add(new Claim("custom-name", displayName));
+            await _userManager.AddClaimsAsync(newUser, eClaims);
 
             if (result.Succeeded)
             {
