@@ -24,9 +24,7 @@ namespace ReferenceWebApp
             Directory.CreateDirectory(dbPath);
             builder.AddRazorLocationStoreBiggyConfiguration(dbPath, TenantId);
             */
-            builder.RegisterType<InMemoryGraphQLFieldAuthority>()
-                .As<IGraphQLFieldAuthority>()
-                .SingleInstance();
+
 
         }
     }

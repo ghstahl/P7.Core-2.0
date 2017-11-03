@@ -123,11 +123,15 @@ namespace P7.GraphQLCore.Validators
 
                 _.Match<Field>(fieldAst =>
                 {
-                    var currentPath = currentEnterLeaveListenerState.EnterLeaveListenerState.CurrentFieldPath;
-                    var fieldDef = context.TypeInfo.GetFieldDef();
-
-                    if (fieldDef.RequiresPermissions() &&
-                        (!authenticated || !fieldDef.CanAccess(claimsEnumerable)))
+                    var currentFieldPath = currentEnterLeaveListenerState.EnterLeaveListenerState.CurrentFieldPath;
+                    var currentOperationType = currentEnterLeaveListenerState.EnterLeaveListenerState.OperationType;
+                    var requiredClaims = _graphQLFieldAuthority
+                        .FetchRequiredClaimsAsync(currentOperationType, currentFieldPath).Result;
+                    var rcQuery = (from requiredClaim in requiredClaims
+                        let c = requiredClaim.Type
+                        select c).ToList();
+                    var canAccess = rcQuery.All(x => claimsEnumerable?.Contains(x) ?? false);
+                    if (!canAccess)
                     {
                         context.ReportError(new ValidationError(
                             context.OriginalQuery,
@@ -135,10 +139,6 @@ namespace P7.GraphQLCore.Validators
                             $"You are not authorized to run this query.",
                             fieldAst));
                     }
-
-                    var lastType = context.TypeInfo.GetLastType() as IGraphType;
-                    var parentType = context.TypeInfo.GetParentType();
-                    var name = fieldAst.Name;
                 });
                 /*
                 // this could leak info about hidden fields in error messages
