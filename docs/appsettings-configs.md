@@ -1,7 +1,16 @@
 # AppSettings 
 
-Settings need to be registered in ConfigureServices.  P7 does a sweep for any class that inherits from ConfigureServicesRegistrant.
+Settings need to be registered in ConfigureServices.  P7 does a sweep for any class that inherits from ConfigureServicesRegistrant, mimicking how we sweep for all AutoFac modules.
 
+```
+public IServiceProvider ConfigureServices(IServiceCollection services)
+{
+...
+      services.AddAllConfigureServicesRegistrants(Configuration);
+      services.AddDependenciesUsingAutofacModules();
+...
+}
+```
 
 ## The settings json
 ```
