@@ -34,6 +34,7 @@ Don't forget to install the [.Net Core 2.0 SDK](https://www.microsoft.com/net/do
 ### [Opt-Out IFilterProvider](docs/opt-out-filter-provider.md)
 ### [Health Checks](docs/health-checks.md)
 ### [USING A CUSTOM HOSTNAME WITH IIS EXPRESS](docs/using-a-custom-hostname-with-iis-express-with-visual-studio-2017-vs2017.md)
+### [AppSettings](docs/appsettings-configs.md)
 
 
 ## Credits
