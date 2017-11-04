@@ -22,8 +22,8 @@ namespace P7.GraphQLCore.Stores
         public async Task<IEnumerable<Claim>> FetchRequiredClaimsAsync(OperationType operationType, string fieldPath)
         {
             var query = from item in GraphQLFieldAuthorityRecords
-                where item.OperationType == operationType
-                select item;
+                where item.OperationType == operationType && fieldPath == item.FieldPath
+                        select item;
             GraphQlFieldAuthorityRecord record;
             return !query.Any() ? null : query.FirstOrDefault().Claims;
         }

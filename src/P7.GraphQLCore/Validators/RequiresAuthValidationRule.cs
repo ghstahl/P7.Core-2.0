@@ -107,7 +107,27 @@ namespace P7.GraphQLCore.Validators
                     var rcQuery = (from requiredClaim in requiredClaims
                         let c = requiredClaim.Type
                         select c).ToList();
-                    var canAccess = rcQuery.All(x => claimsEnumerable?.Contains(x) ?? false);
+                    var canAccess = requiredClaims.All(x =>
+                    {
+                        var result = false;
+                        foreach (var ce in user.Claims)
+                        {
+                            if (ce.Type == x.Type)
+                            {
+                                if (string.IsNullOrEmpty(x.Value))
+                                {
+                                    result = true;
+                                }
+                                else
+                                {
+                                    result = x.Value == ce.Value;
+                                }
+                            }
+                        }
+                        return result;
+                    });
+
+                  //  var canAccess = rcQuery.All(x => claimsEnumerable?.Contains(x) ?? false);
                     if (!canAccess)
                     {
                         context.ReportError(new ValidationError(
