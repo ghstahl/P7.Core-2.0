@@ -4,43 +4,62 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using GraphQL.Language.AST;
+using Microsoft.Extensions.Options;
 
 namespace P7.GraphQLCore.Stores
 {
     public class InMemoryGraphQLFieldAuthority : IGraphQLFieldAuthority
     {
-        private List<GraphQlFieldAuthorityRecord> _listGraphQlFieldAuthorityRecords;
+        private IOptions<GraphQLFieldAuthorityConfig> _settings;
+        private List<GraphQLFieldAuthorityRecord> _listGraphQLFieldAuthorityRecords;
 
-        private List<GraphQlFieldAuthorityRecord> GraphQLFieldAuthorityRecords
+        public InMemoryGraphQLFieldAuthority(IOptions<GraphQLFieldAuthorityConfig> settings)
+        {
+            _settings = settings;
+            if (_settings != null && _settings.Value.Records != null)
+            {
+               
+                foreach (var record in _settings.Value.Records)
+                {
+                    var query = from item in record.Claims
+                        let c = new Claim(item.Type, item.Value)
+                        select c;
+                    var claims = query.ToList();
+                    AddClaims(record.OperationType, record.FieldPath, claims);
+                }                
+            }
+        }
+
+        private List<GraphQLFieldAuthorityRecord> GraphQLFieldAuthorityRecords
         {
             get
             {
-                return _listGraphQlFieldAuthorityRecords ??
-                       (_listGraphQlFieldAuthorityRecords = new List<GraphQlFieldAuthorityRecord>());
+                return _listGraphQLFieldAuthorityRecords ??
+                       (_listGraphQLFieldAuthorityRecords = new List<GraphQLFieldAuthorityRecord>());
             }
         }
         public async Task<IEnumerable<Claim>> FetchRequiredClaimsAsync(OperationType operationType, string fieldPath)
         {
             var query = from item in GraphQLFieldAuthorityRecords
-                where item.OperationType == operationType && fieldPath == item.FieldPath
+                        where item.OperationType == operationType && fieldPath == item.FieldPath
                         select item;
-            GraphQlFieldAuthorityRecord record;
+            GraphQLFieldAuthorityRecord record;
             return !query.Any() ? null : query.FirstOrDefault().Claims;
         }
 
-        public async Task AddClaimsAsync(OperationType operationType, string fieldPath, List<Claim> claims)
+        public void AddClaims(OperationType operationType, string fieldPath, List<Claim> claims)
         {
             var query = from item in GraphQLFieldAuthorityRecords
-                where item.OperationType == operationType
+                        where item.OperationType == operationType
                 select item;
-            GraphQlFieldAuthorityRecord record;
+            GraphQLFieldAuthorityRecord record;
             if (claims == null)
             {
                 claims = new List<Claim>();
             }
             if (!query.Any())
             {
-                record = new GraphQlFieldAuthorityRecord()
+                record = new GraphQLFieldAuthorityRecord()
                 {
                     OperationType = operationType,
                     FieldPath = fieldPath,
@@ -55,13 +74,16 @@ namespace P7.GraphQLCore.Stores
                 record.Claims = result;
             }
         }
-
+        public async Task AddClaimsAsync(OperationType operationType, string fieldPath, List<Claim> claims)
+        {
+             AddClaims(operationType, fieldPath, claims);
+        }
         public async Task RemoveClaimsAsync(OperationType operationType, string fieldPath, List<Claim> claims)
         {
             var query = from item in GraphQLFieldAuthorityRecords
                         where item.OperationType == operationType
                         select item;
-            GraphQlFieldAuthorityRecord record;
+            GraphQLFieldAuthorityRecord record;
             if (claims == null)
             {
                 claims = new List<Claim>();

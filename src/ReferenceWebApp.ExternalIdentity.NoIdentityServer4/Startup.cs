@@ -243,7 +243,7 @@ namespace ReferenceWebApp
             app.UseMiddleware<Convert302ResponseMiddleware>();
             app.UseIpRateLimiting();
 
-            LoadGraphQLAuthority();
+         //   LoadGraphQLAuthority();
           
 
             var supportedCultures = new List<CultureInfo>

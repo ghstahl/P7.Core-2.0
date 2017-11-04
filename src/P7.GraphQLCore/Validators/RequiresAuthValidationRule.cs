@@ -40,10 +40,10 @@ namespace P7.GraphQLCore.Validators
         private List<IGraphQLAuthorizationCheck> _graphQLAuthorizationChecks;
         private List<IGraphQLClaimsAuthorizationCheck> _graphQLClaimsAuthorizationChecks;
         private IGraphQLFieldAuthority _graphQLFieldAuthority;
-        private IOptions<GraphQLAuthenticationConfig> _settings;
-        public TestValidationRule(IOptions<GraphQLAuthenticationConfig> settings, IGraphQLFieldAuthority graphQLFieldAuthority)
+       
+        public TestValidationRule( IGraphQLFieldAuthority graphQLFieldAuthority)
         {
-            _settings = settings;
+          
             _graphQLFieldAuthority = graphQLFieldAuthority;
         }
         

@@ -225,6 +225,10 @@ namespace ReferenceWebApp
                 new Claim(ClaimTypes.NameIdentifier,""),
                 new Claim("client_id","resource-owner-client"),
             });
+            await graphQLFieldAuthority.AddClaimsAsync(OperationType.Query, "/accessCode", new List<Claim>()
+            {
+                new Claim("x-graphql-auth","")
+            });
         }
         private async Task LoadIdentityServer4Data()
         {
