@@ -8,12 +8,11 @@ P7 provides a way to easily implement new graphQL endpoints.  Currently I am swe
 P7 provides a stock graphQL implementation for fetching strings out of the ASP.NET RESX files.  There is also a custom REST api to fetch the same data, but where we can migrate away from REST to graphQL we should do it.  
 [GraphQL resource implementation](../src/P7.Globalization)
 
+## GraphQL Authorization 
+Click [here](graphQL-Auth.md) to find out how.
 
 ## GraphQL Viewer
 1. Browse to https://localhost:44311/GraphQLView
-
-## GraphQL Authorization 
-Click [here](graphQL-Auth.md) to find out how.
 
 **Query**
 
