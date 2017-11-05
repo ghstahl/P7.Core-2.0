@@ -107,6 +107,7 @@ namespace Test.P7.GraphQLCoreTest
 
 
                     builder.RegisterType<InMemoryGraphQLFieldAuthority>()
+                        .As<InMemoryGraphQLFieldAuthority>()
                         .As<IGraphQLFieldAuthority>()
                         .SingleInstance();
                     var loggerFactory = A.Fake<ILoggerFactory>();

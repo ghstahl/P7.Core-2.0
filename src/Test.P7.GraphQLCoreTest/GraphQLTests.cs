@@ -103,7 +103,7 @@ namespace Test.P7.GraphQLCoreTest
             Writer = AutofacStoreFactory.Resolve<IDocumentWriter>();
             GraphQLUserContext = AutofacStoreFactory.Resolve<GraphQLUserContext>();
                        
-            var graphQLFieldAuthority = AutofacStoreFactory.Resolve<IGraphQLFieldAuthority>();
+            var graphQLFieldAuthority = AutofacStoreFactory.Resolve<InMemoryGraphQLFieldAuthority>();
             await graphQLFieldAuthority.AddClaimsAsync(OperationType.Mutation, "/blog", new List<Claim>()
             {
                 new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name","blog")

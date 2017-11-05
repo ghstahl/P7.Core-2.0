@@ -10,7 +10,5 @@ namespace P7.GraphQLCore.Stores
     public interface IGraphQLFieldAuthority
     {
         Task<IEnumerable<Claim>> FetchRequiredClaimsAsync(OperationType operationType, string fieldPath);
-        Task AddClaimsAsync(OperationType operationType, string fieldPath, List<Claim> claims);
-        Task RemoveClaimsAsync(OperationType operationType, string fieldPath, List<Claim> claims);
     }
 }
