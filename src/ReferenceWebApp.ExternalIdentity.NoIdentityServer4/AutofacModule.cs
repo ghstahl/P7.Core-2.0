@@ -54,6 +54,7 @@ namespace ReferenceWebApp
             builder.RegisterType<MyAuthApiClaimsProvider>().As<IAuthApiClaimsProvider>().SingleInstance();
  
             builder.RegisterType<InMemoryGraphQLFieldAuthority>()
+                .As<InMemoryGraphQLFieldAuthority>()
                 .As<IGraphQLFieldAuthority>()
                 .SingleInstance();
 

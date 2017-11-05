@@ -30,7 +30,6 @@ namespace ReferenceWebApp
             // The generic ILogger<TCategoryName> service was added to the ServiceCollection by ASP.NET Core.
             // It was then registered with Autofac using the Populate method in ConfigureServices.
 
-
             builder.Register(c => new InMemorySimpleRedirectStore())
                 .As<ISimpleRedirectorStore>()
                 .SingleInstance();
@@ -55,6 +54,7 @@ namespace ReferenceWebApp
             builder.RegisterType<MyAuthApiClaimsProvider>().As<IAuthApiClaimsProvider>().SingleInstance();
  
             builder.RegisterType<InMemoryGraphQLFieldAuthority>()
+                .As<InMemoryGraphQLFieldAuthority>()
                 .As<IGraphQLFieldAuthority>()
                 .SingleInstance();
 

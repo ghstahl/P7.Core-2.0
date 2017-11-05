@@ -16,7 +16,6 @@ namespace ReferenceWebApp
             var dbPath = Path.Combine(env.ContentRootPath, "App_Data/identityserver4");
             Directory.CreateDirectory(dbPath);
             builder.AddIdentityServer4BiggyConfiguration(dbPath);
-
             dbPath = Path.Combine(env.ContentRootPath, "App_Data/blogstore");
             Directory.CreateDirectory(dbPath);
             builder.AddBlogStoreBiggyConfiguration(dbPath, TenantId);
@@ -26,9 +25,7 @@ namespace ReferenceWebApp
             Directory.CreateDirectory(dbPath);
             builder.AddRazorLocationStoreBiggyConfiguration(dbPath, TenantId);
             */
-            builder.RegisterType<InMemoryGraphQLFieldAuthority>()
-                .As<IGraphQLFieldAuthority>()
-                .SingleInstance();
+
 
         }
     }
