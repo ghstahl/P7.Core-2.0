@@ -49,3 +49,40 @@ private async Task LoadGraphQLAuthority()
 ```
 
 In my opionion, the real implementation should implement an OptOut model, where you force your users to do something for each root path or you will deny access for anycase.
+
+## Tests
+```
+query q($id: String!){
+  accessCode(input: { id: $id })
+}
+
+Query Variables
+{
+    "id": "blah"
+}
+
+Produces:
+{
+  "data": {
+    "accessCode": {
+      "id": "blah"
+    }
+  }
+}
+
+or this, when not logged in.
+{
+  "errors": [
+    {
+      "message": "You are not authorized to run this query.",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ]
+    }
+  ]
+}
+
+```
