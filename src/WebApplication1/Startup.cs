@@ -411,7 +411,7 @@ namespace WebApplication1
 
         private async Task LoadGraphQLAuthority()
         {
-            var graphQLFieldAuthority = P7.Core.Global.ServiceProvider.GetServices<IGraphQLFieldAuthority>().FirstOrDefault();
+            var graphQLFieldAuthority = P7.Core.Global.ServiceProvider.GetServices<InMemoryGraphQLFieldAuthority>().FirstOrDefault();
 
             await graphQLFieldAuthority.AddClaimsAsync(OperationType.Mutation, "/blog", new List<Claim>()
             {
