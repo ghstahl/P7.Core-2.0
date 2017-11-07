@@ -52,6 +52,7 @@
     <ProjectReference Include="..\P7.SessionContextStore.Core\P7.SessionContextStore.Core.csproj" />
     <ProjectReference Include="..\P7.SimpleRedirect.Core\P7.SimpleRedirect.Core.csproj" />
     <ProjectReference Include="..\P7.SimpleRedirector\P7.SimpleRedirector.csproj" />
+    <ProjectReference Include="..\P7.Subscription\P7.Subscription.csproj" />
     <ProjectReference Include="..\P7.TwitterAuthentication\P7.TwitterAuthentication.csproj" />
   </ItemGroup>
 

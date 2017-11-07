@@ -21,11 +21,15 @@ namespace P7.GraphQLCore.Stores
                
                 foreach (var record in _settings.Value.Records)
                 {
-                    var query = from item in record.Claims
-                        let c = new Claim(item.Type, item.Value)
-                        select c;
-                    var claims = query.ToList();
-                    AddClaims(record.OperationType, record.FieldPath, claims);
+                    if (record.Claims != null)
+                    {
+                        var query = from item in record.Claims
+                            let c = new Claim(item.Type, item.Value)
+                            select c;
+                        var claims = query.ToList();
+                        AddClaims(record.OperationType, record.FieldPath, claims);
+
+                    }
                 }                
             }
         }
@@ -50,8 +54,8 @@ namespace P7.GraphQLCore.Stores
         public void AddClaims(OperationType operationType, string fieldPath, List<Claim> claims)
         {
             var query = from item in GraphQLFieldAuthorityRecords
-                        where item.OperationType == operationType
-                select item;
+                        where item.OperationType == operationType && item.FieldPath == fieldPath
+                        select item;
             GraphQLFieldAuthorityRecord record;
             if (claims == null)
             {

@@ -104,28 +104,33 @@ namespace P7.GraphQLCore.Validators
                     var currentOperationType = currentEnterLeaveListenerState.EnterLeaveListenerState.OperationType;
                     var requiredClaims = _graphQLFieldAuthority
                         .FetchRequiredClaimsAsync(currentOperationType, currentFieldPath).Result;
-                    var rcQuery = (from requiredClaim in requiredClaims
-                        let c = requiredClaim.Type
-                        select c).ToList();
-                    var canAccess = requiredClaims.All(x =>
+                    var canAccess = true;
+                    if (requiredClaims != null)
                     {
-                        var result = false;
-                        foreach (var ce in user.Claims)
+                        var rcQuery = (from requiredClaim in requiredClaims
+                            let c = requiredClaim.Type
+                            select c).ToList();
+                        canAccess = requiredClaims.All(x =>
                         {
-                            if (ce.Type == x.Type)
+                            var result = false;
+                            foreach (var ce in user.Claims)
                             {
-                                if (string.IsNullOrEmpty(x.Value))
+                                if (ce.Type == x.Type)
                                 {
-                                    result = true;
-                                }
-                                else
-                                {
-                                    result = x.Value == ce.Value;
+                                    if (string.IsNullOrEmpty(x.Value))
+                                    {
+                                        result = true;
+                                    }
+                                    else
+                                    {
+                                        result = x.Value == ce.Value;
+                                    }
                                 }
                             }
-                        }
-                        return result;
-                    });
+                            return result;
+                        });
+                    }
+                    
 
                   //  var canAccess = rcQuery.All(x => claimsEnumerable?.Contains(x) ?? false);
                     if (!canAccess)
