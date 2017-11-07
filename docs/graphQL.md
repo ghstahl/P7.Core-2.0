@@ -299,3 +299,41 @@ query q($input: blogsPageQueryInput!) {
   }
 }
 ```
+## Subscription Query Tests
+```
+query q($input: subscriptionQueryInput!) {
+  subscription(input: $input) {
+    id
+    metaData {
+      category
+      version
+    }
+  }
+}
+```
+**Query Variables**
+```graphql
+{
+	"input": {
+		"metaData": {
+			"category": "c0",
+			"version": "1.0.0.0"
+		},
+		"id": "5c6b2b4c-f1c7-4f8d-a97b-1755c7d1fa62"
+	}
+}
+```  
+**Result**
+```graphql
+{
+  "data": {
+    "subscription": {
+      "id": "5c6b2b4c-f1c7-4f8d-a97b-1755c7d1fa62",
+      "metaData": {
+        "category": "c0",
+        "version": "1.0.0.0"
+      }
+    }
+  }
+}
+```  
