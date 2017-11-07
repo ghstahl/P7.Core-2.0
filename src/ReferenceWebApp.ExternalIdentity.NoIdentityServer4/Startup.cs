@@ -241,7 +241,7 @@ namespace ReferenceWebApp
             IApplicationLifetime appLifetime)
         {
             app.UseMiddleware<Convert302ResponseMiddleware>();
-            app.UseIpRateLimiting();
+           // app.UseIpRateLimiting();
 
          //   LoadGraphQLAuthority();
           
