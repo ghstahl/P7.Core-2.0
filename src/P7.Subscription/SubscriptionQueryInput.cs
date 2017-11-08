@@ -9,6 +9,7 @@ namespace P7.Subscription
             Name = "subscriptionQueryInput";
             Field<NonNullGraphType<StringGraphType>>("id");
             Field<NonNullGraphType<MetaDataInput>>("metaData");
+            Field<DynamicType>("value");
         }
     }
 
