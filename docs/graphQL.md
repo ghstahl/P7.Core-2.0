@@ -307,7 +307,8 @@ query q($input: subscriptionQueryInput!) {
     metaData {
       category
       version
-    }
+    } 
+    value
   }
 }
 ```
@@ -332,6 +333,16 @@ query q($input: subscriptionQueryInput!) {
       "metaData": {
         "category": "c0",
         "version": "1.0.0.0"
+      },
+      "value": {
+        "subscriptionQueryHandle": {
+          "id": "5c6b2b4c-f1c7-4f8d-a97b-1755c7d1fa62",
+          "metaData": {
+            "category": "c0",
+            "version": "1.0.0.0"
+          }
+        },
+        "ted": "Well Hellow"
       }
     }
   }
