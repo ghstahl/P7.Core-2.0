@@ -11,6 +11,11 @@
       "view": "Admin"
     },
     {
+      "key": "Svelte",
+      "requireAuth": true,
+      "view": "Svelte"
+    },
+    {
       "key": "Money",
       "requireAuth": true,
       "view": "Money"
