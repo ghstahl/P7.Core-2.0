@@ -9,6 +9,10 @@
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Properties\PublishProfiles\ReferenceWebAppExternalIdentityNoIdentityServer4201711081131 - Web Deploy.pubxml" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AspNetCoreRateLimit" Version="2.1.0" />
