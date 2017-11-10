@@ -38,11 +38,11 @@
                                 {
                                     if ((bool) ViewData["IsHttps"])
                                     {
-                                        display = !provider.DisplayName.Contains("Unsecured");
+                                        display = !provider.DisplayName.Contains("non-ssl");
                                     }
                                     else
                                     {
-                                        display = provider.DisplayName.Contains("Unsecured");
+                                        display = provider.DisplayName.Contains("non-ssl");
                                     }
 
 

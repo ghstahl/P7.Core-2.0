@@ -170,18 +170,18 @@ namespace ReferenceWebApp.InMemory
                     });
             }
 
-            if (!(string.IsNullOrEmpty(configuration["Norton-ClientId-Unsecured"]) ||
-                  string.IsNullOrEmpty(configuration["Norton-ClientSecret-Unsecured"])))
+            if (!(string.IsNullOrEmpty(configuration["Norton-ClientId-non-ssl"]) ||
+                  string.IsNullOrEmpty(configuration["Norton-ClientSecret-non-ssl"])))
             {
-                authenticationBuilder.AddOpenIdConnect($"{NortonDefaults.AuthenticationScheme}-Unsecured",
-                    $"{NortonDefaults.DisplayName}-Unsecured",
+                authenticationBuilder.AddOpenIdConnect($"{NortonDefaults.AuthenticationScheme}-non-ssl",
+                    $"{NortonDefaults.DisplayName}-non-ssl",
                     o =>
                     {
-                        var openIdConnectOptions = new NortonOpenIdConnectUnsecuredOptions();
+                        var openIdConnectOptions = new NortonOpenIdConnectNonSSLOptions();
                         o.CallbackPath = openIdConnectOptions.CallbackPath;
 
-                        o.ClientId = configuration["Norton-ClientId-Unsecured"];
-                        o.ClientSecret = configuration["Norton-ClientSecret-Unsecured"];
+                        o.ClientId = configuration["Norton-ClientId-non-ssl"];
+                        o.ClientSecret = configuration["Norton-ClientSecret-non-ssl"];
 
                         o.Authority = openIdConnectOptions.Authority;
                         o.ResponseType = openIdConnectOptions.ResponseType;
