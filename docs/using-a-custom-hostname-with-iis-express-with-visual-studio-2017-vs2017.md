@@ -46,6 +46,17 @@ My final looks like this;
   <binding protocol="https" bindingInformation="*:44311:localhost" />
 </bindings>
 </site>
+<site name="ReferenceWebApp.ExternalIdentity.NoIdentityServer4" id="3">
+  <application path="/" applicationPool="Clr4IntegratedAppPool">
+    <virtualDirectory path="/" physicalPath="C:\work\github\ghstahl\P7.Core-2.0\src\ReferenceWebApp.ExternalIdentity.NoIdentityServer4" />
+  </application>
+  <bindings>
+    <binding protocol="http" bindingInformation="*:19902:localhost" />
+    <binding protocol="http" bindingInformation="*:19902:p7core.127.0.0.1.xip.io" />
+    <binding protocol="https" bindingInformation="*:44312:localhost" />
+    <binding protocol="https" bindingInformation="*:44312:p7core.127.0.0.1.xip.io" />
+  </bindings>
+</site>
 ```
 
 

@@ -17,12 +17,11 @@ Make sure you are running <b>Visual Studio</b> as <b>Administrator</b>!
 :> git clone https://github.com/ghstahl/P7.Core-2.0.git
 :> cd {P7.Core-2.0}/src
 :> npm install
-:> cd {P7.Core-2.0}\src\WebApplication1
-:> gulp watch
 ```
-This will monitor plugin projects that have static assests and copy them to the main webapp project.
-This is only done during developement, as the goal is to have your plugin projects packaged up as nugets.
-Your nugets will be versioned and contain your assemblies and static content.
+
+```
+build and run ReferenceWebApp.ExternalIdentity.NoIdentityServer4
+```
 
 ## Build
 This is a Visual Studio 2017+ Version 15.3.4 project  
