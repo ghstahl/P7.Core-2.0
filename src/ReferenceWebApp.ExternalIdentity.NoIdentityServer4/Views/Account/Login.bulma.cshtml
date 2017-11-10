@@ -33,7 +33,26 @@
                         <p>
                             @foreach (var provider in loginProviders)
                             {
-                                <button type="submit" class="button is-link" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
+                                bool display = true;
+                                if (provider.DisplayName.Contains("Norton"))
+                                {
+                                    if ((bool) ViewData["IsHttps"])
+                                    {
+                                        display = !provider.DisplayName.Contains("Unsecured");
+                                    }
+                                    else
+                                    {
+                                        display = provider.DisplayName.Contains("Unsecured");
+                                    }
+
+
+                                }
+
+
+                                if (display)
+                                {
+                                    <button type="submit" class="button is-link" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
+                                }
                             }
                         </p>
                     </div>

@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -50,10 +51,12 @@ namespace ReferenceWebApp.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private IOptions<AccountConfig> _settings;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
+            IHttpContextAccessor httpContextAccessor,
             IOptions<AccountConfig> settings,
             ILogger<AccountController> logger)
         {
@@ -62,6 +65,7 @@ namespace ReferenceWebApp.Controllers
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [TempData]
@@ -73,7 +77,8 @@ namespace ReferenceWebApp.Controllers
         {
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
+           
+            ViewData["IsHttps"] = _httpContextAccessor.HttpContext.Request.IsHttps;
             ViewData["ReturnUrl"] = returnUrl;
             return View("Login.bulma");
         }

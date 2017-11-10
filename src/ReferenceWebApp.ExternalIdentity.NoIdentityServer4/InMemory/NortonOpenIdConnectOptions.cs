@@ -45,4 +45,14 @@ namespace ReferenceWebApp.InMemory
 
         }
     }
+    public class NortonOpenIdConnectUnsecuredOptions : NortonOpenIdConnectOptions
+    {
+        /// <summary>
+        /// Initializes a new <see cref="NortonOpenIdConnectUnsecuredOptions"/>.
+        /// </summary>
+        public NortonOpenIdConnectUnsecuredOptions()
+        {
+            CallbackPath = new PathString("/signin-norton-unsecured");
+        }
+    }
 }

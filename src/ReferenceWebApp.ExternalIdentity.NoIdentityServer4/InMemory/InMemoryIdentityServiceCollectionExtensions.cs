@@ -17,13 +17,15 @@ namespace ReferenceWebApp.InMemory
 {
     public static class InMemoryIdentityServiceCollectionExtensions
     {
-        public static IServiceCollection AddAuthentication<TUser>(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddAuthentication<TUser>(this IServiceCollection services,
+            IConfiguration configuration)
             where TUser : class => services.AddAuthentication<TUser>(configuration, null);
 
-        public static IServiceCollection AddAuthentication<TUser>(this IServiceCollection services, IConfiguration configuration, Action<IdentityOptions> setupAction)
+        public static IServiceCollection AddAuthentication<TUser>(this IServiceCollection services,
+            IConfiguration configuration, Action<IdentityOptions> setupAction)
             where TUser : class
         {
-           
+
             // Services used by identity
             var authenticationBuilder = services.AddAuthentication(options =>
             {
@@ -52,7 +54,7 @@ namespace ReferenceWebApp.InMemory
                     o.Cookie.Name = IdentityConstants.TwoFactorUserIdScheme;
                     o.ExpireTimeSpan = TimeSpan.FromMinutes(5);
                 });
-           */     
+           */
             if (!(string.IsNullOrEmpty(configuration["Google-ClientId"]) ||
                   string.IsNullOrEmpty(configuration["Google-ClientSecret"])))
             {
@@ -86,7 +88,7 @@ namespace ReferenceWebApp.InMemory
                             },
                             OnTicketReceived = (context) =>
                             {
-                                ClaimsIdentity identity = (ClaimsIdentity)context.Principal.Identity;
+                                ClaimsIdentity identity = (ClaimsIdentity) context.Principal.Identity;
                                 var query = from claim in context.Principal.Claims
                                     where claim.Type == ClaimTypes.Name || claim.Type == "name"
                                     select claim;
@@ -148,23 +150,77 @@ namespace ReferenceWebApp.InMemory
                             },
                             OnTicketReceived = (context) =>
                             {
-                                ClaimsIdentity identity = (ClaimsIdentity)context.Principal.Identity;
+                                ClaimsIdentity identity = (ClaimsIdentity) context.Principal.Identity;
                                 var givenName = identity.FindFirst(ClaimTypes.GivenName);
                                 var familyName = identity.FindFirst(ClaimTypes.Surname);
                                 var nameIdentifier = identity.FindFirst(ClaimTypes.NameIdentifier);
                                 var userId = identity.FindFirst("UserId");
 
-                             
-                                var claimsToKeep = new List<Claim> { givenName, familyName, nameIdentifier, userId };
-                                claimsToKeep.Add(new Claim("DisplayName",$"{givenName.Value} {familyName.Value}"));
+
+                                var claimsToKeep = new List<Claim> {givenName, familyName, nameIdentifier, userId};
+                                claimsToKeep.Add(new Claim("DisplayName", $"{givenName.Value} {familyName.Value}"));
                                 var newIdentity = new ClaimsIdentity(claimsToKeep, identity.AuthenticationType);
 
                                 context.Principal = new ClaimsPrincipal(newIdentity);
                                 return Task.CompletedTask;
                             }
-                        }; 
+                        };
 
-               
+
+                    });
+            }
+
+            if (!(string.IsNullOrEmpty(configuration["Norton-ClientId-Unsecured"]) ||
+                  string.IsNullOrEmpty(configuration["Norton-ClientSecret-Unsecured"])))
+            {
+                authenticationBuilder.AddOpenIdConnect($"{NortonDefaults.AuthenticationScheme}-Unsecured",
+                    $"{NortonDefaults.DisplayName}-Unsecured",
+                    o =>
+                    {
+                        var openIdConnectOptions = new NortonOpenIdConnectUnsecuredOptions();
+                        o.CallbackPath = openIdConnectOptions.CallbackPath;
+
+                        o.ClientId = configuration["Norton-ClientId-Unsecured"];
+                        o.ClientSecret = configuration["Norton-ClientSecret-Unsecured"];
+
+                        o.Authority = openIdConnectOptions.Authority;
+                        o.ResponseType = openIdConnectOptions.ResponseType;
+                        o.GetClaimsFromUserInfoEndpoint = openIdConnectOptions.GetClaimsFromUserInfoEndpoint;
+                        o.SaveTokens = openIdConnectOptions.SaveTokens;
+
+                        o.Events = new OpenIdConnectEvents()
+                        {
+                            OnRedirectToIdentityProvider = (context) =>
+                            {
+                                if (context.Request.Path != "/Account/ExternalLogin"
+                                    && context.Request.Path != "/Account/ExternalLoginWhatIf"
+                                    && context.Request.Path != "/Manage/LinkLogin")
+                                {
+                                    context.Response.Redirect("/account/login");
+                                    context.HandleResponse();
+                                }
+
+                                return Task.FromResult(0);
+                            },
+                            OnTicketReceived = (context) =>
+                            {
+                                ClaimsIdentity identity = (ClaimsIdentity) context.Principal.Identity;
+                                var givenName = identity.FindFirst(ClaimTypes.GivenName);
+                                var familyName = identity.FindFirst(ClaimTypes.Surname);
+                                var nameIdentifier = identity.FindFirst(ClaimTypes.NameIdentifier);
+                                var userId = identity.FindFirst("UserId");
+
+
+                                var claimsToKeep = new List<Claim> {givenName, familyName, nameIdentifier, userId};
+                                claimsToKeep.Add(new Claim("DisplayName", $"{givenName.Value} {familyName.Value}"));
+                                var newIdentity = new ClaimsIdentity(claimsToKeep, identity.AuthenticationType);
+
+                                context.Principal = new ClaimsPrincipal(newIdentity);
+                                return Task.CompletedTask;
+                            }
+                        };
+
+
                     });
             }
             /*
