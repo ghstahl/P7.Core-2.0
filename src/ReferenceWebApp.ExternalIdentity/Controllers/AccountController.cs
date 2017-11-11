@@ -163,4 +163,18 @@ namespace ReferenceWebApp.Controllers
 
         #endregion
     }
+
+    [Area("Api")]
+    [Route("api/[controller]")]
+    public class IdentityApiController : Controller
+    {
+        public async Task<ActionResult> Get()
+        {
+            var jsonResult = new JsonResult(User.Claims.Select(c=>new
+            {
+                c.Type,c.Value
+            }));
+            return jsonResult;
+        }
+    }
 }

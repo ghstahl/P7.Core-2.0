@@ -120,6 +120,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P7.Subscription", "P7.Subsc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P7.Composition", "P7.Composition\P7.Composition.csproj", "{CCA87944-B98A-4414-8FD0-3DDA349373E0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReferenceWebApp.Api.Only", "ReferenceWebApp.Api.Only\ReferenceWebApp.Api.Only.csproj", "{0C7C62CA-27C8-4E68-A089-EF7041326AC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -298,6 +300,10 @@ Global
 		{CCA87944-B98A-4414-8FD0-3DDA349373E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCA87944-B98A-4414-8FD0-3DDA349373E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCA87944-B98A-4414-8FD0-3DDA349373E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C7C62CA-27C8-4E68-A089-EF7041326AC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C7C62CA-27C8-4E68-A089-EF7041326AC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C7C62CA-27C8-4E68-A089-EF7041326AC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C7C62CA-27C8-4E68-A089-EF7041326AC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -349,6 +355,7 @@ Global
 		{4A79B271-6167-47A4-B9D2-BEEAD5F698A8} = {0168AD6E-C4F4-413F-BFBA-FBBBF80644FA}
 		{1BE1F381-1A3E-4862-8BFE-80BDC38449CA} = {CCCA7579-F361-4887-AF60-4C6047184645}
 		{CCA87944-B98A-4414-8FD0-3DDA349373E0} = {CCCA7579-F361-4887-AF60-4C6047184645}
+		{0C7C62CA-27C8-4E68-A089-EF7041326AC6} = {0168AD6E-C4F4-413F-BFBA-FBBBF80644FA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {607C5673-3DFE-444A-B0B8-45AB798154EB}

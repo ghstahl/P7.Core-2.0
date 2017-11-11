@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -13,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using P7.Core.Startup;
 using P7.GraphQLCore;
 using ReferenceWebApp.Models;
@@ -46,6 +49,7 @@ namespace ReferenceWebApp.Controllers
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
+        private readonly IConfiguration _config;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
@@ -58,7 +62,8 @@ namespace ReferenceWebApp.Controllers
             IEmailSender emailSender,
             IHttpContextAccessor httpContextAccessor,
             IOptions<AccountConfig> settings,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            IConfiguration config)
         {
             _settings = settings;
             _userManager = userManager;
@@ -66,6 +71,7 @@ namespace ReferenceWebApp.Controllers
             _emailSender = emailSender;
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
+            _config = config;
         }
 
         [TempData]
@@ -175,8 +181,6 @@ namespace ReferenceWebApp.Controllers
             return RedirectToAction(nameof(Login));
         }
 
- 
-
         #region Helpers
 
         private void AddErrors(IdentityResult result)
@@ -200,5 +204,20 @@ namespace ReferenceWebApp.Controllers
         }
 
         #endregion
+
+    }
+    [Area("Api")]
+    [Route("api/[controller]")]
+    public class IdentityApiController : Controller
+    {
+        public async Task<ActionResult> Get()
+        {
+            var jsonResult = new JsonResult(User.Claims.Select(c => new
+            {
+                c.Type,
+                c.Value
+            }));
+            return jsonResult;
+        }
     }
 }
