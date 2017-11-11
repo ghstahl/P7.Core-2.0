@@ -1,0 +1,25 @@
+﻿@using ReferenceWebApp.Models
+@model System.Collections.Generic.IEnumerable<ReferenceWebApp.Models.ClaimType>
+@{
+    ViewData["Title"] = "About";
+}
+
+
+<section class="section">
+    <div class="container">
+        <h1 class="title">@ViewData["Title"]</h1>
+        <h2 class="subtitle">@ViewData["Message"] </h2>
+        <p>Use this area to provide additional information.</p>
+        @foreach (var claimType in Model)
+        {
+            <div>
+                @claimType.Type
+                @claimType.Value
+            </div>
+        }
+    </div>
+
+</section>
+ 
+
+

@@ -1,0 +1,64 @@
+﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - P7.Core-2.0</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
+    
+    <link rel="stylesheet" href="~/css/site.css" />
+    @RenderSection("head", required: false)
+    @Html.Raw(JavaScriptSnippet.FullScript)
+</head>
+<body>
+ 
+<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" asp-area="" asp-controller="Home" asp-action="Index">API Only</a>
+        
+        <div class="navbar-burger burger" data-target="navMenuColordark-example">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <div id="navMenuColordark-example" class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item" asp-area="" asp-controller="Home" asp-action="About">About</a>
+            <a class="navbar-item" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link"  >
+                    External SPAs
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+@RenderBody()
+
+<footer class="footer">
+    <div class="container">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Bulma Templates</strong> by <a href="https://github.com/dansup">Daniel Supernault</a>. The source code is licensed
+                <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+            </p>
+            <p>
+                <a class="icon" href="https://github.com/dansup/bulma-templates">
+                    <i class="fa fa-github"></i>
+                </a>
+            </p>
+        </div>
+    </div>
+</footer>    
+
+ 
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+@RenderSection("Scripts", required: false)
+</body>
+</html>

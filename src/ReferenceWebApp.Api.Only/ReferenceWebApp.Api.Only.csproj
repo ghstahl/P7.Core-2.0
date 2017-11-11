@@ -1,0 +1,88 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <UserSecretsId>aspnet-ReferenceWebApp-A9B39DA4-28BF-4CCA-8BCF-5E4BCF0C882C</UserSecretsId>
+    <RootNamespace>ReferenceWebApp</RootNamespace>
+    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Properties\PublishProfiles\ReferenceWebAppExternalIdentityNoIdentityServer4201711081131 - Web Deploy.pubxml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCoreRateLimit" Version="2.1.0" />
+    <PackageReference Include="Autofac" Version="4.6.2" />
+    <PackageReference Include="GraphQL-Parser" Version="3.0.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
+    <PackageReference Include="Serilog" Version="2.5.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
+    <PackageReference Include="Serilog.Sinks.Literate" Version="3.0.0" />
+    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GraphQL.AspNetCore\GraphQL.AspNetCore.csproj" />
+    <ProjectReference Include="..\Hugo.Data.Json\Hugo.Data.Json.csproj" />
+    <ProjectReference Include="..\P7.AspNetCore.HealthChecks\P7.AspNetCore.HealthChecks.csproj" />
+    <ProjectReference Include="..\P7.AspNetCore.Identity.InMemory\P7.AspNetCore.Identity.InMemory.csproj" />
+    <ProjectReference Include="..\P7.BlogStore.Hugo\P7.BlogStore.Hugo.csproj" />
+    <ProjectReference Include="..\P7.Core\P7.Core.csproj" />
+    <ProjectReference Include="..\P7.Extensions.HealthChecks\P7.Extensions.HealthChecks.csproj" />
+    <ProjectReference Include="..\P7.External.SPA.Core\P7.External.SPA.Core.csproj" />
+    <ProjectReference Include="..\P7.External.SPA\P7.External.SPA.csproj" />
+    <ProjectReference Include="..\P7.Filters\P7.Filters.csproj" />
+    <ProjectReference Include="..\P7.Globalization\P7.Globalization.csproj" />
+    <ProjectReference Include="..\P7.GraphQLCore\P7.GraphQLCore.csproj" />
+    <ProjectReference Include="..\P7.GraphQLViewer\P7.GraphQLViewer.csproj" />
+    <ProjectReference Include="..\P7.HealthCheck.Core\P7.HealthCheck.Core.csproj" />
+    <ProjectReference Include="..\P7.HugoStore.Core\P7.HugoStore.Core.csproj" />
+    <ProjectReference Include="..\P7.Identity\P7.Identity.csproj" />
+    <ProjectReference Include="..\P7.Razor.FileProvider\P7.Razor.FileProvider.csproj" />
+    <ProjectReference Include="..\P7.RazorProvider.Store.Core\P7.RazorProvider.Store.Core.csproj" />
+    <ProjectReference Include="..\P7.SessionContextStore.Core\P7.SessionContextStore.Core.csproj" />
+    <ProjectReference Include="..\P7.SimpleRedirect.Core\P7.SimpleRedirect.Core.csproj" />
+    <ProjectReference Include="..\P7.SimpleRedirector\P7.SimpleRedirector.csproj" />
+    <ProjectReference Include="..\P7.Subscription\P7.Subscription.csproj" />
+    <ProjectReference Include="..\P7.TwitterAuthentication\P7.TwitterAuthentication.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="wwwroot\lib\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views.Ori\Account\Login.cshtml" />
+    <None Include="Views.Ori\Home\About.cshtml" />
+    <None Include="Views.Ori\Home\Contact.cshtml" />
+    <None Include="Views.Ori\Home\Index.cshtml" />
+    <None Include="Views.Ori\Shared\Error.cshtml" />
+    <None Include="Views.Ori\Shared\_Layout.cshtml" />
+    <None Include="Views.Ori\Shared\_LoginPartial.bulma.cshtml" />
+    <None Include="Views.Ori\Shared\_LoginPartial.cshtml" />
+    <None Include="Views.Ori\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Views.Ori\_ViewImports.cshtml" />
+    <None Include="Views.Ori\_ViewStart.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings-filters-graphql.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>
