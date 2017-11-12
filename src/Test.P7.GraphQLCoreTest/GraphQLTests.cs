@@ -104,10 +104,7 @@ namespace Test.P7.GraphQLCoreTest
             GraphQLUserContext = AutofacStoreFactory.Resolve<GraphQLUserContext>();
                        
             var graphQLFieldAuthority = AutofacStoreFactory.Resolve<InMemoryGraphQLFieldAuthority>();
-            await graphQLFieldAuthority.AddClaimsAsync(OperationType.Mutation, "/blog", new List<Claim>()
-            {
-                new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name","blog")
-            });
+ 
             InsertBlogEntriesIntoStore(10);
         }
 

@@ -79,14 +79,44 @@ namespace Test.P7.GraphQLCoreTest
 
                     var claim = new Claim(ClaimTypes.NameIdentifier, "herb");
                     claims.Add(claim);
+                    claims.Add(new Claim("x-graphql-auth", ""));
                     A.CallTo(() => user.Claims).Returns(claims);
 
                     builder.RegisterInstance(httpContextAccessor).As<IHttpContextAccessor>();
                     builder.RegisterType<GraphQLUserContext>();
 
+                    var graphQLFieldAuthorityConfig = new GraphQLFieldAuthorityConfig();
+                    graphQLFieldAuthorityConfig.Records = new List<GraphQLFieldAuthorityConfigRecord>();
+                    graphQLFieldAuthorityConfig.Records.Add(new GraphQLFieldAuthorityConfigRecord()
+                    {
+                        OperationType = GraphQL.Language.AST.OperationType.Query,
+                        FieldPath = "/accessCode",
+                        Claims = new List<ClaimConfigHandle>()
+                        {
+                            new ClaimConfigHandle(){Type = "x-graphql-auth",Value=""}
+                        }
+                    });
+                    graphQLFieldAuthorityConfig.Records.Add(new GraphQLFieldAuthorityConfigRecord()
+                    {
+                        OperationType = GraphQL.Language.AST.OperationType.Mutation,
+                        FieldPath = "/blog",
+                        Claims = new List<ClaimConfigHandle>()
+                        {
+                            new ClaimConfigHandle(){Type = "x-graphql-auth",Value=""}
+                        }
+                    });
+
+
+                    var graphQLFieldAuthorityConfigOptions = A.Fake<IOptions<GraphQLFieldAuthorityConfig>>();
+                    A.CallTo(() => graphQLFieldAuthorityConfigOptions.Value).Returns(graphQLFieldAuthorityConfig);
+                    builder.RegisterInstance(graphQLFieldAuthorityConfigOptions).As<IOptions<GraphQLFieldAuthorityConfig>>();
+
+
                     var locOptions = new LocalizationOptions();
                     var options = A.Fake<IOptions<LocalizationOptions>>();
                     A.CallTo(() => options.Value).Returns(locOptions);
+
+
 
                     builder.RegisterInstance(options).As<IOptions<LocalizationOptions>>();
                     builder.RegisterType<ResourceManagerStringLocalizerFactory>()
