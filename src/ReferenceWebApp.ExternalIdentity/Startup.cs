@@ -42,6 +42,7 @@ using P7.GraphQLCore.Stores;
 using P7.IdentityServer4.Common;
 using P7.IdentityServer4.Common.ExtensionGrantValidator;
 using P7.IdentityServer4.Common.Middleware;
+using P7.IdentityServer4.Common.Stores;
 using P7.Razor.FileProvider;
 using P7.RazorProvider.Store.Core;
 using P7.RazorProvider.Store.Core.Interfaces;
@@ -232,6 +233,9 @@ namespace ReferenceWebApp
         }
         private async Task LoadIdentityServer4Data()
         {
+            var privateStore = P7.Core.Global.ServiceProvider.GetServices<InMemoryPrivateScopeStore>().FirstOrDefault();
+
+            privateStore.AddPrivateScopes("Bjorn",new string[]{"flames"});
             var fullClientStore = P7.Core.Global.ServiceProvider.GetServices<IFullClientStore>().FirstOrDefault();
 
             await fullClientStore.InsertClientAsync(new Client

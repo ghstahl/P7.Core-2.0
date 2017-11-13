@@ -58,10 +58,13 @@ namespace P7.IdentityServer4.Common.Services
                 return _p7ClaimTypes;
             }
         }
-
-        public CustomArbitraryClaimsService(IProfileService profile,
+        IPrivateScopeValidation _privateScopeValidation;
+        public CustomArbitraryClaimsService(
+            IProfileService profile,
+            IPrivateScopeValidation privateScopeValidation,
             ILogger<CustomArbitraryClaimsService> logger) : base(profile, logger)
         {
+            _privateScopeValidation = privateScopeValidation;
             _logger = logger;
         }
 
@@ -87,9 +90,12 @@ namespace P7.IdentityServer4.Common.Services
             {
                 var newScopes = rr["arbitrary-scopes"].Split(new char[] {' ', '\t'},
                     StringSplitOptions.RemoveEmptyEntries);
-                foreach (var scope in newScopes)
+                if (_privateScopeValidation.ValidateArbitraryScopes(rr["client_id"], newScopes))
                 {
-                    finalClaims.Add(new Claim("scope", scope));
+                    foreach (var scope in newScopes)
+                    {
+                        finalClaims.Add(new Claim("scope", scope));
+                    }
                 }
             }
             Dictionary<string, string> values;

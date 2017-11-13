@@ -15,6 +15,8 @@ using P7.Filters;
 using P7.GraphQLCore;
 using P7.GraphQLCore.Stores;
 using P7.GraphQLCore.Validators;
+using P7.IdentityServer4.Common.Services;
+using P7.IdentityServer4.Common.Stores;
 using P7.SessionContextStore.Core;
 using P7.SimpleRedirect.Core;
 using ReferenceWebApp.Scheduler;
@@ -27,9 +29,12 @@ namespace ReferenceWebApp
         protected override void Load(ContainerBuilder builder)
         {
             var env = P7.Core.Global.HostingEnvironment;
-            // The generic ILogger<TCategoryName> service was added to the ServiceCollection by ASP.NET Core.
-            // It was then registered with Autofac using the Populate method in ConfigureServices.
-
+        // The generic ILogger<TCategoryName> service was added to the ServiceCollection by ASP.NET Core.
+        // It was then registered with Autofac using the Populate method in ConfigureServices.
+            builder.RegisterType<InMemoryPrivateScopeStore>()
+                .AsSelf()
+                .As<IPrivateScopeValidation>()
+                .SingleInstance();
             builder.Register(c => new InMemorySimpleRedirectStore())
                 .As<ISimpleRedirectorStore>()
                 .SingleInstance();
