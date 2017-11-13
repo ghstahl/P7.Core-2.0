@@ -10,7 +10,7 @@
     },
     {
       "location": "/Areas/OldSchool/Views/Home/Index.cshtml",
-      "content": "@using Microsoft.CodeAnalysis\r\n<h1>Old School</h1>\r\n<div id=\"oldSchool\">\r\n    @ViewData[\"utcNow\"]\r\n</div>\r\n<div id=\"oldSchoolIdentity\">\r\n    \r\n</div>\r\n@section scripts{ \r\n    var myDiv = document.getElementById(\"oldSchoolIdentity\");\r\n    fetch('/api/old-school/IdentityApi')\r\n    .then(function(response) {\r\n        return response.text();\r\n    }).then(function(text) { \r\n        console.log(text); \r\n        myDiv.innerHTML = text;\r\n    });\r\n}"
+      "content": "@using Microsoft.CodeAnalysis\r\n<h1>Old School</h1>\r\n<div id=\"oldSchool\">\r\n    @ViewData[\"utcNow\"]\r\n</div>\r\n<div id=\"oldSchoolIdentity\">\r\n</div>\r\n@section scripts{\r\n    <script>\r\n        var myDiv = document.getElementById(\"oldSchoolIdentity\");\r\n        fetch('/api/old-school/IdentityApi', {\r\n                credentials: 'include'\r\n            })\r\n            .then(function(response) {\r\n                return response.text();\r\n            }).then(function(text) {\r\n                console.log(text);\r\n                myDiv.innerHTML = text;\r\n            });\r\n    </script>\r\n}"
     }
   ]
 }
