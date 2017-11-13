@@ -87,6 +87,18 @@
     {
       "location": "/Areas/ExtSPA/Views/Home/MyApp.cshtml",
       "content": "@section head{\r\n  <base href=\"\">\r\n  <link rel=\"stylesheet\" href=\"https://rawgit.com/ghstahl/angular4-my-app/master/src/dist/css/app.css\" />\r\n}\r\n\r\n<my-app>Loading...</my-app>\r\n\r\n@section scripts{   \r\n \r\n  <script type=\"text/javascript\" src=\"https://rawgit.com/ghstahl/angular4-my-app/master/src/dist/js/polyfills.js\">\r\n  </script><script type=\"text/javascript\" src=\"https://rawgit.com/ghstahl/angular4-my-app/master/src/dist/js/vendor.js\">\r\n  </script><script type=\"text/javascript\" src=\"https://rawgit.com/ghstahl/angular4-my-app/master/src/dist/js/app.js\"></script>   \r\n}"
+    },
+    {
+      "location": "/Areas/OldSchool/Views/_ViewImports.cshtml",
+      "content": "@using P7.Core\r\n@addTagHelper \"*, Microsoft.AspNetCore.Mvc.TagHelpers\"\r\n@addTagHelper \"*, P7.Core\""
+    },
+    {
+      "location": "/Areas/OldSchool/Views/_ViewStart.cshtml",
+      "content": "@{Layout = \"_Layout\";}"
+    },
+    {
+      "location": "/Areas/OldSchool/Views/Home/Index.cshtml",
+      "content": "<h1>Old School</h1>\r\n<div id=\"oldSchool\">\r\n    @ViewData[\"utcNow\"]\r\n</div>"
     }
   ]
 }
