@@ -61,27 +61,5 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk0NGIwOGMxZTcwZDdkNGQxYjJmZG
 [{"type":"nbf","value":"1510588464"},{"type":"exp","value":"1510592064"},{"type":"iss","value":"https://localhost:44311"},{"type":"aud","value":"https://localhost:44311/resources"},{"type":"aud","value":"arbitrary"},{"type":"client_id","value":"resource-owner-client"},{"type":"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier","value":"rat"},{"type":"auth_time","value":"1510588464"},{"type":"http://schemas.microsoft.com/identity/claims/identityprovider","value":"local"},{"type":"naguid","value":"1234abcd"},{"type":"In","value":"Flames"},{"type":"bdullet","value":"Ride"},{"type":"scope","value":"arbitrary"},{"type":"scope","value":"offline_access"},{"type":"scope","value":"A"},{"type":"scope","value":"quick"},{"type":"scope","value":"brown"},{"type":"scope","value":"fox"},{"type":"scope","value":"Fladmes"},{"type":"http://schemas.microsoft.com/claims/authnmethodsreferences","value":"pwd"}]
 ```  
 
-## Security  
-
-Having a token management system that lets you make a token with any claim and scope you want is a security hole.  It allows another client on the system to spoof another client's claims and scopes.  To stop this, we have introduced the ability for a client to stake a claim to any claim and scope name.  Its a first come first service bases.  If a client requests a token that has a claim or scope that someone has staked a claim to, that calling client gets nothing.  We don't leak the why they didn't get it anything.  
-
-```
-Register the private provider at startup.  
-
-builder.RegisterType<InMemoryPrivateClaimsScopesStore>()
-    .AsSelf()
-    .As<IPrivateClaimsScopesValidation>()
-    .SingleInstance();
-```
-```
-Populate it with test data.  
-var privateStore = P7.Core.Global.ServiceProvider.GetServices<InMemoryPrivateClaimsScopesStore>().FirstOrDefault();
-
-privateStore.AddPrivateScopes("Bjorn",new string[]{"flames"});
-privateStore.AddPrivateClaims("Bjorn", new string[] { "bullet" });
-```
-
-Any client that is NOT "Bjorn", requesting a scope of "flames" or a claim or "bullet", will get nothing.
-Only "Bjorn" gets to have a scope called "flames" and a claim called "bullet".
 
 
