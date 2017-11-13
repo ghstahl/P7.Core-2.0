@@ -1,1 +1,16 @@
-{"views":[{"location":"/Areas/OldSchool/Views/_ViewImports.cshtml","content":"@using P7.Core\r\n@addTagHelper \"*, Microsoft.AspNetCore.Mvc.TagHelpers\"\r\n@addTagHelper \"*, P7.Core\""},{"location":"/Areas/OldSchool/Views/_ViewStart.cshtml","content":"@{Layout = \"_Layout\";}"},{"location":"/Areas/OldSchool/Views/Home/Index.cshtml","content":"@using Microsoft.CodeAnalysis\r\n<h1>Old School</h1>\r\n<div id=\"oldSchool\">\r\n    @ViewData[\"utcNow\"]\r\n</div>\r\n<div id=\"oldSchoolIdentity\">\r\n    \r\n</div>\r\n@section scripts{ \r\n    var myDiv = document.getElementById(\"oldSchoolIdentity\");\r\n    fetch('/api/old-school/IdentityApi')\r\n    .then(function(response) {\r\n        return response.text();\r\n    }).then(function(text) { \r\n        console.log(text); \r\n        myDiv.innerHTML = text;\r\n    });\r\n}"}]}
+{
+  "views": [
+    {
+      "location": "/Areas/OldSchool/Views/_ViewImports.cshtml",
+      "content": "@using P7.Core\r\n@addTagHelper \"*, Microsoft.AspNetCore.Mvc.TagHelpers\"\r\n@addTagHelper \"*, P7.Core\""
+    },
+    {
+      "location": "/Areas/OldSchool/Views/_ViewStart.cshtml",
+      "content": "@{Layout = \"_Layout\";}"
+    },
+    {
+      "location": "/Areas/OldSchool/Views/Home/Index.cshtml",
+      "content": "@using Microsoft.CodeAnalysis\r\n<h1>Old School</h1>\r\n<div id=\"oldSchool\">\r\n    @ViewData[\"utcNow\"]\r\n</div>\r\n<div id=\"oldSchoolIdentity\">\r\n    \r\n</div>\r\n@section scripts{ \r\n    var myDiv = document.getElementById(\"oldSchoolIdentity\");\r\n    fetch('/api/old-school/IdentityApi')\r\n    .then(function(response) {\r\n        return response.text();\r\n    }).then(function(text) { \r\n        console.log(text); \r\n        myDiv.innerHTML = text;\r\n    });\r\n}"
+    }
+  ]
+}
