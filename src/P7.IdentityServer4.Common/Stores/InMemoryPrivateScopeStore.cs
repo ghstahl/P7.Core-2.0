@@ -8,15 +8,64 @@ namespace P7.IdentityServer4.Common.Stores
 {
     public class InMemoryPrivateScopeStore : IPrivateScopeValidation
     {
-        public bool ValidateArbitraryScopes(string clientId, string[] arbitraryScopes)
+        Dictionary<string, Dictionary<string, bool>> _claimRecords;
+        Dictionary<string, Dictionary<string, bool>> _scopeRecords;
+        Dictionary<string, Dictionary<string, bool>> ClaimRecords
+        {
+            get
+            {
+                if (_claimRecords == null)
+                {
+                    _claimRecords = new Dictionary<string, Dictionary<string, bool>>();
+                };
+                return _claimRecords;
+            }
+        }
+        Dictionary<string, Dictionary<string, bool>> ScopeRecords
+        {
+            get
+            {
+                if (_scopeRecords == null)
+                {
+                    _scopeRecords = new Dictionary<string, Dictionary<string, bool>>();
+                };
+                return _scopeRecords;
+            }
+        }
+
+        public void AddPrivateScopes(string clientId, string[] scopes)
+        {
+            if (!ScopeRecords.ContainsKey(clientId))
+            {
+                ScopeRecords.Add(clientId, new Dictionary<string, bool>());
+            }
+            var clientDict = ScopeRecords[clientId];
+            foreach (var item in scopes)
+            {
+                clientDict.Add(item.ToLower(), true);
+            }
+        }
+        public void AddPrivateClaims(string clientId, string[] claims)
+        {
+            if (!ClaimRecords.ContainsKey(clientId))
+            {
+                ClaimRecords.Add(clientId, new Dictionary<string, bool>());
+            }
+            var clientDict = ClaimRecords[clientId];
+            foreach (var item in claims)
+            {
+                clientDict.Add(item.ToLower(), true);
+            }
+        }
+        public bool ValidatePrivateArbitraryScopes(string clientId, string[] arbitraryScopes)
         {
             // brute force here, if any other client contains a private entry from arbitraryScopes, it is denied.
             // basically in production the first one to claim a private scope wins.
-            foreach (var clientDict in Records)
+            foreach (var clientDict in ScopeRecords)
             {
                 if (clientDict.Key != clientId)
                 {
-                    if (arbitraryScopes.Any(arbScope => clientDict.Value.ContainsKey(arbScope)))
+                    if (arbitraryScopes.Any(a => clientDict.Value.ContainsKey(a.ToLower())))
                     {
                         return false;
                     }
@@ -24,29 +73,20 @@ namespace P7.IdentityServer4.Common.Stores
             }
             return true;
         }
-        Dictionary<string, Dictionary<string, bool>> _records;
-        Dictionary<string, Dictionary<string, bool>> Records
+
+        public bool ValidatePrivateArbitraryClaims(string clientId, string[] arbitraryClaims)
         {
-            get
+            foreach (var clientDict in ClaimRecords)
             {
-                if (_records == null)
+                if (clientDict.Key != clientId)
                 {
-                    _records = new Dictionary<string, Dictionary<string, bool>>();
-                };
-                return _records;
+                    if (arbitraryClaims.Any(a => clientDict.Value.ContainsKey(a.ToLower())))
+                    {
+                        return false;
+                    }
+                }
             }
-        }
-        public void AddPrivateScopes(string clientId, string[] scopes)
-        {
-            if (!Records.ContainsKey(clientId))
-            {
-                Records.Add(clientId, new Dictionary<string, bool>());
-            }
-            var clientDict = Records[clientId];
-            foreach(var scope in scopes)
-            {
-                clientDict.Add(scope, true);
-            }
+            return true;
         }
     }
 }

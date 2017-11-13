@@ -236,6 +236,8 @@ namespace ReferenceWebApp
             var privateStore = P7.Core.Global.ServiceProvider.GetServices<InMemoryPrivateScopeStore>().FirstOrDefault();
 
             privateStore.AddPrivateScopes("Bjorn",new string[]{"flames"});
+            privateStore.AddPrivateClaims("Bjorn", new string[] { "bullet" });
+
             var fullClientStore = P7.Core.Global.ServiceProvider.GetServices<IFullClientStore>().FirstOrDefault();
 
             await fullClientStore.InsertClientAsync(new Client

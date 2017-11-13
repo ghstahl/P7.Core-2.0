@@ -90,7 +90,7 @@ namespace P7.IdentityServer4.Common.Services
             {
                 var newScopes = rr["arbitrary-scopes"].Split(new char[] {' ', '\t'},
                     StringSplitOptions.RemoveEmptyEntries);
-                if (_privateScopeValidation.ValidateArbitraryScopes(rr["client_id"], newScopes))
+                if (_privateScopeValidation.ValidatePrivateArbitraryScopes(rr["client_id"], newScopes))
                 {
                     foreach (var scope in newScopes)
                     {
@@ -104,12 +104,18 @@ namespace P7.IdentityServer4.Common.Services
                 values =
                     JsonConvert.DeserializeObject<Dictionary<string, string>>(rr["arbitrary-claims"]);
                 // paranoia check.  In no way can we allow creation which tries to spoof someone elses client_id.
-
-                var query = from value in values
-                    where string.Compare(value.Key, "client_id", true) != 0
-                    select value;
-                var trimmedClaims = query.ToList();
-                finalClaims.AddRange(trimmedClaims.Select(value => new Claim(value.Key, value.Value)));
+                var qq = from item in values
+                    let c = item.Key
+                    select c;
+                if (_privateScopeValidation.ValidatePrivateArbitraryClaims(rr["client_id"], qq.ToArray()))
+                {
+                    var query = from value in values
+                        where string.Compare(value.Key, "client_id", true) != 0
+                        select value;
+                    var trimmedClaims = query.ToList();
+                    finalClaims.AddRange(trimmedClaims.Select(value => new Claim(value.Key, value.Value)));
+                }
+               
             }
             if (subject != null)
             {

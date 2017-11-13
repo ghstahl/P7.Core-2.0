@@ -2,6 +2,7 @@
 {
     public interface IPrivateScopeValidation
     {
-        bool ValidateArbitraryScopes(string clientId, string[] arbitraryScopes);
+        bool ValidatePrivateArbitraryScopes(string clientId, string[] arbitraryScopes);
+        bool ValidatePrivateArbitraryClaims(string clientId, string[] arbitraryClaims);
     }
 }
