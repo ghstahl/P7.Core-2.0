@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{49239892-D807-42AB-8BD8-57E39B505511}"
 EndProject
@@ -121,6 +121,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P7.Composition", "P7.Composition\P7.Composition.csproj", "{CCA87944-B98A-4414-8FD0-3DDA349373E0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReferenceWebApp.Api.Only", "ReferenceWebApp.Api.Only\ReferenceWebApp.Api.Only.csproj", "{0C7C62CA-27C8-4E68-A089-EF7041326AC6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OldSchool", "OldSchool", "{2E48488D-5325-4226-A5CD-34BC314A95ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OldSchool.RazorPages", "OldSchool.RazorPages\OldSchool.RazorPages.csproj", "{4F159A01-7DC1-462D-801A-7C4DE27BA91A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -304,6 +308,10 @@ Global
 		{0C7C62CA-27C8-4E68-A089-EF7041326AC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C7C62CA-27C8-4E68-A089-EF7041326AC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C7C62CA-27C8-4E68-A089-EF7041326AC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F159A01-7DC1-462D-801A-7C4DE27BA91A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F159A01-7DC1-462D-801A-7C4DE27BA91A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F159A01-7DC1-462D-801A-7C4DE27BA91A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F159A01-7DC1-462D-801A-7C4DE27BA91A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -356,6 +364,7 @@ Global
 		{1BE1F381-1A3E-4862-8BFE-80BDC38449CA} = {CCCA7579-F361-4887-AF60-4C6047184645}
 		{CCA87944-B98A-4414-8FD0-3DDA349373E0} = {CCCA7579-F361-4887-AF60-4C6047184645}
 		{0C7C62CA-27C8-4E68-A089-EF7041326AC6} = {0168AD6E-C4F4-413F-BFBA-FBBBF80644FA}
+		{4F159A01-7DC1-462D-801A-7C4DE27BA91A} = {2E48488D-5325-4226-A5CD-34BC314A95ED}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {607C5673-3DFE-444A-B0B8-45AB798154EB}
