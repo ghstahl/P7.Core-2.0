@@ -27,7 +27,7 @@ build and run ReferenceWebApp.ExternalIdentity.NoIdentityServer4
 This is a Visual Studio 2017+ Version 15.3.4 project  
 Don't forget to install the [.Net Core 2.0 SDK](https://www.microsoft.com/net/download/core)  
 
-
+### [Application Overview](docs/application-overview.md)  
 ### [GraphQL Support](docs/graphQL.md)  
 ### [Decentralized Token Management Support](docs/decentralized-token-management-support.md)
 ### [Opt-Out IFilterProvider](docs/opt-out-filter-provider.md)
