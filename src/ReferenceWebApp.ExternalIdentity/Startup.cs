@@ -233,7 +233,7 @@ namespace ReferenceWebApp
         }
         private async Task LoadIdentityServer4Data()
         {
-            var privateStore = P7.Core.Global.ServiceProvider.GetServices<InMemoryPrivateScopeStore>().FirstOrDefault();
+            var privateStore = P7.Core.Global.ServiceProvider.GetServices<InMemoryPrivateClaimsScopesStore>().FirstOrDefault();
 
             privateStore.AddPrivateScopes("Bjorn",new string[]{"flames"});
             privateStore.AddPrivateClaims("Bjorn", new string[] { "bullet" });

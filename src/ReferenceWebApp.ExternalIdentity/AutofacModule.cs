@@ -31,9 +31,9 @@ namespace ReferenceWebApp
             var env = P7.Core.Global.HostingEnvironment;
         // The generic ILogger<TCategoryName> service was added to the ServiceCollection by ASP.NET Core.
         // It was then registered with Autofac using the Populate method in ConfigureServices.
-            builder.RegisterType<InMemoryPrivateScopeStore>()
+            builder.RegisterType<InMemoryPrivateClaimsScopesStore>()
                 .AsSelf()
-                .As<IPrivateScopeValidation>()
+                .As<IPrivateClaimsScopesValidation>()
                 .SingleInstance();
             builder.Register(c => new InMemorySimpleRedirectStore())
                 .As<ISimpleRedirectorStore>()

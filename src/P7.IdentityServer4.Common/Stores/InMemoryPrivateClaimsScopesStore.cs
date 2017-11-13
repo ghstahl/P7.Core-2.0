@@ -6,7 +6,7 @@ using System.Text;
 
 namespace P7.IdentityServer4.Common.Stores
 {
-    public class InMemoryPrivateScopeStore : IPrivateScopeValidation
+    public class InMemoryPrivateClaimsScopesStore : IPrivateClaimsScopesValidation
     {
         Dictionary<string, Dictionary<string, bool>> _claimRecords;
         Dictionary<string, Dictionary<string, bool>> _scopeRecords;

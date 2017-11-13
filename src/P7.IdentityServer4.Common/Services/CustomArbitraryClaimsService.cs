@@ -58,13 +58,13 @@ namespace P7.IdentityServer4.Common.Services
                 return _p7ClaimTypes;
             }
         }
-        IPrivateScopeValidation _privateScopeValidation;
+        IPrivateClaimsScopesValidation _privateClaimsScopesValidation;
         public CustomArbitraryClaimsService(
             IProfileService profile,
-            IPrivateScopeValidation privateScopeValidation,
+            IPrivateClaimsScopesValidation privateClaimsScopesValidation,
             ILogger<CustomArbitraryClaimsService> logger) : base(profile, logger)
         {
-            _privateScopeValidation = privateScopeValidation;
+            _privateClaimsScopesValidation = privateClaimsScopesValidation;
             _logger = logger;
         }
 
@@ -90,7 +90,7 @@ namespace P7.IdentityServer4.Common.Services
             {
                 var newScopes = rr["arbitrary-scopes"].Split(new char[] {' ', '\t'},
                     StringSplitOptions.RemoveEmptyEntries);
-                if (_privateScopeValidation.ValidatePrivateArbitraryScopes(rr["client_id"], newScopes))
+                if (_privateClaimsScopesValidation.ValidatePrivateArbitraryScopes(rr["client_id"], newScopes))
                 {
                     foreach (var scope in newScopes)
                     {
@@ -107,7 +107,7 @@ namespace P7.IdentityServer4.Common.Services
                 var qq = from item in values
                     let c = item.Key
                     select c;
-                if (_privateScopeValidation.ValidatePrivateArbitraryClaims(rr["client_id"], qq.ToArray()))
+                if (_privateClaimsScopesValidation.ValidatePrivateArbitraryClaims(rr["client_id"], qq.ToArray()))
                 {
                     var query = from value in values
                         where string.Compare(value.Key, "client_id", true) != 0
