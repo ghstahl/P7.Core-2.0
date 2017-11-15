@@ -18,51 +18,11 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using P7201.AspNetCore.Authentication.OpenIdConnect;
-using OpenIdConnectDefaults = P7201.AspNetCore.Authentication.OpenIdConnect.OpenIdConnectDefaults;
+
 
 namespace A.OIDC
 {
-    public class GoogleOpenIdConnectOptions : P7201.AspNetCore.Authentication.OpenIdConnect.OpenIdConnectOptions
-    {
-        /// <summary>
-        /// Initializes a new <see cref="GoogleOptions"/>.
-        /// </summary>
-        public GoogleOpenIdConnectOptions()
-        {
 
-            CallbackPath = new PathString("/signin-google");
-            Authority = "https://accounts.google.com";
-
-            ResponseType = OpenIdConnectResponseType.Code;
-            GetClaimsFromUserInfoEndpoint = true;
-            SaveTokens = true;
-
-            Events = new P7201.AspNetCore.Authentication.OpenIdConnect.Events.OpenIdConnectEvents()
-            {
-                OnRedirectToIdentityProvider = (context) =>
-                {
-                    if (context.Request.Path != "/Account/ExternalLogin")
-                    {
-                        context.Response.Redirect("/account/login");
-                        context.HandleResponse();
-                    }
-
-                    return Task.FromResult(0);
-                }
-            };
-            Scope.Add("openid");
-            Scope.Add("profile");
-            Scope.Add("email");
-
-            ClaimActionCollectionMapExtensions.MapJsonKey(ClaimActions, ClaimTypes.NameIdentifier, "id");
-            ClaimActionCollectionMapExtensions.MapJsonKey(ClaimActions, ClaimTypes.Name, "displayName");
-            ClaimActionCollectionMapExtensions.MapJsonSubKey(ClaimActions, ClaimTypes.GivenName, "name", "givenName");
-            ClaimActionCollectionMapExtensions.MapJsonSubKey(ClaimActions, ClaimTypes.Surname, "name", "familyName");
-            ClaimActionCollectionMapExtensions.MapJsonKey(ClaimActions, "urn:google:profile", "url");
-            ClaimActionCollectionMapExtensions.MapCustomJson(ClaimActions, ClaimTypes.Email, GoogleHelper.GetEmail);
-        }
-    }
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -81,33 +41,41 @@ namespace A.OIDC
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
             var authenticationBuilder = services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
-                options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
-                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-            });
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie();
+            /*
+            var authenticationBuilder = services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddCookie(o => o.LoginPath = new PathString("/Account/Login"));
+            */
             var configuration = Configuration;
 
             if (!(string.IsNullOrEmpty(configuration["Google-ClientId"]) ||
                   string.IsNullOrEmpty(configuration["Google-ClientSecret"])))
             {
-                authenticationBuilder.P7AddOpenIdConnect(GoogleDefaults.AuthenticationScheme, GoogleDefaults.DisplayName,
+                authenticationBuilder.AddOpenIdConnect(GoogleDefaults.AuthenticationScheme, GoogleDefaults.DisplayName,
                     o =>
                     {
-                        var openIdConnectOptions = new GoogleOpenIdConnectOptions();
-                        o.CallbackPath = openIdConnectOptions.CallbackPath;
+                     
+                        o.CallbackPath = new PathString("/signin-google"); 
 
                         o.ClientId = configuration["Google-ClientId"];
                         o.ClientSecret = configuration["Google-ClientSecret"];
 
-                        o.Authority = openIdConnectOptions.Authority;
-                        o.ResponseType = openIdConnectOptions.ResponseType;
-                        o.GetClaimsFromUserInfoEndpoint = openIdConnectOptions.GetClaimsFromUserInfoEndpoint;
+                        o.Authority = "https://accounts.google.com";
+                        o.ResponseType = OpenIdConnectResponseType.Code;
+                        o.GetClaimsFromUserInfoEndpoint = true;
                         o.SaveTokens = true;
 
-                        o.Events = new P7201.AspNetCore.Authentication.OpenIdConnect.Events.OpenIdConnectEvents()
+                        o.Events = new OpenIdConnectEvents()
                         {
                             OnRedirectToIdentityProvider = (context) =>
                             {
@@ -142,7 +110,7 @@ namespace A.OIDC
 
                                 var newIdentity = new ClaimsIdentity(claimsToKeep, identity.AuthenticationType);
 
-                                context.Principal = new ClaimsPrincipal(newIdentity);
+                               // context.Principal = new ClaimsPrincipal(newIdentity);
                                 return Task.CompletedTask;
 
                             }
@@ -150,6 +118,7 @@ namespace A.OIDC
 
                     });
             }
+
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
@@ -173,7 +142,7 @@ namespace A.OIDC
             app.UseStaticFiles();
 
             app.UseAuthentication();
-
+         
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

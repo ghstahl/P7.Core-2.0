@@ -18,8 +18,4 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\P7201.AspNetCore.Authentication.OpenIdConnect\P7201.AspNetCore.Authentication.OpenIdConnect.csproj" />
-  </ItemGroup>
-
 </Project>
