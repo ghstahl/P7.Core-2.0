@@ -1,4 +1,5 @@
 ﻿using GraphQL.Types;
+using P7.GraphQLCore.Types;
 
 namespace P7.Subscription
 {

@@ -12,7 +12,7 @@ namespace P7.Subscription
             builder.RegisterType<MetaDataInput>();
             builder.RegisterType<MetaDataType>();
             builder.RegisterType<SubscriptionDocumentType>();
-            builder.RegisterType<DynamicType>();
+  
 
             //   builder.RegisterType<MyFieldRecordRegistration>().As<IFieldRecordRegistration>();
             //   builder.RegisterType<MyFieldRecordRegistration2>().As<IFieldRecordRegistration>();

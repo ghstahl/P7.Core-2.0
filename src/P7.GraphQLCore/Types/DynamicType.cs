@@ -1,9 +1,12 @@
-﻿using GraphQL.Language.AST;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using GraphQL.Language.AST;
 using GraphQL.Types;
 
-namespace P7.Subscription
+namespace P7.GraphQLCore.Types
 {
-    public class DynamicType : ScalarGraphType 
+    public class DynamicType : ScalarGraphType
     {
         public DynamicType()
         {

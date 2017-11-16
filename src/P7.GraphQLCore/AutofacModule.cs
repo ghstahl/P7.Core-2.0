@@ -10,6 +10,7 @@ using GraphQL.Validation.Complexity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using P7.Core.Reflection;
+using P7.GraphQLCore.Types;
 using P7.GraphQLCore.Validators;
 
 namespace P7.GraphQLCore
@@ -96,7 +97,7 @@ namespace P7.GraphQLCore
             builder.RegisterType<OptOutGraphQLClaimsAuthorizationCheck>()
                 .As<IGraphQLClaimsAuthorizationCheck>()
                 .SingleInstance();
-
+            builder.RegisterType<DynamicType>();
         }
     }
 }

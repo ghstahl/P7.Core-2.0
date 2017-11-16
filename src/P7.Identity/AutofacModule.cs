@@ -7,7 +7,8 @@ namespace P7.Identity
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<IdentityQueryInput>();
-
+            builder.RegisterType<AccessCodeDocumentType>();
+ 
             //   builder.RegisterType<MyFieldRecordRegistration>().As<IFieldRecordRegistration>();
             //   builder.RegisterType<MyFieldRecordRegistration2>().As<IFieldRecordRegistration>();
         }
