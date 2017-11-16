@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using P7.Core.Utils;
 
 namespace ReferenceWebApp.InMemory
 {
@@ -86,6 +87,27 @@ namespace ReferenceWebApp.InMemory
                             },
                             OnTicketReceived = (context) =>
                             {
+                                ISession Session = context.HttpContext.Session;
+                                var query1 = from item in context.Properties.Items
+                                    where item.Key.StartsWith(".Token.")
+                                    select item;
+                                var query2 = from item in context.Properties.Items
+                                    where !item.Key.StartsWith(".Token.")
+                                    select item;
+                                var ap = new AuthenticationProperties();
+                                foreach (var a in query2.Where(a => a.Key != ".TokenNames"))
+                                {
+                                    ap.Items.Add(a.Key, a.Value);
+                                }
+                                context.Properties = ap;
+                                var oidc = new Dictionary<string, string>();
+                                foreach (var a in query1)
+                                {
+                                    var keys = a.Key.Split('.');
+                                    oidc.Add(keys[2], a.Value);
+                                }
+                                Session.SetObject(".oidc", oidc);
+
                                 ClaimsIdentity identity = (ClaimsIdentity)context.Principal.Identity;
                                 var query = from claim in context.Principal.Claims
                                     where claim.Type == ClaimTypes.Name || claim.Type == "name"
@@ -131,7 +153,7 @@ namespace ReferenceWebApp.InMemory
                         o.ResponseType = openIdConnectOptions.ResponseType;
                         o.GetClaimsFromUserInfoEndpoint = openIdConnectOptions.GetClaimsFromUserInfoEndpoint;
                         o.SaveTokens = openIdConnectOptions.SaveTokens;
-
+                        o.Scope.Add("offline_access");
                         o.Events = new OpenIdConnectEvents()
                         {
                             OnRedirectToIdentityProvider = (context) =>
@@ -148,6 +170,27 @@ namespace ReferenceWebApp.InMemory
                             },
                             OnTicketReceived = (context) =>
                             {
+                                ISession Session = context.HttpContext.Session;
+                                var query1 = from item in context.Properties.Items
+                                    where item.Key.StartsWith(".Token.")
+                                    select item;
+                                var query2 = from item in context.Properties.Items
+                                    where !item.Key.StartsWith(".Token.")
+                                    select item;
+                                var ap = new AuthenticationProperties();
+                                foreach (var a in query2.Where(a => a.Key != ".TokenNames"))
+                                {
+                                    ap.Items.Add(a.Key, a.Value);
+                                }
+                                context.Properties = ap;
+                                var oidc = new Dictionary<string, string>();
+                                foreach (var a in query1)
+                                {
+                                    var keys = a.Key.Split('.');
+                                    oidc.Add(keys[2], a.Value);
+                                }
+                                Session.SetObject(".oidc", oidc);
+
                                 ClaimsIdentity identity = (ClaimsIdentity)context.Principal.Identity;
                                 var givenName = identity.FindFirst(ClaimTypes.GivenName);
                                 var familyName = identity.FindFirst(ClaimTypes.Surname);

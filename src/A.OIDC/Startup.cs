@@ -18,11 +18,26 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Newtonsoft.Json;
 using P7201.AspNetCore.Authentication.OpenIdConnect;
 using OpenIdConnectDefaults = P7201.AspNetCore.Authentication.OpenIdConnect.OpenIdConnectDefaults;
 
 namespace A.OIDC
 {
+    public static class SessionExtensions
+    {
+        public static void SetObject<T>(this ISession session, string key, T value)
+        {
+            session.SetString(key, JsonConvert.SerializeObject(value));
+        }
+
+        public static T GetObject<T>(this ISession session, string key)
+        {
+            var value = session.GetString(key);
+            return value == null ? default(T) :
+                JsonConvert.DeserializeObject<T>(value);
+        }
+    }
     public class GoogleOpenIdConnectOptions : P7201.AspNetCore.Authentication.OpenIdConnect.OpenIdConnectOptions
     {
         /// <summary>
@@ -75,6 +90,9 @@ namespace A.OIDC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -106,7 +124,7 @@ namespace A.OIDC
                         o.ResponseType = openIdConnectOptions.ResponseType;
                         o.GetClaimsFromUserInfoEndpoint = openIdConnectOptions.GetClaimsFromUserInfoEndpoint;
                         o.SaveTokens = true;
-
+                       // o.Scope.Add("offline_access"); 
                         o.Events = new P7201.AspNetCore.Authentication.OpenIdConnect.Events.OpenIdConnectEvents()
                         {
                             OnRedirectToIdentityProvider = (context) =>
@@ -123,6 +141,28 @@ namespace A.OIDC
                             },
                             OnTicketReceived = (context) =>
                             {
+                                ISession Session = context.HttpContext.Session;
+                                var query1 = from item in context.Properties.Items
+                                    where item.Key.StartsWith(".Token.")
+                                    select item;
+                                var query2 = from item in context.Properties.Items
+                                    where !item.Key.StartsWith(".Token.")
+                                    select item;
+                                var ap = new AuthenticationProperties( );
+                                foreach (var a in query2.Where(a => a.Key != ".TokenNames"))
+                                {
+                                    ap.Items.Add(a.Key, a.Value);
+                                }
+                                context.Properties = ap;
+
+                                var oidc = new Dictionary<string,string>();
+                                foreach (var a in query1)
+                                {
+                                    var keys = a.Key.Split('.');
+                                    oidc.Add(keys[2], a.Value);
+                                }
+                                Session.SetObject(".oidc",oidc);
+
                                 ClaimsIdentity identity = (ClaimsIdentity)context.Principal.Identity;
                                 var query = from claim in context.Principal.Claims
                                             where claim.Type == ClaimTypes.Name || claim.Type == "name"
@@ -159,6 +199,8 @@ namespace A.OIDC
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseSession();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
