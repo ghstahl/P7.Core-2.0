@@ -16,6 +16,11 @@
       "view": "Svelte"
     },
     {
+      "key": "LocalMeThis",
+      "requireAuth": true,
+      "view": "LocalMeThis"
+    },
+    {
       "key": "Money",
       "requireAuth": true,
       "view": "Money"
