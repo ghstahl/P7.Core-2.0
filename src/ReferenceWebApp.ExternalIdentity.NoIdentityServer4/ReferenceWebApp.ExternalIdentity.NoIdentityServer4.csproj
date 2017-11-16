@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Properties\PublishProfiles\Pingo7 - Web Deploy.pubxml" />
     <None Remove="Properties\PublishProfiles\ReferenceWebAppExternalIdentityNoIdentityServer4201711081131 - Web Deploy.pubxml" />
   </ItemGroup>
 
