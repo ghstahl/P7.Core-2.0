@@ -1,0 +1,34 @@
+﻿@section head  {
+    <link rel="stylesheet" href="https://localhost.daplie.me/global.css"/>
+    <link rel="stylesheet" href="https://localhost.daplie.me/bundle.css"/>
+}
+<div id="oldSchoolIdentity"></div>
+</br>
+<script src="https://localhost.daplie.me/bundle.js"></script>
+
+
+
+@section scripts{
+    <script>
+        var myDiv = document.getElementById("oldSchoolIdentity");
+        var body = JSON.stringify(
+            {
+                query: 'query q($id: String!){identity(input: { id: $id }) {access_code oidc}}',
+                variables: '{"id": "NOF"}',
+                operationName: 'q'
+            }
+        );
+        fetch('/api/graphql',
+            {
+                    credentials: 'include',
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: body
+                })
+            .then(res => res.json())
+            .then(function(res) {
+                console.log(res.data);
+                myDiv.innerHTML = JSON.stringify(res.data);
+            });
+    </script>
+}

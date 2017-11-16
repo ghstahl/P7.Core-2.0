@@ -67,6 +67,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Areas\ExtSpa\Views\Home\LocalMeThis.cshtml" />
     <None Include="Views.Ori\Account\Login.cshtml" />
     <None Include="Views.Ori\Home\About.cshtml" />
     <None Include="Views.Ori\Home\Contact.cshtml" />
@@ -82,6 +83,12 @@
 
   <ItemGroup>
     <Content Update="appsettings-filters-graphql.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\ExtSpa\Views\Home\LocalMeThis.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\OldSchool\Views\Home\Index.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
