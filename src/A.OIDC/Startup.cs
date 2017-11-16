@@ -19,8 +19,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Newtonsoft.Json;
-using P7201.AspNetCore.Authentication.OpenIdConnect;
-using OpenIdConnectDefaults = P7201.AspNetCore.Authentication.OpenIdConnect.OpenIdConnectDefaults;
+ 
 
 namespace A.OIDC
 {
@@ -38,7 +37,7 @@ namespace A.OIDC
                 JsonConvert.DeserializeObject<T>(value);
         }
     }
-    public class GoogleOpenIdConnectOptions : P7201.AspNetCore.Authentication.OpenIdConnect.OpenIdConnectOptions
+    public class GoogleOpenIdConnectOptions : OpenIdConnectOptions
     {
         /// <summary>
         /// Initializes a new <see cref="GoogleOptions"/>.
@@ -53,7 +52,7 @@ namespace A.OIDC
             GetClaimsFromUserInfoEndpoint = true;
             SaveTokens = true;
 
-            Events = new P7201.AspNetCore.Authentication.OpenIdConnect.Events.OpenIdConnectEvents()
+            Events = new OpenIdConnectEvents()
             {
                 OnRedirectToIdentityProvider = (context) =>
                 {
@@ -111,7 +110,7 @@ namespace A.OIDC
             if (!(string.IsNullOrEmpty(configuration["Google-ClientId"]) ||
                   string.IsNullOrEmpty(configuration["Google-ClientSecret"])))
             {
-                authenticationBuilder.P7AddOpenIdConnect(GoogleDefaults.AuthenticationScheme, GoogleDefaults.DisplayName,
+                authenticationBuilder.AddOpenIdConnect(GoogleDefaults.AuthenticationScheme, GoogleDefaults.DisplayName,
                     o =>
                     {
                         var openIdConnectOptions = new GoogleOpenIdConnectOptions();
@@ -125,7 +124,7 @@ namespace A.OIDC
                         o.GetClaimsFromUserInfoEndpoint = openIdConnectOptions.GetClaimsFromUserInfoEndpoint;
                         o.SaveTokens = true;
                        // o.Scope.Add("offline_access"); 
-                        o.Events = new P7201.AspNetCore.Authentication.OpenIdConnect.Events.OpenIdConnectEvents()
+                        o.Events = new OpenIdConnectEvents()
                         {
                             OnRedirectToIdentityProvider = (context) =>
                             {
