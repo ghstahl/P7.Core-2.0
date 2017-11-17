@@ -120,13 +120,22 @@ namespace ReferenceWebApp
                 })
                 .AddJwtBearer(o =>
                 {
-                    o.Authority = "https://localhost:44311";
+                    o.Authority = "https://p7core.127.0.0.1.xip.io:44311";
                     o.Audience = "arbitrary";
                     o.RequireHttpsMetadata = true;
                     o.SaveToken = true;
                 });
             services.AddAntiforgery(opts => opts.HeaderName = "X-XSRF-Token");
             services.AddMyHealthCheck(Configuration);
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+            });
+
             services.AddMvc(opts =>
             {
                 opts.Filters.AddService(typeof(AngularAntiforgeryCookieResultFilter));
@@ -151,16 +160,7 @@ namespace ReferenceWebApp
               
             services.AddLogging();
             services.AddWebEncoders();
-            services.AddCors(o =>
-            {
-                o.AddPolicy("default", policy =>
-                {
-                    policy.AllowAnyOrigin();
-                    policy.AllowAnyHeader();
-                    policy.AllowAnyMethod();
-                    policy.WithExposedHeaders("WWW-Authenticate");
-                });
-            });
+ 
 
             services.AddDistributedMemoryCache();
             services.AddSession();
@@ -290,8 +290,9 @@ namespace ReferenceWebApp
             app.UseSession();
 
             app.UseAuthentication();
-            
-            app.UseCors("default");
+
+            // global policy - assign here or on each controller
+            app.UseCors("CorsPolicy");
 
             app.UseMvc(routes =>
             {
