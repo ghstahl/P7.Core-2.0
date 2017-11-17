@@ -77,6 +77,7 @@ namespace ReferenceWebApp
                 .AddJsonFile("appsettings-filters.json", optional: true, reloadOnChange: true)
                 .AddJsonFile("appsettings-filters-graphql.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.IdentityServer4.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings-external-views.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
             if (env.IsDevelopment())
