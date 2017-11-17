@@ -1,0 +1,22 @@
+{
+  "definitions": {}, 
+  "$schema": "http://json-schema.org/draft-06/schema#", 
+  "$id": "http://example.com/example.json", 
+  "type": "object", 
+  "properties": {
+    "urls": {
+      "$id": "/properties/urls", 
+      "type": "array", 
+      "items": {
+        "$id": "/properties/urls/items", 
+        "type": "string", 
+        "title": "The 0 Schema.", 
+        "description": "An explanation about the purpose of this instance.", 
+        "default": "", 
+        "examples": [
+          "https://rawgit.com/ghstahl/P7.Core-2.0/master/src/P7.External.SPA/Areas/ExtSpa/views.json"
+        ]
+      }
+    }
+  }
+}
