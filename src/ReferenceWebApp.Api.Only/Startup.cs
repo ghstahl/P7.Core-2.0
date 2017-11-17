@@ -111,6 +111,8 @@ namespace ReferenceWebApp
             services.TryAddSingleton(typeof(IStringLocalizerFactory), typeof(ResourceManagerStringLocalizerFactory));
             services.AddLocalization();
 
+            var authenticationOptions = new ReferenceWebApp.Models.AuthenticationOptions();
+            Configuration.GetSection("authentication").Bind(authenticationOptions);
 
             // Add application services.
             services.AddAuthentication(options =>
@@ -120,10 +122,10 @@ namespace ReferenceWebApp
                 })
                 .AddJwtBearer(o =>
                 {
-                    o.Authority = "https://p7core.127.0.0.1.xip.io:44311";
-                    o.Audience = "arbitrary";
-                    o.RequireHttpsMetadata = true;
-                    o.SaveToken = true;
+                    o.Authority = authenticationOptions.JwtBearer.Authority;
+                    o.Audience = authenticationOptions.JwtBearer.Audience;
+                    o.RequireHttpsMetadata = authenticationOptions.JwtBearer.RequireHttpsMetadata;
+                    o.SaveToken = authenticationOptions.JwtBearer.SaveToken;
                 });
             services.AddAntiforgery(opts => opts.HeaderName = "X-XSRF-Token");
             services.AddMyHealthCheck(Configuration);
