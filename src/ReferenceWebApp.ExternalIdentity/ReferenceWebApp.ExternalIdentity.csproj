@@ -8,7 +8,12 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
   </PropertyGroup>
-
+  <PropertyGroup>
+    <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Properties\PublishProfiles\Pingo7 - Web Deploy.pubxml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AspNetCoreRateLimit" Version="2.1.0" />
@@ -18,6 +23,7 @@
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="2.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" PrivateAssets="All" />
     <PackageReference Include="Serilog" Version="2.5.0" />

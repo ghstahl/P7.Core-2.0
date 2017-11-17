@@ -8,7 +8,9 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
   </PropertyGroup>
-
+  <PropertyGroup>
+    <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
+  </PropertyGroup>
   <ItemGroup>
     <None Remove="Properties\PublishProfiles\ReferenceWebAppExternalIdentityNoIdentityServer4201711081131 - Web Deploy.pubxml" />
   </ItemGroup>
