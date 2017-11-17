@@ -45,4 +45,14 @@ namespace ReferenceWebApp.InMemory
 
         }
     }
+    public class NortonOpenIdConnectNonSSLOptions : NortonOpenIdConnectOptions
+    {
+        /// <summary>
+        /// Initializes a new <see cref="NortonOpenIdConnectNonSSLOptions"/>.
+        /// </summary>
+        public NortonOpenIdConnectNonSSLOptions()
+        {
+            CallbackPath = new PathString("/signin-norton-non-ssl");
+        }
+    }
 }

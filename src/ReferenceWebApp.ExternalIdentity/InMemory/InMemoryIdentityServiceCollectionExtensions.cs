@@ -87,27 +87,7 @@ namespace ReferenceWebApp.InMemory
                             },
                             OnTicketReceived = (context) =>
                             {
-                                ISession Session = context.HttpContext.Session;
-                                var query1 = from item in context.Properties.Items
-                                    where item.Key.StartsWith(".Token.")
-                                    select item;
-                                var query2 = from item in context.Properties.Items
-                                    where !item.Key.StartsWith(".Token.")
-                                    select item;
-                                var ap = new AuthenticationProperties();
-                                foreach (var a in query2.Where(a => a.Key != ".TokenNames"))
-                                {
-                                    ap.Items.Add(a.Key, a.Value);
-                                }
-                                context.Properties = ap;
-                                var oidc = new Dictionary<string, string>();
-                                foreach (var a in query1)
-                                {
-                                    var keys = a.Key.Split('.');
-                                    oidc.Add(keys[2], a.Value);
-                                }
-                                Session.SetObject(".oidc", oidc);
-
+ 
                                 ClaimsIdentity identity = (ClaimsIdentity)context.Principal.Identity;
                                 var query = from claim in context.Principal.Claims
                                     where claim.Type == ClaimTypes.Name || claim.Type == "name"
@@ -170,27 +150,7 @@ namespace ReferenceWebApp.InMemory
                             },
                             OnTicketReceived = (context) =>
                             {
-                                ISession Session = context.HttpContext.Session;
-                                var query1 = from item in context.Properties.Items
-                                    where item.Key.StartsWith(".Token.")
-                                    select item;
-                                var query2 = from item in context.Properties.Items
-                                    where !item.Key.StartsWith(".Token.")
-                                    select item;
-                                var ap = new AuthenticationProperties();
-                                foreach (var a in query2.Where(a => a.Key != ".TokenNames"))
-                                {
-                                    ap.Items.Add(a.Key, a.Value);
-                                }
-                                context.Properties = ap;
-                                var oidc = new Dictionary<string, string>();
-                                foreach (var a in query1)
-                                {
-                                    var keys = a.Key.Split('.');
-                                    oidc.Add(keys[2], a.Value);
-                                }
-                                Session.SetObject(".oidc", oidc);
-
+ 
                                 ClaimsIdentity identity = (ClaimsIdentity)context.Principal.Identity;
                                 var givenName = identity.FindFirst(ClaimTypes.GivenName);
                                 var familyName = identity.FindFirst(ClaimTypes.Surname);
@@ -208,6 +168,61 @@ namespace ReferenceWebApp.InMemory
                         }; 
 
                
+                    });
+            }
+
+            if (!(string.IsNullOrEmpty(configuration["Norton-ClientId-non-ssl"]) ||
+                  string.IsNullOrEmpty(configuration["Norton-ClientSecret-non-ssl"])))
+            {
+                authenticationBuilder.AddOpenIdConnect($"{NortonDefaults.AuthenticationScheme}-non-ssl",
+                    $"{NortonDefaults.DisplayName}-non-ssl",
+                    o =>
+                    {
+                        var openIdConnectOptions = new NortonOpenIdConnectNonSSLOptions();
+                        o.CallbackPath = openIdConnectOptions.CallbackPath;
+
+                        o.ClientId = configuration["Norton-ClientId-non-ssl"];
+                        o.ClientSecret = configuration["Norton-ClientSecret-non-ssl"];
+
+                        o.Authority = openIdConnectOptions.Authority;
+                        o.ResponseType = openIdConnectOptions.ResponseType;
+                        o.GetClaimsFromUserInfoEndpoint = openIdConnectOptions.GetClaimsFromUserInfoEndpoint;
+                        o.SaveTokens = openIdConnectOptions.SaveTokens;
+
+                        o.Events = new OpenIdConnectEvents()
+                        {
+                            OnRedirectToIdentityProvider = (context) =>
+                            {
+                                if (context.Request.Path != "/Account/ExternalLogin"
+                                    && context.Request.Path != "/Account/ExternalLoginWhatIf"
+                                    && context.Request.Path != "/Manage/LinkLogin")
+                                {
+                                    context.Response.Redirect("/account/login");
+                                    context.HandleResponse();
+                                }
+
+                                return Task.FromResult(0);
+                            },
+                            OnTicketReceived = (context) =>
+                            {
+ 
+                                ClaimsIdentity identity = (ClaimsIdentity)context.Principal.Identity;
+                                var givenName = identity.FindFirst(ClaimTypes.GivenName);
+                                var familyName = identity.FindFirst(ClaimTypes.Surname);
+                                var nameIdentifier = identity.FindFirst(ClaimTypes.NameIdentifier);
+                                var userId = identity.FindFirst("UserId");
+
+
+                                var claimsToKeep = new List<Claim> { givenName, familyName, nameIdentifier, userId };
+                                claimsToKeep.Add(new Claim("DisplayName", $"{givenName.Value} {familyName.Value}"));
+                                var newIdentity = new ClaimsIdentity(claimsToKeep, identity.AuthenticationType);
+
+                                context.Principal = new ClaimsPrincipal(newIdentity);
+                                return Task.CompletedTask;
+                            }
+                        };
+
+
                     });
             }
             /*

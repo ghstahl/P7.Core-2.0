@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using P7.Core.Startup;
+using P7.Core.Utils;
 using P7.GraphQLCore;
 using ReferenceWebApp.Models;
 using ReferenceWebApp.Services;
@@ -124,10 +125,34 @@ namespace ReferenceWebApp.Controllers
             var challeng = Challenge(properties, provider);
             return challeng;
         }
+        async Task<Dictionary<string, string>> HarvestOidcDataAsync()
+        {
+            var at = await HttpContext.GetTokenAsync(IdentityConstants.ExternalScheme, "access_token");
+            var idt = await HttpContext.GetTokenAsync(IdentityConstants.ExternalScheme, "id_token");
+            var rt = await HttpContext.GetTokenAsync(IdentityConstants.ExternalScheme, "refresh_token");
+            var tt = await HttpContext.GetTokenAsync(IdentityConstants.ExternalScheme, "token_type");
+            var ea = await HttpContext.GetTokenAsync(IdentityConstants.ExternalScheme, "expires_at");
+
+            var oidc = new Dictionary<string, string>
+            {
+                {"access_token", at},
+                {"id_token", idt},
+                {"refresh_token", rt},
+                {"token_type", tt},
+                {"expires_at", ea}
+            };
+            return oidc;
+        }
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
+            var oidc = await HarvestOidcDataAsync();
+
+            var session = _httpContextAccessor.HttpContext.Session;
+            session.SetObject(".oidc", oidc);
+
             if (remoteError != null)
             {
                 ErrorMessage = $"Error from external provider: {remoteError}";

@@ -5,35 +5,71 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using P7.Core.Startup;
+using P7.Core.Utils;
 using ReferenceWebApp.Models;
 using ReferenceWebApp.Services;
 
 namespace ReferenceWebApp.Controllers
 {
+    public class ClaimHandle
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
+    public class AccountConfig
+    {
+        public const string WellKnown_SectionName = "account";
+        public List<ClaimHandle> PostLoginClaims { get; set; }
+    }
+    public class MyAccountConfigureServicesRegistrant : ConfigureServicesRegistrant
+    {
+        public override void OnConfigureServices(IServiceCollection services)
+        {
+            services.Configure<AccountConfig>(Configuration.GetSection(AccountConfig.WellKnown_SectionName));
+
+        }
+
+        public MyAccountConfigureServicesRegistrant(IConfiguration configuration) : base(configuration)
+        {
+        }
+    }
+
     [Authorize]
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
+        private readonly IConfiguration _config;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
-
+        private IOptions<AccountConfig> _settings;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            IHttpContextAccessor httpContextAccessor,
+            IOptions<AccountConfig> settings,
+            ILogger<AccountController> logger,
+            IConfiguration config)
         {
+            _settings = settings;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
+            _config = config;
         }
 
         [TempData]
@@ -85,10 +121,35 @@ namespace ReferenceWebApp.Controllers
             var challeng = Challenge(properties, provider);
             return challeng;
         }
+
+        async Task<Dictionary<string, string>> HarvestOidcDataAsync()
+        {
+            var at = await HttpContext.GetTokenAsync(IdentityConstants.ExternalScheme, "access_token");
+            var idt = await HttpContext.GetTokenAsync(IdentityConstants.ExternalScheme, "id_token");
+            var rt = await HttpContext.GetTokenAsync(IdentityConstants.ExternalScheme, "refresh_token");
+            var tt = await HttpContext.GetTokenAsync(IdentityConstants.ExternalScheme, "token_type");
+            var ea = await HttpContext.GetTokenAsync(IdentityConstants.ExternalScheme, "expires_at");
+          
+            var oidc = new Dictionary<string, string>
+            {
+                {"access_token", at},
+                {"id_token", idt},
+                {"refresh_token", rt},
+                {"token_type", tt},
+                {"expires_at", ea}
+            };
+            return oidc;
+        }
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
+            var oidc = await HarvestOidcDataAsync();
+
+            var session = _httpContextAccessor.HttpContext.Session;
+            session.SetObject(".oidc", oidc);
+
             if (remoteError != null)
             {
                 ErrorMessage = $"Error from external provider: {remoteError}";
@@ -123,8 +184,13 @@ namespace ReferenceWebApp.Controllers
             var user = new ApplicationUser { UserName = nameIdClaim.Value, Email = displayName };
             var result = await _userManager.CreateAsync(user);
             var newUser = await _userManager.FindByIdAsync(user.Id);
-            await _userManager.AddClaimAsync(newUser, new Claim("custom-name", displayName));
-            await _userManager.AddClaimAsync(newUser, new Claim("x-graphql-auth",""));
+
+            var cQuery = from claim in _settings.Value.PostLoginClaims
+                let c = new Claim(claim.Name, claim.Value)
+                select c;
+            var eClaims = cQuery.ToList();
+            eClaims.Add(new Claim("custom-name", displayName));
+            await _userManager.AddClaimsAsync(newUser, eClaims);
 
             if (result.Succeeded)
             {
