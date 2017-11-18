@@ -1,0 +1,6 @@
+{
+    "urls": [
+      "https://rawgit.com/ghstahl/P7.Core-2.0/master/RemoteData/external.spa.config.json",
+      "https://rawgit.com/ghstahl/P7.Core-2.0/master/RemoteData/external.spa.local.config.json"
+    ]
+}
