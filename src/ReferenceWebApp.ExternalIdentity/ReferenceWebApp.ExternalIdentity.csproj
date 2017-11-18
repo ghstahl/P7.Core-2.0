@@ -87,4 +87,16 @@
     <None Include="Views.Ori\_ViewStart.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="appsettings-external-views.Development.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="appsettings-external-views.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Account\Login.bulma.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

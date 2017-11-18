@@ -126,6 +126,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P7201.AspNetCore.Authentica
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "A.OIDC", "A.OIDC\A.OIDC.csproj", "{E6640373-FA38-43E3-928A-D689DB4E93BE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".RemoteData", ".RemoteData", "{5EA33139-7EA8-414A-A151-F9718DD3BED9}"
+	ProjectSection(SolutionItems) = preProject
+		..\RemoteData\external.spa.config.json = ..\RemoteData\external.spa.config.json
+		..\RemoteData\external.spa.local.config.json = ..\RemoteData\external.spa.local.config.json
+		..\RemoteData\external.spa.urls.json = ..\RemoteData\external.spa.urls.json
+		..\RemoteData\view-urls.json = ..\RemoteData\view-urls.json
+		..\RemoteData\view-urls.schema.json = ..\RemoteData\view-urls.schema.json
+		..\RemoteData\views.json = ..\RemoteData\views.json
+		..\RemoteData\views.schema.json = ..\RemoteData\views.schema.json
+		..\RemoteData\views.shared.json = ..\RemoteData\views.shared.json
+		..\RemoteData\views.support.json = ..\RemoteData\views.support.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

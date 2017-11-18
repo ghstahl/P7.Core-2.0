@@ -81,8 +81,9 @@ namespace ReferenceWebApp.Controllers
         {
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
+            ViewData["IsHttps"] = _httpContextAccessor.HttpContext.Request.IsHttps;
             ViewData["ReturnUrl"] = returnUrl;
+
             return View("Login.bulma");
         }
 

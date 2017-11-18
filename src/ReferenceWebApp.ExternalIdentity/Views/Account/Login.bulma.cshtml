@@ -33,7 +33,26 @@
                         <p>
                             @foreach (var provider in loginProviders)
                             {
-                                <button type="submit" class="button is-link" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
+                                bool display = true;
+                                if (provider.DisplayName.Contains("Norton"))
+                                {
+                                    if ((bool) ViewData["IsHttps"])
+                                    {
+                                        display = !provider.DisplayName.Contains("non-ssl");
+                                    }
+                                    else
+                                    {
+                                        display = provider.DisplayName.Contains("non-ssl");
+                                    }
+
+
+                                }
+
+
+                                if (display)
+                                {
+                                    <button type="submit" class="button is-link" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
+                                }
                             }
                         </p>
                     </div>
@@ -45,5 +64,5 @@
 </section>
 
 @section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
+   
 }

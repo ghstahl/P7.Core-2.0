@@ -1,8 +1,8 @@
-﻿ @section head  {
+﻿@section head  {
     <link rel="stylesheet" href="https://localhost.daplie.me/global.css" />
     <link rel="stylesheet" href="https://localhost.daplie.me/bundle.css" />
 }
-<div id="oldSchoolIdentity"></div>
+<div id="whoAmI"></div>
 </br>
 <div id="api2"></div>
 </br>
@@ -14,7 +14,7 @@
 
 @section scripts{
     <script>
-        var myDiv = document.getElementById("oldSchoolIdentity");
+        var whoAmIDiv = document.getElementById("whoAmI");
         var myapi2Div = document.getElementById("api2");
         var myapi3Div = document.getElementById("api3");
         var body = JSON.stringify(
@@ -26,19 +26,19 @@
         );
         fetch('/api/graphql',
             {
-                    credentials: 'include',
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: body
-                })
+                credentials: 'include',
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: body
+            })
             .then(res => res.json())
-            .then(function(res) {
+            .then(function (res) {
                 console.log(res.data);
-                myDiv.innerHTML = JSON.stringify(res.data);
+                whoAmIDiv.innerHTML = JSON.stringify(res.data);
             });
 
         // do some CORS
-    var body2 = JSON.stringify(
+        var body2 = JSON.stringify(
             {
                 name: 'dog',
                 description: 'I am dog'
@@ -47,26 +47,26 @@
         fetch('https://pingo7api.azurewebsites.net/api2/OpenApi/Create',
             {
 
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: body2
-                })
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: body2
+            })
             .then(res => res.json())
-            .then(function(res) {
+            .then(function (res) {
                 console.log(res);
-                myapi2Div.innerHTML = "api2:"+JSON.stringify(res);
+                myapi2Div.innerHTML = "api2:" + JSON.stringify(res);
             });
         fetch('https://pingo7api.azurewebsites.net/api2/OpenApi/testing2',
             {
 
-                    method: 'GET',
-                     headers: { 'Content-Type': 'text/plain' },
+                method: 'GET',
+                headers: { 'Content-Type': 'text/plain' },
 
-                })
+            })
             .then(res => res.json())
-            .then(function(res) {
+            .then(function (res) {
                 console.log(res);
-                myapi3Div.innerHTML = "api3:"+JSON.stringify(res);
+                myapi3Div.innerHTML = "api3:" + JSON.stringify(res);
             });
 
     </script>

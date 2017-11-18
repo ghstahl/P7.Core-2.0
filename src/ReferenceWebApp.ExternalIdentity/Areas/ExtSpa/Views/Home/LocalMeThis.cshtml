@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="https://localhost.daplie.me/global.css" />
     <link rel="stylesheet" href="https://localhost.daplie.me/bundle.css" />
 }
-<div id="oldSchoolIdentity"></div>
+<div id="whoAmI"></div>
 </br>
 <div id="api2"></div>
 </br>
@@ -14,7 +14,7 @@
 
 @section scripts{
     <script>
-        var myDiv = document.getElementById("oldSchoolIdentity");
+        var whoAmIDiv = document.getElementById("whoAmI");
         var myapi2Div = document.getElementById("api2");
         var myapi3Div = document.getElementById("api3");
         var body = JSON.stringify(
@@ -34,7 +34,7 @@
             .then(res => res.json())
             .then(function (res) {
                 console.log(res.data);
-                myDiv.innerHTML = JSON.stringify(res.data);
+                whoAmIDiv.innerHTML = JSON.stringify(res.data);
             });
 
         // do some CORS
