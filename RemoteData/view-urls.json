@@ -1,5 +1,6 @@
 {
     "urls": [
-      "https://rawgit.com/ghstahl/P7.Core-2.0/master/src/P7.External.SPA/Areas/ExtSpa/views.json"
+      "https://rawgit.com/ghstahl/P7.Core-2.0/master/RemoteData/views.shared.json",
+      "https://rawgit.com/ghstahl/P7.Core-2.0/master/RemoteData/views.json"
     ]
 }
