@@ -25,6 +25,10 @@ namespace P7.External.SPA.Scheduler
     {
         [JsonProperty("urls")]
         public string Urls { get; set; }
+
+        [JsonProperty("urlViewSchema")]
+        public string UrlViewSchema { get; set; }
+        
     }
     public partial class RemoteViewUrls
     {
@@ -81,11 +85,14 @@ namespace P7.External.SPA.Scheduler
         {
             var appConfig = new ExternalViewOptions();
             _config.GetSection("externalViews").Bind(appConfig);
+
+            var urlViewSchema = await RemoteJsonFetch.GetRemoteJsonContentAsync(appConfig.UrlViewSchema);
+
             var remoteViewUrls = await GetRemoteViewUrlsAsync(appConfig.Urls,true);
 
             foreach (var url in remoteViewUrls.Urls)
             {
-                await RemoteRazorLocationStore.LoadRemoteDataAsync(url);
+                await RemoteRazorLocationStore.LoadRemoteDataAsync(url, urlViewSchema);
             }
         }
     }

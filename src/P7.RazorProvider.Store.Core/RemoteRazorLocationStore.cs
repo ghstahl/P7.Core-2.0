@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using P7.Core.Utils;
 using P7.RazorProvider.Store.Core.Interfaces;
 using P7.RazorProvider.Store.Core.Models;
 using Serilog;
@@ -15,13 +16,18 @@ namespace P7.RazorProvider.Store.Core
     public class RemoteRazorLocationStore : InMemoryRazorLocationStore, IRemoteRazorLocationStore
     {
         static Serilog.ILogger logger = Log.ForContext<RemoteRazorLocationStore>();
+
         // https://rawgit.com/ghstahl/P7/master/src/p7.external.spa/Areas/ExtSpa/views.json;
         public RemoteRazorLocationStore()
         {
-            
+
         }
-        public static RazorLocationViews FromJson(string json) => JsonConvert.DeserializeObject<RazorLocationViews>(json, Settings);
-        public static string ToJson(RazorLocationViews o) => JsonConvert.SerializeObject((object)o, (JsonSerializerSettings)Settings);
+
+        public static RazorLocationViews FromJson(string json) =>
+            JsonConvert.DeserializeObject<RazorLocationViews>(json, Settings);
+
+        public static string ToJson(RazorLocationViews o) =>
+            JsonConvert.SerializeObject((object) o, (JsonSerializerSettings) Settings);
 
         // JsonConverter stuff
 
@@ -31,48 +37,22 @@ namespace P7.RazorProvider.Store.Core
             DateParseHandling = DateParseHandling.None,
         };
 
-        private async Task<List<RazorLocation>> GetRemoteDataAsync(string url)
+        public async Task LoadRemoteDataAsync(string url, string schema)
         {
-            try
-            {
-                var accept = "application/json";
-                var uri = url;
-                var req = (HttpWebRequest)WebRequest.Create((string)uri);
-                req.Accept = accept;
-                var content = new MemoryStream();
-                RazorLocationViews razorLocationViews;
-                using (WebResponse response = await req.GetResponseAsync())
-                {
-                    using (Stream responseStream = response.GetResponseStream())
-                    {
+            string content = await RemoteJsonFetch.GetRemoteJsonContentAsync(url, schema);
 
-                        // Read the bytes in responseStream and copy them to content.
-                        await responseStream.CopyToAsync(content);
-                        string result = Encoding.UTF8.GetString(content.ToArray());
-                        razorLocationViews = FromJson(result);
-                    }
-                }
+            if (content != null)
+            {
+                RazorLocationViews razorLocationViews;
+                razorLocationViews = FromJson(content);
                 var now = DateTime.UtcNow;
 
                 var query = from item in razorLocationViews.Views
-                    let c = new RazorLocation(item) { LastModified = now, LastRequested = now }
+                    let c = new RazorLocation(item) {LastModified = now, LastRequested = now}
                     select c;
 
-                return query.ToList();
-            }
-            catch (Exception e)
-            {
-                logger.Fatal("Exception Caught:{0}", e.Message);
-            }
-            return null;
-        }
-
-        public async Task LoadRemoteDataAsync(string url)
-        {
-            var results = await GetRemoteDataAsync(url);
-            if (results != null)
-            {
-                var now = DateTime.UtcNow;
+                var results = query.ToList();
+                
                 var lastRequetedTime = now.Subtract(new TimeSpan(0, 1, 0));
                 foreach (var result in results)
                 {

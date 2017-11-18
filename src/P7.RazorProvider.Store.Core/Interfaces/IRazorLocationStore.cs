@@ -6,7 +6,7 @@ namespace P7.RazorProvider.Store.Core.Interfaces
 {
     public interface IRemoteRazorLocationStore : IRazorLocationStore
     {
-        Task LoadRemoteDataAsync(string url);
+        Task LoadRemoteDataAsync(string url, string schema);
     }
     public interface IRazorLocationStore 
     {
