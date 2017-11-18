@@ -1,0 +1,40 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "properties": {
+    "views": {
+      "$id": "/properties/views",
+      "type": "array",
+      "items": {
+        "$id": "/properties/views/items",
+        "type": "object",
+        "properties": {
+          "location": {
+            "$id": "/properties/views/items/properties/location",
+            "type": "string",
+            "title": "The Location Schema.",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+              "/Views/_ViewImports.cshtml"
+            ]
+          },
+          "content": {
+            "$id": "/properties/views/items/properties/content",
+            "type": "string",
+            "title": "The Content Schema.",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+              "@using Microsoft.AspNetCore.Identity\r\n@using ReferenceWebApp\r\n@using ReferenceWebApp.Models\r\n@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers"
+            ]
+          }
+        },
+        "required": [ "location", "content" ]
+      }
+    }
+  },
+  "required": [ "views" ]
+}
