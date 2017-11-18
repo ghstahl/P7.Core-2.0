@@ -1,0 +1,14 @@
+{
+  "spas": [
+    {
+      "key": "Svelte",
+      "requireAuth": true,
+      "view": "Svelte"
+    },
+    {
+      "key": "LocalMeThis",
+      "requireAuth": true,
+      "view": "LocalMeThis"
+    }
+  ]
+}
