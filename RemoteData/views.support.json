@@ -1,0 +1,8 @@
+{
+  "views": [
+    {
+      "location": "/Areas/ExtSPA/Views/Home/Support.cshtml",
+      "content": "<div>\nWelcome to Support good sir!\n</div>"
+    }
+  ]
+}
