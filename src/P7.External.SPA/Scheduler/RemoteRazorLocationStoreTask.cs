@@ -61,7 +61,10 @@ namespace P7.External.SPA.Scheduler
         {
             try
             {
-                string content = await RemoteJsonFetch.GetRemoteJsonContentAsync(url, validateSchema);
+                var schemaUrl = url.Replace(".json", ".schema.json");
+                var schema = await RemoteJsonFetch.GetRemoteJsonContentAsync(schemaUrl);
+
+                string content = await RemoteJsonFetch.GetRemoteJsonContentAsync(url, schema);
                 RemoteViewUrls remoteViewUrls;
                 remoteViewUrls = FromJson(content);
 

@@ -10,13 +10,14 @@ namespace P7.Core.Utils
     public class RemoteJsonFetch
     {
         static Serilog.ILogger logger = Log.ForContext<RemoteJsonFetch>();
-        private static async Task<string> InternalGetRemoteJsonContentAsync(string url)
+
+        public static async Task<string> GetRemoteJsonContentAsync(string url)
         {
             try
             {
                 var accept = "application/json";
                 var uri = url;
-                var req = (HttpWebRequest)WebRequest.Create((string)uri);
+                var req = (HttpWebRequest) WebRequest.Create((string) uri);
                 req.Accept = accept;
                 var content = new MemoryStream();
                 string result;
@@ -38,27 +39,23 @@ namespace P7.Core.Utils
             }
             return null;
         }
-        public static async Task<string> GetRemoteJsonContentAsync(string url, bool validateSchema = false)
+
+        public static async Task<string> GetRemoteJsonContentAsync(string url, string schema)
         {
             try
             {
-                string schema = null;
-                string content;
-                if (validateSchema)
-                {
-                    var schemaUrl = url.Replace(".json", ".schema.json");
-                    schema = await InternalGetRemoteJsonContentAsync(schemaUrl);
 
-                }
-                content = await InternalGetRemoteJsonContentAsync(url);
-                if (validateSchema)
+                string content;
+
+                content = await GetRemoteJsonContentAsync(url);
+
+                var validateResponse =
+                    JsonSchemaValidator.Validate(new JsonValidateRequest() {Json = content, Schema = schema});
+                if (!validateResponse.Valid)
                 {
-                    var validateResponse = JsonSchemaValidator.Validate(new JsonValidateRequest() { Json = content, Schema = schema });
-                    if (!validateResponse.Valid)
-                    {
-                        return null;
-                    }
+                    throw new Exception(validateResponse.Errors[0].Message);
                 }
+
                 return content;
 
             }
