@@ -11,6 +11,21 @@
       "view": "Admin"
     },
     {
+      "key": "Svelte",
+      "requireAuth": true,
+      "view": "Svelte"
+    },
+    {
+      "key": "LocalMeThis",
+      "requireAuth": true,
+      "view": "LocalMeThis"
+    },
+    {
+      "key": "ReactOne",
+      "requireAuth": true,
+      "view": "ReactOne"
+    },
+    {
       "key": "Money",
       "requireAuth": true,
       "view": "Money"

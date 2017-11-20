@@ -21,6 +21,11 @@
       "view": "LocalMeThis"
     },
     {
+      "key": "ReactOne",
+      "requireAuth": true,
+      "view": "ReactOne"
+    },
+    {
       "key": "Money",
       "requireAuth": true,
       "view": "Money"
