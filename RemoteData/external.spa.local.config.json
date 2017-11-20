@@ -9,6 +9,11 @@
       "key": "LocalMeThis",
       "requireAuth": true,
       "view": "LocalMeThis"
+    },
+    {
+      "key": "ReactOne",
+      "requireAuth": true,
+      "view": "ReactOne"
     }
   ]
 }
