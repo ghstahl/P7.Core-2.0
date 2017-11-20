@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ using Microsoft.IdentityModel.Tokens;
 using P7.Core.Startup;
 using P7.Core.Utils;
 using P7.GraphQLCore;
+using ReferenceWebApp.InMemory;
 using ReferenceWebApp.Models;
 using ReferenceWebApp.Services;
 
@@ -230,6 +232,60 @@ namespace ReferenceWebApp.Controllers
 
         #endregion
 
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<string> CheckAuthenticatedSession()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return "Horray, you are authenticated";
+            }
+            return "Oh My, Not authenticated!";
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task EstablishAuthenticatedSession(string accessToken)
+        {
+            // Clear the existing external cookie to ensure a clean login process
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+            var webHeaderCollection = new WebHeaderCollection
+            {
+                {"Authorization", $"Bearer {accessToken}"}
+            };
+
+            var jwt = await RemoteJsonFetch.FetchAsync(
+                NortonDefaults.Development.UserInformationEndpoint,
+                new WebRequestInit()
+                {
+                    Headers = webHeaderCollection
+                });
+
+            var handler = new JwtSecurityTokenHandler();
+            var tokenS = handler.ReadToken(jwt) as JwtSecurityToken;
+            var queryNameId = from claim in tokenS.Claims
+                where claim.Type == "sub"
+                select claim;
+
+
+            var nameIdClaim = queryNameId.FirstOrDefault();
+
+
+            var user = new ApplicationUser { UserName = nameIdClaim.Value, Email = nameIdClaim.Value };
+
+            try
+            {
+                var result = await _userManager.CreateAsync(user);
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                await _userManager.DeleteAsync(user); // just using this inMemory userstore as a scratch holding pad
+
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
     }
     [Area("Api")]
     [Route("api/[controller]")]
@@ -244,5 +300,6 @@ namespace ReferenceWebApp.Controllers
             }));
             return jsonResult;
         }
+ 
     }
 }

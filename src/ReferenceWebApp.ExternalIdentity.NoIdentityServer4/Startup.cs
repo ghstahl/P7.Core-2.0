@@ -176,15 +176,13 @@ namespace ReferenceWebApp
 
             services.AddLogging();
             services.AddWebEncoders();
-            services.AddCors(o =>
+            services.AddCors(options =>
             {
-                o.AddPolicy("default", policy =>
-                {
-                    policy.AllowAnyOrigin();
-                    policy.AllowAnyHeader();
-                    policy.AllowAnyMethod();
-                    policy.WithExposedHeaders("WWW-Authenticate");
-                });
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
             });
 
             services.AddDistributedMemoryCache();
@@ -315,8 +313,9 @@ namespace ReferenceWebApp
             app.UseSession();
 
             app.UseAuthentication();
-            
-            app.UseCors("default");
+
+            // global policy - assign here or on each controller
+            app.UseCors("CorsPolicy");
 
             app.UseMvc(routes =>
             {

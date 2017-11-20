@@ -7,18 +7,32 @@ using Serilog;
 
 namespace P7.Core.Utils
 {
+    public class WebRequestInit
+    {
+        public WebHeaderCollection Headers { get; set; }
+        public string Accept { get; set; }
+    }
     public class RemoteJsonFetch
     {
         static Serilog.ILogger logger = Log.ForContext<RemoteJsonFetch>();
 
-        public static async Task<string> GetRemoteJsonContentAsync(string url)
+        public static async Task<string> FetchAsync(string url, WebRequestInit init)
         {
             try
             {
-                var accept = "application/json";
                 var uri = url;
-                var req = (HttpWebRequest) WebRequest.Create((string) uri);
-                req.Accept = accept;
+                var req = (HttpWebRequest)WebRequest.Create((string)uri);
+                req.Accept = init.Accept;
+                if (init.Headers != null)
+                {
+
+                    var allKeys = init.Headers.AllKeys;
+                    foreach (var key in allKeys)
+                    {
+                        var value = init.Headers.Get(key);
+                        req.Headers.Add(key, value);
+                    }
+                }
                 var content = new MemoryStream();
                 string result;
                 using (WebResponse response = await req.GetResponseAsync())
@@ -38,6 +52,12 @@ namespace P7.Core.Utils
                 logger.Fatal("Exception Caught:{0}", e.Message);
             }
             return null;
+        }
+
+        public static async Task<string> GetRemoteJsonContentAsync(string url)
+        {
+            var result = await FetchAsync(url, new WebRequestInit() {Accept = "application/json"});
+            return result;
         }
 
         public static async Task<string> GetRemoteJsonContentAsync(string url, string schema)
