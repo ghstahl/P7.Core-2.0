@@ -195,7 +195,36 @@ query q($input: blogQueryInput!) {
   }
 }
 ```
+#### Javascript example
+```
+getBlog() {
+    var body = JSON.stringify(
+      {
+          query: 'query q($input: blogQueryInput!) {blog(input: $input) {document {title summary categories tags timeStamp data}}}',
+          variables: '{"input": {"id": "5c6b2b4c-f1c7-4f8d-a97b-1755c7d1fa62"}}',
+          operationName: 'q'
+      }
+  );
 
+  
+    return new Promise((resolve, reject) => {
+      fetch('https://pingo7api.azurewebsites.net/api/graphql', {
+        credentials: 'include',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: body
+      }).then((res) => {
+        res.json().then((res) => {
+          console.log('success fetching', res);
+          resolve(res.data);
+        });
+      }).catch((err) => {
+        console.log('error fetching', err);
+        reject(err);
+      });
+    });
+  },
+```
 #### Paging Blogs
 #### Query a page of Blog Entries
 ```graphql
