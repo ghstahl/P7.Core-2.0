@@ -65,7 +65,6 @@
 
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -87,10 +86,10 @@
     <Content Update="appsettings-filters-graphql.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Update="Areas\ExtSpa\Views\Home\LocalMeThis.cshtml">
+    <Content Update="Areas\OldSchool\Views\Home\Index.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Update="Areas\OldSchool\Views\Home\Index.cshtml">
+    <Content Update="wwwroot\lib\pretty-json.css">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>

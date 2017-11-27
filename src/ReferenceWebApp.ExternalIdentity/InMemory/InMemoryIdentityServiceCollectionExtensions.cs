@@ -61,12 +61,12 @@ namespace ReferenceWebApp.InMemory
                     o =>
                     {
                         var openIdConnectOptions = new GoogleOpenIdConnectOptions();
-                        o.CallbackPath = openIdConnectOptions.CallbackPath;
+                        o.CallbackPath = configuration["oauth2:google:callbackPath"];
 
                         o.ClientId = configuration["Google-ClientId"];
                         o.ClientSecret = configuration["Google-ClientSecret"];
 
-                        o.Authority = openIdConnectOptions.Authority;
+                        o.Authority = configuration["oauth2:google:authority"];
                         o.ResponseType = openIdConnectOptions.ResponseType;
                         o.GetClaimsFromUserInfoEndpoint = openIdConnectOptions.GetClaimsFromUserInfoEndpoint;
                         o.SaveTokens = openIdConnectOptions.SaveTokens;
@@ -124,12 +124,12 @@ namespace ReferenceWebApp.InMemory
                     o =>
                     {
                         var openIdConnectOptions = new NortonOpenIdConnectOptions();
-                        o.CallbackPath = openIdConnectOptions.CallbackPath;
+                        o.CallbackPath = configuration["oauth2:norton:callbackPath"];
 
                         o.ClientId = configuration["Norton-ClientId"];
                         o.ClientSecret = configuration["Norton-ClientSecret"];
 
-                        o.Authority = openIdConnectOptions.Authority;
+                        o.Authority = configuration["oauth2:norton:authority"]; 
                         o.ResponseType = openIdConnectOptions.ResponseType;
                         o.GetClaimsFromUserInfoEndpoint = openIdConnectOptions.GetClaimsFromUserInfoEndpoint;
                         o.SaveTokens = openIdConnectOptions.SaveTokens;
