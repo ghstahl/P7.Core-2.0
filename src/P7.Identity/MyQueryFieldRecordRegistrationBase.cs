@@ -78,42 +78,40 @@ namespace P7.Identity
                     var tokenEndpoint = doc.TokenEndpoint;
                     var keys = doc.KeySet.Keys;
 
-                    var clientId = _configuration["Norton-ClientId"];
-                    var cientSecret = _configuration["Norton-ClientSecret"];
-                    var client = new TokenClient(
-                        doc.TokenEndpoint,
-                        clientId,
-                        cientSecret);
-
-                    var extras = new Dictionary<string, string>
+                    if (!string.IsNullOrEmpty(oidc["expires_at"]))
                     {
-                        { OidcConstants.TokenRequest.Scope, "openid" }
-                    };
-                    var response = await client.RequestRefreshTokenAsync(
-                        oidc["refresh_token"], extras);
-                    var token = response.AccessToken;
-
-                    if (!response.IsError)
-                    {
-                        var utcExpiresAt = DateTimeOffset.UtcNow.AddSeconds(response.ExpiresIn).ToString("o");
-                        var oidc2 = new Dictionary<string, string>
+                        var ea = DateTimeOffset.Parse(oidc["expires_at"]);
+                        if (ea <= DateTimeOffset.UtcNow)
                         {
-                            {"access_token", response.AccessToken},
-                            {"id_token", response.IdentityToken},
-                            {"refresh_token", response.RefreshToken},
-                            {"token_type", response.TokenType},
-                            {"expires_at", utcExpiresAt}
-                        };
-                        var session = _httpContextAccessor.HttpContext.Session;
-                        session.SetObject(".oidc", oidc2);
+                            var clientId = _configuration["Norton-ClientId"];
+                            var cientSecret = _configuration["Norton-ClientSecret"];
+                            var client = new TokenClient(
+                                doc.TokenEndpoint,
+                                clientId,
+                                cientSecret);
+                            var extras = new Dictionary<string, string>
+                            {
+                                { OidcConstants.TokenRequest.Scope, "openid" }
+                            };
+                            var response = await client.RequestRefreshTokenAsync(
+                                oidc["refresh_token"], extras);
+                            var token = response.AccessToken;
+                            if (!response.IsError)
+                            {
+                                var utcExpiresAt = DateTimeOffset.UtcNow.AddSeconds(response.ExpiresIn).ToString("o");
+                                var oidc2 = new Dictionary<string, string>
+                                {
+                                    {"access_token", response.AccessToken},
+                                    {"id_token", response.IdentityToken},
+                                    {"refresh_token", response.RefreshToken},
+                                    {"token_type", response.TokenType},
+                                    {"expires_at", utcExpiresAt}
+                                };
+                                var session = _httpContextAccessor.HttpContext.Session;
+                                session.SetObject(".oidc", oidc2);
+                            }
+                        }
                     }
-
-
-
-
-
-                    // TODO get new refresh token if stale.
-
 
                     var result = new AccessCodeDocumentHandle
                     {
