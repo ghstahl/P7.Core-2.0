@@ -138,6 +138,9 @@ namespace ReferenceWebApp.InMemory
                         {
                             OnRedirectToIdentityProvider = (context) =>
                             {
+                                var acrValues = context.ProtocolMessage.AcrValues;
+                                context.ProtocolMessage.Scope += " open_web_session";
+                              //  context.ProtocolMessage.Prompt = "login";
                                 if (context.Request.Path != "/Account/ExternalLogin"
                                     && context.Request.Path != "/Account/ExternalLoginWhatIf"
                                     && context.Request.Path != "/Manage/LinkLogin")
