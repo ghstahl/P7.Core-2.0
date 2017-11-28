@@ -57,7 +57,7 @@
     },
     {
       "key": "MyApp",
-      "requireAuth": false,
+      "requireAuth": true,
       "strongLoginRequiredSeconds":60,
       "view": "MyApp"
     }
