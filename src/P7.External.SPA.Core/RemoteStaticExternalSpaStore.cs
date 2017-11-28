@@ -3,6 +3,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using P7.Core.Utils;
 
 namespace P7.External.SPA.Core
 {
@@ -22,23 +23,8 @@ namespace P7.External.SPA.Core
 
         public async Task<SpaRecords> GetRemoteDataAsync(string url)
         {
-            var accept = "application/json";
-            var uri = url;
-            var req = (HttpWebRequest)WebRequest.Create(uri);
-            req.Accept = accept;
-            var content = new MemoryStream();
-            SpaRecords spaRecords;
-            using (WebResponse response = await req.GetResponseAsync())
-            {
-                using (Stream responseStream = response.GetResponseStream())
-                {
-
-                    // Read the bytes in responseStream and copy them to content.
-                    await responseStream.CopyToAsync(content);
-                    string result = Encoding.UTF8.GetString(content.ToArray());
-                    spaRecords = FromJson(result);
-                }
-            }
+            string content = await RemoteJsonFetch.GetRemoteJsonContentAsync(url);
+            var spaRecords = FromJson(content);
             return spaRecords;
         }
 

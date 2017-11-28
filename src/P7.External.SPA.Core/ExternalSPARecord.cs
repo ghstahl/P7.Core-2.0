@@ -13,6 +13,9 @@ namespace P7.External.SPA.Core
         [JsonProperty("requireAuth")]
         public bool RequireAuth { get; set; }
 
+        [JsonProperty("strongLoginRequiredSeconds")]
+        public int StrongLoginRequiredSeconds { get; set; }
+
         [JsonProperty("view")]
         public string View { get; set; }
     }

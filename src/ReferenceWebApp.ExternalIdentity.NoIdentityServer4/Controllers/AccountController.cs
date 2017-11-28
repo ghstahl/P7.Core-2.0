@@ -153,7 +153,7 @@ namespace ReferenceWebApp.Controllers
             var oidc = await HarvestOidcDataAsync();
 
             var session = _httpContextAccessor.HttpContext.Session;
-            session.SetObject(".oidc", oidc);
+            session.SetObject(".identity.oidc", oidc);
 
             if (remoteError != null)
             {
@@ -202,6 +202,7 @@ namespace ReferenceWebApp.Controllers
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 await _userManager.DeleteAsync(user); // just using this inMemory userstore as a scratch holding pad
                 _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+                session.SetObject(".identity.strongLoginUtc", DateTimeOffset.UtcNow);
                 return RedirectToLocal(returnUrl);
 
             }

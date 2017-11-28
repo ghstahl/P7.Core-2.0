@@ -160,7 +160,7 @@ namespace A.OIDC
                                     var keys = a.Key.Split('.');
                                     oidc.Add(keys[2], a.Value);
                                 }
-                                Session.SetObject(".oidc",oidc);
+                                Session.SetObject(".identity.oidc", oidc);
 
                                 ClaimsIdentity identity = (ClaimsIdentity)context.Principal.Identity;
                                 var query = from claim in context.Principal.Claims

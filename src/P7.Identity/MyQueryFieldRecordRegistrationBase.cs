@@ -65,7 +65,7 @@ namespace P7.Identity
                 {
                     var userContext = context.UserContext.As<GraphQLUserContext>();
 
-                    var oidc = _httpContextAccessor.HttpContext.Session.GetObject<Dictionary<string, string>>(".oidc");
+                    var oidc = _httpContextAccessor.HttpContext.Session.GetObject<Dictionary<string, string>>(".identity.oidc");
 
                     var input = context.GetArgument<AccessCodeQueryHandle>("input");
 
@@ -108,10 +108,11 @@ namespace P7.Identity
                                     {"expires_at", utcExpiresAt}
                                 };
                                 var session = _httpContextAccessor.HttpContext.Session;
-                                session.SetObject(".oidc", oidc2);
+                                session.SetObject(".identity.oidc", oidc2);
                             }
                         }
                     }
+           
 
                     var result = new AccessCodeDocumentHandle
                     {
