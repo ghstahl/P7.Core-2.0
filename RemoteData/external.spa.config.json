@@ -58,6 +58,7 @@
     {
       "key": "MyApp",
       "requireAuth": false,
+      "strongLoginRequiredSeconds":60,
       "view": "MyApp"
     }
   ]
