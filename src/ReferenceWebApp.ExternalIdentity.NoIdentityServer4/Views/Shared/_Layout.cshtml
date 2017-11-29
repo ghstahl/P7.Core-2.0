@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
     
     <link rel="stylesheet" href="~/css/site.css" />
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.min.js"></script>
+    <script src="~/lib/keep-alive-hook.js" asp-append-version="true"></script>
     @RenderSection("head", required: false)
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
@@ -43,7 +46,7 @@
                     </a>
                     <a class="navbar-item" href="/espa/reactone/">
                         ReactOne
-                    </a>       
+                    </a>     
                     <a class="navbar-item" href="/espa/Admin/">
                         Admin
                     </a>
@@ -83,7 +86,9 @@
 
  
 <script src="~/js/site.js" asp-append-version="true"></script>
-
+<script>
+    keepAliveHook.start("/keep-alive");
+</script>
 @RenderSection("Scripts", required: false)
 </body>
 </html>
