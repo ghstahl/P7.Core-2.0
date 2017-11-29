@@ -6,6 +6,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityModel;
+using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -84,8 +85,22 @@ namespace ReferenceWebApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
+            bool softLogin = false;
+            if (User.IsAuthenticated())
+            {
+                if (Request.Cookies.ContainsKey(".LoginHint"))
+                {
+                    var loginHint = Request.Cookies[".LoginHint"];
+                    softLogin = loginHint == "Soft";
+                    Response.Cookies.Delete(".LoginHint", new CookieOptions() { HttpOnly = false });
+                }
+            }
             // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+            if (!softLogin)
+            {
+                HttpContext.Session.Clear();
+                await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+            }
             ViewData["IsHttps"] = _httpContextAccessor.HttpContext.Request.IsHttps;
             ViewData["ReturnUrl"] = returnUrl;
 

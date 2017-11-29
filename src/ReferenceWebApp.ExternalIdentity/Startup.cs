@@ -385,7 +385,11 @@ namespace ReferenceWebApp
 
             //enable session before MVC
             //=========================  
-            app.UseSession();
+            app.UseSession(new SessionOptions
+                {
+                    CookieSecure = CookieSecurePolicy.SameAsRequest
+                }
+            );
 
             app.UseAuthentication();
             app.UsePublicRefreshToken();

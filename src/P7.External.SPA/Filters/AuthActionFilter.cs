@@ -76,6 +76,8 @@ namespace P7.External.SPA.Filters
                                 if (future <= DateTimeOffset.UtcNow)
                                 {
                                     requireLogin = true;
+                                    context.HttpContext.Response.Cookies.Append(".LoginHint", "Soft",
+                                        new CookieOptions() { HttpOnly = false });
                                     context.Result = new RedirectToActionResult(Action, Controller,
                                         new { area = Area, returnUrl = context.HttpContext.Items["original-path"] });
                                 }
