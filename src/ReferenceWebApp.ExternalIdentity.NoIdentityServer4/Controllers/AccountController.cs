@@ -4,22 +4,18 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using P7.Core.Startup;
 using P7.Core.Utils;
-using P7.GraphQLCore;
 using ReferenceWebApp.InMemory;
 using ReferenceWebApp.Models;
 using ReferenceWebApp.Services;
@@ -48,6 +44,7 @@ namespace ReferenceWebApp.Controllers
         {
         }
     }
+
     [Authorize]
     [Route("[controller]/[action]")]
     public class AccountController : Controller
@@ -86,9 +83,10 @@ namespace ReferenceWebApp.Controllers
         {
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-           
+
             ViewData["IsHttps"] = _httpContextAccessor.HttpContext.Request.IsHttps;
             ViewData["ReturnUrl"] = returnUrl;
+
             return View("Login.bulma");
         }
 
@@ -127,6 +125,7 @@ namespace ReferenceWebApp.Controllers
             var challeng = Challenge(properties, provider);
             return challeng;
         }
+
         async Task<Dictionary<string, string>> HarvestOidcDataAsync()
         {
             var at = await HttpContext.GetTokenAsync(IdentityConstants.ExternalScheme, "access_token");
@@ -134,7 +133,7 @@ namespace ReferenceWebApp.Controllers
             var rt = await HttpContext.GetTokenAsync(IdentityConstants.ExternalScheme, "refresh_token");
             var tt = await HttpContext.GetTokenAsync(IdentityConstants.ExternalScheme, "token_type");
             var ea = await HttpContext.GetTokenAsync(IdentityConstants.ExternalScheme, "expires_at");
-
+          
             var oidc = new Dictionary<string, string>
             {
                 {"access_token", at},
@@ -150,10 +149,21 @@ namespace ReferenceWebApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
+            string currentNameIdClaimValue = null;
+            if (User.Identity.IsAuthenticated)
+            {
+                // we will only create a new user if the user here is actually new.
+                var qName = from claim in User.Claims
+                    where claim.Type == ".nameIdentifier"
+                            select claim;
+                var nc = qName.FirstOrDefault();
+                currentNameIdClaimValue = nc?.Value;
+            }
+
             var oidc = await HarvestOidcDataAsync();
 
             var session = _httpContextAccessor.HttpContext.Session;
-            session.SetObject(".identity.oidc", oidc);
+            
 
             if (remoteError != null)
             {
@@ -176,8 +186,20 @@ namespace ReferenceWebApp.Controllers
             var displayName = nameClaim.Value;
             var nameIdClaim = queryNameId.FirstOrDefault();
 
+            if (!string.IsNullOrEmpty(currentNameIdClaimValue) &&
+                (currentNameIdClaimValue != nameIdClaim.Value))
+            {
+                session.Clear();
+            }
+           
+            if (currentNameIdClaimValue == nameIdClaim.Value)
+            {
+                session.SetObject(".identity.oidc", oidc);
+                session.SetObject(".identity.strongLoginUtc", DateTimeOffset.UtcNow);
+                // this is a re login from the same user, so don't do anything;
+                return RedirectToLocal(returnUrl);
+            }
             
-
             // paranoid
             var leftoverUser = await _userManager.FindByEmailAsync(displayName);
             if (leftoverUser != null)
@@ -191,10 +213,11 @@ namespace ReferenceWebApp.Controllers
             var newUser = await _userManager.FindByIdAsync(user.Id);
 
             var cQuery = from claim in _settings.Value.PostLoginClaims
-                        let c = new Claim(claim.Name, claim.Value)
-                        select c;
+                let c = new Claim(claim.Name, claim.Value)
+                select c;
             var eClaims = cQuery.ToList();
             eClaims.Add(new Claim("custom-name", displayName));
+            eClaims.Add(new Claim(".nameIdentifier", nameIdClaim.Value));// normalized id.
             await _userManager.AddClaimsAsync(newUser, eClaims);
 
             if (result.Succeeded)
@@ -202,12 +225,15 @@ namespace ReferenceWebApp.Controllers
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 await _userManager.DeleteAsync(user); // just using this inMemory userstore as a scratch holding pad
                 _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+                session.SetObject(".identity.oidc", oidc);
                 session.SetObject(".identity.strongLoginUtc", DateTimeOffset.UtcNow);
                 return RedirectToLocal(returnUrl);
 
             }
             return RedirectToAction(nameof(Login));
         }
+
+ 
 
         #region Helpers
 
@@ -232,6 +258,7 @@ namespace ReferenceWebApp.Controllers
         }
 
         #endregion
+
 
         [HttpGet]
         [AllowAnonymous]
@@ -262,14 +289,14 @@ namespace ReferenceWebApp.Controllers
                 {
                     Headers = webHeaderCollection
                 });
-
+ 
             var handler = new JwtSecurityTokenHandler();
             var tokenS = handler.ReadToken(jwt) as JwtSecurityToken;
             var queryNameId = from claim in tokenS.Claims
                 where claim.Type == "sub"
                 select claim;
-
-
+           
+         
             var nameIdClaim = queryNameId.FirstOrDefault();
 
 
@@ -284,23 +311,25 @@ namespace ReferenceWebApp.Controllers
             }
             catch (Exception e)
             {
-
+                
             }
+
+
         }
     }
+
     [Area("Api")]
     [Route("api/[controller]")]
     public class IdentityApiController : Controller
     {
         public async Task<ActionResult> Get()
         {
-            var jsonResult = new JsonResult(User.Claims.Select(c => new
+            var jsonResult = new JsonResult(User.Claims.Select(c=>new
             {
-                c.Type,
-                c.Value
+                c.Type,c.Value
             }));
             return jsonResult;
         }
- 
+      
     }
 }
