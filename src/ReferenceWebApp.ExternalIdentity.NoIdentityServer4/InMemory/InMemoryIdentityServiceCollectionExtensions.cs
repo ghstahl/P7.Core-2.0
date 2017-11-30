@@ -3,16 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using P7.Core.Utils;
 
 namespace ReferenceWebApp.InMemory
 {
@@ -138,6 +133,15 @@ namespace ReferenceWebApp.InMemory
                         {
                             OnRedirectToIdentityProvider = (context) =>
                             {
+
+                                var acrValues = context.ProtocolMessage.AcrValues;
+                                context.ProtocolMessage.Scope += " open_web_session";
+                                if (context.HttpContext.User.Identity.IsAuthenticated)
+                                {
+                                    // assuming a relogin trigger, so we will make the user relogin on the IDP
+                                    context.ProtocolMessage.Prompt = "login";
+                                }
+                              //  
                                 if (context.Request.Path != "/Account/ExternalLogin"
                                     && context.Request.Path != "/Account/ExternalLoginWhatIf"
                                     && context.Request.Path != "/Manage/LinkLogin")
