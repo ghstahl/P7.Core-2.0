@@ -3,63 +3,87 @@
     {
       "key": "support",
       "requireAuth": false,
-      "view": "Support"
+      "view": "Support",
+      "clientId": "spa/p7core/io",
+      "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton"
     },
     {
       "key": "Admin",
       "requireAuth": true,
-      "view": "Admin"
+      "view": "Admin",
+      "clientId": "spa/p7core/io",
+      "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton"
     },
     {
       "key": "Svelte",
       "requireAuth": true,
-      "view": "Svelte"
+      "view": "Svelte",
+      "clientId": "spa/p7core/io",
+      "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton"
     },
     {
       "key": "LocalMeThis",
       "requireAuth": true,
-      "view": "LocalMeThis"
+      "view": "LocalMeThis",
+      "clientId": "spa/p7core/io",
+      "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton"
     },
     {
       "key": "ReactOne",
       "requireAuth": true,
-      "view": "ReactOne"
+      "view": "ReactOne",
+      "clientId": "spa/p7core/io",
+      "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton"
     },
     {
       "key": "Money",
       "requireAuth": true,
-      "view": "Money"
+      "view": "Money",
+      "clientId": "spa/p7core/io",
+      "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton"
     },
     {
       "key": "2048",
       "requireAuth": false,
-      "view": "2048"
+      "view": "2048",
+      "clientId": "spa/p7core/io",
+      "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton"
     },
     {
       "key": "Music",
       "requireAuth": false,
-      "view": "Music"
+      "view": "Music",
+      "clientId": "spa/p7core/io",
+      "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton"
     },
     {
       "key": "Moon",
       "requireAuth": true,
-      "view": "Moon"
+      "view": "Moon",
+      "clientId": "spa/p7core/io",
+      "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton"
     },
     {
       "key": "GraphiQL",
       "requireAuth": false,
-      "view": "GraphiQL"
+      "view": "GraphiQL",
+      "clientId": "spa/p7core/io",
+      "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton"
     },
     {
       "key": "Stock",
       "requireAuth": true,
-      "view": "Stock"
+      "view": "Stock",
+      "clientId": "spa/p7core/io",
+      "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton"
     },
     {
       "key": "MyApp",
       "requireAuth": true,
-      "strongLoginRequiredSeconds":60,
-      "view": "MyApp"
+      "strongLoginRequiredSeconds": 60,
+      "view": "MyApp",
+      "clientId": "spa/p7core/io",
+      "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton"
     }
   ]
 }
