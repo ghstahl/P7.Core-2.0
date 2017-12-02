@@ -18,5 +18,11 @@ namespace P7.External.SPA.Core
 
         [JsonProperty("view")]
         public string View { get; set; }
+
+        [JsonProperty("clientId")]
+        public string ClientId { get; set; }
+
+        [JsonProperty("redirectUri")]
+        public string RedirectUri { get; set; }
     }
 }

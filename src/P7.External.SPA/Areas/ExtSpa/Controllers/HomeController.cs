@@ -18,6 +18,7 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
     class ViewBagRecord
     {
         public string AuthorizeUrl { get; set; }
+        public string AuthorizeEndpoint { get; set; }
         public dynamic SpaRecord { get; set; }
     }
     [Area("ExtSPA")]
@@ -56,13 +57,13 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
 
             var request = new AuthorizeRequest(doc.AuthorizeEndpoint);
             var url = request.CreateAuthorizeUrl(
-                clientId: "test_lifelock/p7core/io",
+                clientId: spa.ClientId,
                 responseType: OidcConstants.ResponseTypes.Code,
-                prompt:OidcConstants.PromptModes.None,
-                redirectUri: "https://p7core.127.0.0.1.xip.io:44311/lifelock/signin-norton",
+                prompt: OidcConstants.PromptModes.None,
+                redirectUri: spa.RedirectUri,
                 scope: "openid profile email");
 
-            var viewBagRecord = new ViewBagRecord {AuthorizeUrl = url, SpaRecord = spa};
+            var viewBagRecord = new ViewBagRecord {AuthorizeEndpoint  = doc.AuthorizeEndpoint,AuthorizeUrl = url, SpaRecord = spa};
             ViewBag.ViewBagRecord = viewBagRecord;
 
             //	var url = "https://login-int.norton.com/sso/idp/OIDC?prompt=none&response_type=code&scope=openid%20profile%20email&client_id=test_lifelock/p7core/io&redirect_uri=https://p7core.127.0.0.1.xip.io:44311/lifelock/signin-norton";
