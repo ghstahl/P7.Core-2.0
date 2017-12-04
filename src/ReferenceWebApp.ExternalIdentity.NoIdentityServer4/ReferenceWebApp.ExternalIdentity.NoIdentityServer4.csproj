@@ -86,10 +86,10 @@
     <Content Update="appsettings-filters-graphql.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Update="Areas\OldSchool\Views\Home\Index.cshtml">
+    <Content Update="Areas\ExtSpa\Views\Home\LocalMeThis.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Update="Views\Shared\_Layout.cshtml">
+    <Content Update="Areas\OldSchool\Views\Home\Index.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Update="wwwroot\lib\keep-alive-hook.js">
