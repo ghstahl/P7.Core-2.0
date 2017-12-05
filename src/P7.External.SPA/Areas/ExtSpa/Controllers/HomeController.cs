@@ -20,7 +20,18 @@ using ZeroFormatter;
 
 namespace P7.External.SPA.Areas.ExtSpa.Controllers
 {
- 
+    [ZeroFormattable]
+    public class MySpaRecord
+    {    
+        [Index(0)]
+        public virtual string Key { get; set; } 
+   
+        [Index(1)]
+        public virtual string ClientId { get; set; }
+
+        [Index(2)]
+        public virtual string RedirectUri { get; set; }
+    }
     [ZeroFormattable]
     public class ViewBagRecord
     {
@@ -32,7 +43,7 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
         public virtual string AuthorizeUrl { get; set; }
 
         [Index(2)]
-        public virtual ExternalSPARecord SpaRecord { get; set; }
+        public virtual MySpaRecord SpaRecord { get; set; }
     }
 
 
@@ -88,11 +99,16 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
                     prompt: OidcConstants.PromptModes.None,
                     redirectUri: spa.RedirectUri,
                     scope: "openid profile email");
-
-                viewBagRecord = new ViewBagRecord { AuthorizeEndpoint = doc.AuthorizeEndpoint, AuthorizeUrl = url, SpaRecord = spa };
+                var mySpaRecrord = new MySpaRecord()
+                {
+                    ClientId = spa.ClientId,
+                    Key = spa.Key,
+                    RedirectUri = spa.RedirectUri
+                };
+                viewBagRecord = new ViewBagRecord { AuthorizeEndpoint = doc.AuthorizeEndpoint, AuthorizeUrl = url, SpaRecord = mySpaRecrord };
                 var val = ZeroFormatterSerializer.Serialize(viewBagRecord);
                 var cacheEntryOptions = new DistributedCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromHours(24));
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(5));
                 _cache.Set(cacheKey, val, cacheEntryOptions);
             }
  
