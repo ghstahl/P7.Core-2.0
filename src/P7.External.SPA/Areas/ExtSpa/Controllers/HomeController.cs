@@ -15,6 +15,7 @@ using IdentityModel.Client;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using P7.Core.Cache;
 using P7.External.SPA.Filters;
 using ZeroFormatter;
 
@@ -31,6 +32,7 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
 
         [Index(2)]
         public virtual string RedirectUri { get; set; }
+
     }
     [ZeroFormattable]
     public class ViewBagRecord
@@ -44,6 +46,7 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
 
         [Index(2)]
         public virtual MySpaRecord SpaRecord { get; set; }
+
     }
 
 
@@ -58,6 +61,7 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
         private IExternalSPAStore _externalSpaStore;
         private IConfiguration _configuration;
         private DiscoveryCache _discoveryCache;
+        private const string _loadedSpasKey = ".loadedSpas";
         public HomeController(IHttpContextAccessor httpContextAccessor,
             IExternalSPAStore externalSpaStore,
             IConfiguration configuration,
@@ -77,6 +81,15 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
         {
             Logger.LogInformation("Hello from the External SPA Home Index Controller");
             var spa = _externalSpaStore.GetRecord(id);
+            if (spa == null)
+            {
+                return new NotFoundResult();
+            }
+
+            var loadedSpas = SessionCacheManager<Dictionary<string, ExternalSPARecord>>.Grab(_httpContextAccessor.HttpContext,
+                                 _loadedSpasKey) ?? new Dictionary<string, ExternalSPARecord>();
+
+            
             var result = HttpContext.User.Claims.Select(
                 c => new ClaimType {Type = c.Type, Value = c.Value});
 
@@ -113,13 +126,16 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
             }
  
             ViewBag.ViewBagRecord = viewBagRecord;
-
-            //	var url = "https://login-int.norton.com/sso/idp/OIDC?prompt=none&response_type=code&scope=openid%20profile%20email&client_id=test_lifelock/p7core/io&redirect_uri=https://p7core.127.0.0.1.xip.io:44311/lifelock/signin-norton";
-
-
-            //    ViewData[".spaRecord"] = JsonConvert.SerializeObject(spa); 
-            // var model = new HtmlString(spa.RenderTemplate);
-
+            if (!loadedSpas.ContainsKey(id))
+            {
+                loadedSpas.Add(id, spa);
+                SessionCacheManager<Dictionary<string, ExternalSPARecord>>
+                    .Insert(_httpContextAccessor.HttpContext, _loadedSpasKey, loadedSpas);
+            }       
+            var query = from item in loadedSpas
+                select item.Value.KeepAliveUri;
+            ViewBag.KeepAliveUris = query.ToList();
+ 
             return View(spa.View, result);
         }
     }

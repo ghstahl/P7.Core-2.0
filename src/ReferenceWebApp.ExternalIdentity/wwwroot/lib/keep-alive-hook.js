@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-var keepAliveHook = function () {
+var keepAliveHook = (function () {
     var _this = this,
         _arguments = arguments;
 
@@ -11,12 +11,15 @@ var keepAliveHook = function () {
     w._oldOpen = XMLHttpRequest.prototype.open;
     var onStateChange = function onStateChange(event) {
         if (event.currentTarget.readyState === 4) {
-            library._onHttpMonitor(event.currentTarget.responseURL, event.currentTarget.status);
+            library._onHttpMonitor(
+                event.currentTarget.responseURL,
+                event.currentTarget.status
+            );
         }
     };
     XMLHttpRequest.prototype.open = function () {
         // when an XHR object is opened, add a listener for its readystatechange events
-        _this.addEventListener('readystatechange', onStateChange);
+        _this.addEventListener("readystatechange", onStateChange);
         // run the real `open`
         w._oldOpen.apply(_this, _arguments);
     };
@@ -56,17 +59,18 @@ var keepAliveHook = function () {
             if (library._keepAliveUrl) {
                 console.log("must keep alive");
                 fetch(library._keepAliveUrl, {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'text/plain' }
-
-                }).then(function (res) {
-                    return res.json();
-                }).then(function (res) {
-                    console.log(res);
-                });
+                    method: "GET",
+                    headers: { "Content-Type": "text/plain" }
+                })
+                    .then(function (res) {
+                        return res.json();
+                    })
+                    .then(function (res) {
+                        console.log(res);
+                    });
             }
         }
     };
 
     return library;
-}();
+})();

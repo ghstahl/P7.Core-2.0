@@ -12,7 +12,9 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <script>
         var viewBagRecord = @Html.Raw(JsonConvert.SerializeObject(ViewBag.ViewBagRecord));
+        var keepAliveUris = @Html.Raw(JsonConvert.SerializeObject(ViewBag.KeepAliveUris));
         console.log(viewBagRecord);
+        console.log(keepAliveUris);
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.min.js"></script>
