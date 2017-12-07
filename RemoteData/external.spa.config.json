@@ -7,7 +7,8 @@
       "clientId": "spa/p7core/io",
       "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton",
       "keepAliveUri":"https://p7core.127.0.0.1.xip.io:44311/KeepAlive/Home/Index?id=Support",
-      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=Support"
+      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=Support",
+      "cacheBustHash":"1234"
     },
     {
       "key": "Admin",
@@ -16,7 +17,8 @@
       "clientId": "spa/p7core/io",
       "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton",
       "keepAliveUri":"https://p7core.127.0.0.1.xip.io:44311/KeepAlive/Home/Index?id=Admin",
-      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=Admin"
+      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=Admin",
+      "cacheBustHash":"1234"
     },
     {
       "key": "Svelte",
@@ -25,7 +27,8 @@
       "clientId": "spa/p7core/io",
       "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton",
       "keepAliveUri":"https://p7core.127.0.0.1.xip.io:44311/KeepAlive/Home/Index?id=Svelte",
-      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=Svelte"
+      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=Svelte",
+      "cacheBustHash":"1234"
     },
     {
       "key": "LocalMeThis",
@@ -34,7 +37,8 @@
       "clientId": "spa/p7core/io",
       "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton",
       "keepAliveUri":"https://p7core.127.0.0.1.xip.io:44311/KeepAlive/Home/Index?id=LocalMeThis",
-      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=LocalMeThis"
+      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=LocalMeThis",
+      "cacheBustHash":"1234"
     },
     {
       "key": "ReactOne",
@@ -43,7 +47,8 @@
       "clientId": "spa/p7core/io",
       "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton",
       "keepAliveUri":"https://p7core.127.0.0.1.xip.io:44311/KeepAlive/Home/Index?id=ReactOne",
-      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=ReactOne"
+      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=ReactOne",
+      "cacheBustHash":"1234"
     },
     {
       "key": "Money",
@@ -52,7 +57,8 @@
       "clientId": "spa/p7core/io",
       "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton",
       "keepAliveUri":"https://p7core.127.0.0.1.xip.io:44311/KeepAlive/Home/Index?id=Money",
-      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=Money"
+      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=Money",
+      "cacheBustHash":"1234"
     },
     {
       "key": "2048",
@@ -61,7 +67,8 @@
       "clientId": "spa/p7core/io",
       "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton",
       "keepAliveUri":"https://p7core.127.0.0.1.xip.io:44311/KeepAlive/Home/Index?id=2048",
-      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=2048"
+      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=2048",
+      "cacheBustHash":"1234"
     },
     {
       "key": "Music",
@@ -70,7 +77,8 @@
       "clientId": "spa/p7core/io",
       "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton",
       "keepAliveUri":"https://p7core.127.0.0.1.xip.io:44311/KeepAlive/Home/Index?id=Music",
-      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=Music"
+      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=Music",
+      "cacheBustHash":"1234"
     },
     {
       "key": "Moon",
@@ -79,7 +87,8 @@
       "clientId": "spa/p7core/io",
       "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton",
       "keepAliveUri":"https://p7core.127.0.0.1.xip.io:44311/KeepAlive/Home/Index?id=Moon",
-      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=Moon"
+      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=Moon",
+      "cacheBustHash":"1234"
     },
     {
       "key": "GraphiQL",
@@ -88,7 +97,8 @@
       "clientId": "spa/p7core/io",
       "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton",
       "keepAliveUri":"https://p7core.127.0.0.1.xip.io:44311/KeepAlive/Home/Index?id=GraphiQL",
-      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=GraphiQL"
+      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=GraphiQL",
+      "cacheBustHash":"1234"
     },
     {
       "key": "Stock",
@@ -97,7 +107,8 @@
       "clientId": "spa/p7core/io",
       "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton",
       "keepAliveUri":"https://p7core.127.0.0.1.xip.io:44311/KeepAlive/Home/Index?id=Stock",
-      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=Stock"
+      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=Stock",
+      "cacheBustHash":"1234"
     },
     {
       "key": "MyApp",
@@ -107,7 +118,8 @@
       "clientId": "spa/p7core/io",
       "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton",
       "keepAliveUri":"https://p7core.127.0.0.1.xip.io:44311/KeepAlive/Home/Index?id=MyApp",
-      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=MyApp"
+      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=MyApp",
+      "cacheBustHash":"1234"
     }
   ]
 }
