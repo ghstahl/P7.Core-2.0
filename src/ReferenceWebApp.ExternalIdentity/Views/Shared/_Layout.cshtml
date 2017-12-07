@@ -1,5 +1,11 @@
-﻿@using Newtonsoft.Json
+﻿@using Microsoft.AspNetCore.Http
+@using Newtonsoft.Json
+@using P7.Core.Cache
+@using P7.External.SPA.Areas.ExtSpa.Controllers
+@using P7.External.SPA.Core
 @inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,11 +16,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
     
     <link rel="stylesheet" href="~/css/site.css" />
+    @{
+        var loadedSpas = SessionCacheManager<Dictionary<string, ExternalSPARecord>>.Grab(HttpContextAccessor.HttpContext,
+            ".loadedSpas") ?? new Dictionary<string, ExternalSPARecord>();
+        var query = from item in loadedSpas
+                    let c = new FrontChannelRecord { KeepAliveUri = item.Value.KeepAliveUri,LogoutUri = item.Value.LogoutUri}
+                    select c;
+        var frontChannelRecords = query.ToList();
+        ViewBag._frontChannelRecords = frontChannelRecords;
+        var hash = SessionCacheManager<string>.Grab(HttpContextAccessor.HttpContext,".identity.userHash") ?? "";
+        ViewBag._userHash = hash;
+    }
     <script>
         var viewBagRecord = @Html.Raw(JsonConvert.SerializeObject(ViewBag.ViewBagRecord));
-        var keepAliveUris = @Html.Raw(JsonConvert.SerializeObject(ViewBag.KeepAliveUris));
+        var frontChannelRecords = @Html.Raw(JsonConvert.SerializeObject(ViewBag._frontChannelRecords));
+        var userHash = "@ViewBag._userHash";
         console.log(viewBagRecord);
-        console.log(keepAliveUris);
+        console.log(frontChannelRecords);
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.min.js"></script>

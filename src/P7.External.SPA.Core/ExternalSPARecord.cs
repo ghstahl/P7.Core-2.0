@@ -27,6 +27,8 @@ namespace P7.External.SPA.Core
 
         [JsonProperty("keepAliveUri")]
         public string KeepAliveUri { get; set; }
-    
+
+        [JsonProperty("logoutUri")]
+        public string LogoutUri { get; set; }
     }
 }

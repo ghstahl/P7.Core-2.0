@@ -14,8 +14,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using P7.Core.Cache;
 using P7.Core.Startup;
 using P7.Core.Utils;
+using P7.External.SPA.Areas.ExtSpa.Controllers;
+using P7.External.SPA.Core;
 using ReferenceWebApp.InMemory;
 using ReferenceWebApp.Models;
 using ReferenceWebApp.Services;
@@ -90,13 +93,28 @@ namespace ReferenceWebApp.Controllers
             return View("Login.bulma");
         }
 
- 
+        public async Task LogoutSpa(string id)
+        {
+            _logger.LogInformation($"LogoutSpa({id}).");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
+            var loadedSpas = SessionCacheManager<Dictionary<string, ExternalSPARecord>>
+                                 .Grab(_httpContextAccessor.HttpContext, ".loadedSpas") ?? new Dictionary<string, ExternalSPARecord>();
+            var query = from item in loadedSpas
+                let c = new FrontChannelRecord { LogoutUri = item.Value.LogoutUri }
+                select c;
+            var frontChannelRecords = query.ToList();
+            ViewBag.logoutRecords = frontChannelRecords;
+
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
+            var url = Url.Action(nameof(HomeController.Index), "Home");
+            ViewBag.RedirectUrl = url;
+            return View();
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 

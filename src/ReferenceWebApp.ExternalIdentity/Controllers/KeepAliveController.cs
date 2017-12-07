@@ -10,9 +10,9 @@ namespace ReferenceWebApp.Controllers
     {
         // GET: api/KeepAlive
         [HttpGet]
-        public async Task<string> GetAsync()
+        public async Task GetAsync()
         {
-            return "OK";
+            
         }
     }
 }

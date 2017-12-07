@@ -21,6 +21,11 @@ using ZeroFormatter;
 
 namespace P7.External.SPA.Areas.ExtSpa.Controllers
 {
+    public class FrontChannelRecord
+    {
+        public string KeepAliveUri { get; set; }
+        public string LogoutUri { get; set; }
+    }
     [ZeroFormattable]
     public class MySpaRecord
     {    
@@ -32,7 +37,6 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
 
         [Index(2)]
         public virtual string RedirectUri { get; set; }
-
     }
     [ZeroFormattable]
     public class ViewBagRecord
@@ -132,10 +136,7 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
                 SessionCacheManager<Dictionary<string, ExternalSPARecord>>
                     .Insert(_httpContextAccessor.HttpContext, _loadedSpasKey, loadedSpas);
             }       
-            var query = from item in loadedSpas
-                select item.Value.KeepAliveUri;
-            ViewBag.KeepAliveUris = query.ToList();
- 
+
             return View(spa.View, result);
         }
     }
