@@ -4,6 +4,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -227,6 +229,15 @@ namespace ReferenceWebApp.Controllers
             // paranoid end
 
             var user = new ApplicationUser { UserName = nameIdClaim.Value, Email = displayName };
+            // SHA256 is disposable by inheritance.  
+            using (var sha256 = SHA256.Create())
+            {
+                // Send a sample text to hash.  
+                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(nameIdClaim.Value));
+                // Get the hashed string.  
+                var hash = BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
+                SessionCacheManager<string>.Insert(_httpContextAccessor.HttpContext, ".identity.userHash", hash);
+            }
             var result = await _userManager.CreateAsync(user);
             var newUser = await _userManager.FindByIdAsync(user.Id);
 

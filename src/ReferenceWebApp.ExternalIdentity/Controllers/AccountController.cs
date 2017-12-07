@@ -237,7 +237,7 @@ namespace ReferenceWebApp.Controllers
                 var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(nameIdClaim.Value));
                 // Get the hashed string.  
                 var hash = BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
-                session.SetObject(".identity.userHash", hash);
+                SessionCacheManager<string>.Insert(_httpContextAccessor.HttpContext, ".identity.userHash", hash);
             }
 
             var result = await _userManager.CreateAsync(user);
