@@ -31,6 +31,7 @@
         var viewBagRecord = @Html.Raw(JsonConvert.SerializeObject(ViewBag.ViewBagRecord));
         var frontChannelRecords = @Html.Raw(JsonConvert.SerializeObject(ViewBag._frontChannelRecords));
         var userHash = "@ViewBag._userHash";
+        var cacheBustHash = "@ViewBag.CacheBustHash";
         console.log(viewBagRecord);
         console.log(frontChannelRecords);
     </script>

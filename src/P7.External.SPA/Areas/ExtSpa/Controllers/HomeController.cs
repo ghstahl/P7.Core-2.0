@@ -37,6 +37,8 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
 
         [Index(2)]
         public virtual string RedirectUri { get; set; }
+        [Index(3)]
+        public virtual string CacheBustHash { get; set; }
     }
     [ZeroFormattable]
     public class ViewBagRecord
@@ -120,7 +122,8 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
                 {
                     ClientId = spa.ClientId,
                     Key = spa.Key,
-                    RedirectUri = spa.RedirectUri
+                    RedirectUri = spa.RedirectUri,
+                    CacheBustHash = spa.CacheBustHash
                 };
                 viewBagRecord = new ViewBagRecord { AuthorizeEndpoint = doc.AuthorizeEndpoint, AuthorizeUrl = url, SpaRecord = mySpaRecrord };
                 var val = ZeroFormatterSerializer.Serialize(viewBagRecord);
@@ -135,8 +138,8 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
                 loadedSpas.Add(id, spa);
                 SessionCacheManager<Dictionary<string, ExternalSPARecord>>
                     .Insert(_httpContextAccessor.HttpContext, _loadedSpasKey, loadedSpas);
-            }       
-
+            }
+            ViewBag.CacheBustHash = viewBagRecord.SpaRecord.CacheBustHash;
             return View(spa.View, result);
         }
     }

@@ -30,5 +30,8 @@ namespace P7.External.SPA.Core
 
         [JsonProperty("logoutUri")]
         public string LogoutUri { get; set; }
+
+        [JsonProperty("cacheBustHash")]
+        public string CacheBustHash { get; set; }
     }
 }
