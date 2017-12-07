@@ -20,12 +20,15 @@
         var loadedSpas = SessionCacheManager<Dictionary<string, ExternalSPARecord>>.Grab(HttpContextAccessor.HttpContext,
             ".loadedSpas") ?? new Dictionary<string, ExternalSPARecord>();
         var query = from item in loadedSpas
-            let c = new FrontChannelRecord { KeepAliveUri = item.Value.KeepAliveUri,LogoutUri = item.Value.LogoutUri}
-            select c;
+                    let c = new FrontChannelRecord { KeepAliveUri = item.Value.KeepAliveUri,LogoutUri = item.Value.LogoutUri}
+                    select c;
         var frontChannelRecords = query.ToList();
+        frontChannelRecords.Add(new FrontChannelRecord() { KeepAliveUri = "/keep-alive?id=local" });
         ViewBag._frontChannelRecords = frontChannelRecords;
         var hash = SessionCacheManager<string>.Grab(HttpContextAccessor.HttpContext,".identity.userHash") ?? "";
         ViewBag._userHash = hash;
+
+
     }
     <script>
         var viewBagRecord = @Html.Raw(JsonConvert.SerializeObject(ViewBag.ViewBagRecord));
@@ -34,6 +37,8 @@
         var cacheBustHash = "@ViewBag.CacheBustHash";
         console.log(viewBagRecord);
         console.log(frontChannelRecords);
+       
+
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.min.js"></script>
@@ -113,7 +118,7 @@
  
 <script src="~/js/site.js" asp-append-version="true"></script>
 <script>
-    keepAliveHook.start("/keep-alive");
+        keepAliveHook.start(frontChannelRecords);
 </script>
 @RenderSection("Scripts", required: false)
 </body>

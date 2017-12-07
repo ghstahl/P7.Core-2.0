@@ -55,15 +55,16 @@ var keepAliveHook = function () {
             w._keepAlive = false;
             if (library._keepAliveUrl) {
                 console.log("must keep alive");
-                fetch(library._keepAliveUrl, {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'text/plain' }
+                for (var i = 0, len = library._keepAliveUrl.length; i < len; i++) {
+                    var uri = library._keepAliveUrl[i].KeepAliveUri;
+                    w._oldFetch(uri, {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'text/plain' }
 
-                }).then(function (res) {
-                    return res.json();
-                }).then(function (res) {
-                    console.log(res);
-                });
+                    }).then(function (res) {
+                        console.log(res);
+                    });
+                }  
             }
         }
     };
