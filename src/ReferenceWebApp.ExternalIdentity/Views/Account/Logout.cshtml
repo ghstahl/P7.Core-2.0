@@ -1,0 +1,38 @@
+﻿@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@using Microsoft.AspNetCore.Identity
+@using Newtonsoft.Json
+ 
+
+
+@{
+    ViewData["Title"] = "Logout";
+    ViewData["Message"] = "Log out of all SPAs.";
+}
+
+<section class="section">
+    <div class="container">
+        <h1 class="title">@ViewData["Title"]</h1>
+        <h2 class="subtitle">@ViewData["Message"] </h2>
+        Wait ...
+    </div>
+
+</section>
+
+@section Scripts {
+    <script>
+        var logoutRecords = @Html.Raw(JsonConvert.SerializeObject(ViewBag.logoutRecords));
+        console.log(logoutRecords);
+
+        var redirectUrl = @Html.Raw(JsonConvert.SerializeObject(ViewBag.RedirectUrl));
+
+        console.log(redirectUrl);
+
+        function doRedirect() {
+           window.location.replace(redirectUrl);
+        }
+        setTimeout(doRedirect, 5000);
+    </script>
+}
