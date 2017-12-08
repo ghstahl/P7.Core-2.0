@@ -190,15 +190,13 @@ namespace WebApplication1
 
             services.AddLogging();
             services.AddWebEncoders();
-            services.AddCors(o =>
+            services.AddCors(options =>
             {
-                o.AddPolicy("default", policy =>
-                {
-                    policy.AllowAnyOrigin();
-                    policy.AllowAnyHeader();
-                    policy.AllowAnyMethod();
-                    policy.WithExposedHeaders("WWW-Authenticate");
-                });
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
             });
 
             services.AddDistributedMemoryCache();
@@ -389,7 +387,7 @@ namespace WebApplication1
             app.UseAuthentication();
             app.UsePublicRefreshToken();
             app.UseIdentityServer();
-            app.UseCors("default");
+            app.UseCors("CorsPolicy");
             app.UseMvc(routes =>
             {
                 routes.MapRoute("areaRoute", "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
