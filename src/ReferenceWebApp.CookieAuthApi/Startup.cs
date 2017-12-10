@@ -27,14 +27,20 @@ namespace ReferenceWebApp.CookieAuthApi
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
+                    builder => builder
+                        .AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials());
             });
 
-            services
-                .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            
+            services.AddAuthentication(sharedOptions =>
+                {
+                    sharedOptions.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    sharedOptions.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    // sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                })
                 .AddCookie(
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     options =>
@@ -43,7 +49,8 @@ namespace ReferenceWebApp.CookieAuthApi
                         options.AccessDeniedPath = new PathString("/account/login");
                         options.Cookie.Name = "AUTHCOOKIE";
                         options.ExpireTimeSpan = new TimeSpan(1, 0, 0, 0);
-                        options.Cookie.HttpOnly = true;
+                        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                        options.Cookie.SameSite = SameSiteMode.Strict;
                     }
                 );
 

@@ -17,14 +17,14 @@ namespace ReferenceWebApp.CookieAuthApi.Controllers
     {
         [HttpGet]
         [AllowAnonymous]
-        [Route("establish-session")]
-        public async Task EstablishAuthenticatedSession(string username, string password)
+        [Route("sign-in")]
+        public async Task SignIn(string username, string password)
         {
 
             var properties = new AuthenticationProperties
             {
                 IsPersistent = true,
-                ExpiresUtc = new DateTime(2017, 12, 31)
+                ExpiresUtc = DateTime.UtcNow.AddHours(1)
             };
 
             var claims = new[] {new Claim("name", username), new Claim(ClaimTypes.Role, "User")};

@@ -11,7 +11,7 @@ namespace P7.IdentityServer4.Common
         {
             builder.AddResourceService<DefaultResourcesStore>();
             builder.AddAdminResourceService<AdminResourceStore>();
-            builder.AddCorsPolicyService<DefaultCorsPolicyService>();
+          //  builder.AddCorsPolicyService<DefaultCorsPolicyService>();
             builder.AddResourceOwnerPasswordValidator<ArbitraryResourceOwnerPasswordValidator>();
             builder.AddClaimsService<CustomClaimsServiceHub>();
             builder.AddCustomClaimsService<CustomArbitraryClaimsService>();
