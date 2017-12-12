@@ -21,9 +21,9 @@
       "cacheBustHash":"1234"
     },
     {
-      "key": "ReactOne",
+      "key": "ReactTwo",
       "requireAuth": true,
-      "view": "ReactOne",
+      "view": "ReactTwo",
       "clientId": "spa/p7core/io",
       "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton",
       "keepAliveUri":"https://p7core.127.0.0.1.xip.io:44311/KeepAlive/Home/Index?id=ReactOne",
