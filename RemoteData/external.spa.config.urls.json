@@ -1,0 +1,7 @@
+{
+  "urls": [
+    "https://rawgit.com/ghstahl/P7.Core-2.0.RemoteData/master/external-sap-configs/reactOne.spa.config.json",
+    "https://rawgit.com/ghstahl/P7.Core-2.0.RemoteData/master/external-sap-configs/svelte.spa.config.json",
+    "https://rawgit.com/ghstahl/P7.Core-2.0/master/RemoteData/external.spa.config.json"
+  ]
+}
