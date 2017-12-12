@@ -48,9 +48,10 @@ namespace ReferenceWebApp.CookieAuthApi
                         options.LoginPath = "/Account/LogIn"; ;
                         options.AccessDeniedPath = new PathString("/account/login");
                         options.Cookie.Name = "AUTHCOOKIE";
-                        options.ExpireTimeSpan = new TimeSpan(1, 0, 0, 0);
+                        options.ExpireTimeSpan = new TimeSpan(365, 0, 0, 0);
                         options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-                        options.Cookie.SameSite = SameSiteMode.Strict;
+                        options.Cookie.SameSite = SameSiteMode.None;
+                        
                     }
                 );
 
@@ -70,7 +71,8 @@ namespace ReferenceWebApp.CookieAuthApi
             }
             var cookiePolicyOptions = new CookiePolicyOptions
             {
-                Secure = CookieSecurePolicy.SameAsRequest
+                Secure = CookieSecurePolicy.SameAsRequest,
+                MinimumSameSitePolicy = SameSiteMode.None
             };
 
             app.UseCookiePolicy(cookiePolicyOptions);

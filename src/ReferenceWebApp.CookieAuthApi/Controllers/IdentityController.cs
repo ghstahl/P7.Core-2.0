@@ -24,7 +24,9 @@ namespace ReferenceWebApp.CookieAuthApi.Controllers
             var properties = new AuthenticationProperties
             {
                 IsPersistent = true,
-                ExpiresUtc = DateTime.UtcNow.AddHours(1)
+                ExpiresUtc = DateTime.UtcNow.AddYears(1),
+                
+                AllowRefresh = true
             };
 
             var claims = new[] {new Claim("name", username), new Claim(ClaimTypes.Role, "User")};
