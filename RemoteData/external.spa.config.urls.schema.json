@@ -1,0 +1,98 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "properties": {
+    "spas": {
+      "$id": "/properties/spas",
+      "type": "array",
+      "items": {
+        "$id": "/properties/spas/items",
+        "type": "object",
+        "properties": {
+          "key": {
+            "$id": "/properties/spas/items/properties/key",
+            "type": "string",
+            "title": "The Key Schema.",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+              "support"
+            ]
+          },
+          "requireAuth": {
+            "$id": "/properties/spas/items/properties/requireAuth",
+            "type": "boolean",
+            "title": "The Requireauth Schema.",
+            "description": "An explanation about the purpose of this instance.",
+            "default": false,
+            "examples": [
+              false
+            ]
+          },
+          "view": {
+            "$id": "/properties/spas/items/properties/view",
+            "type": "string",
+            "title": "The View Schema.",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+              "Support"
+            ]
+          },
+          "clientId": {
+            "$id": "/properties/spas/items/properties/clientId",
+            "type": "string",
+            "title": "The Clientid Schema.",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+              "spa/p7core/io"
+            ]
+          },
+          "redirectUri": {
+            "$id": "/properties/spas/items/properties/redirectUri",
+            "type": "string",
+            "title": "The Redirecturi Schema.",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+              "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton"
+            ]
+          },
+          "keepAliveUri": {
+            "$id": "/properties/spas/items/properties/keepAliveUri",
+            "type": "string",
+            "title": "The Keepaliveuri Schema.",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+              "https://p7core.127.0.0.1.xip.io:44311/KeepAlive/Home/Index?id=Support"
+            ]
+          },
+          "logoutUri": {
+            "$id": "/properties/spas/items/properties/logoutUri",
+            "type": "string",
+            "title": "The Logouturi Schema.",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+              "https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=Support"
+            ]
+          },
+          "cacheBustHash": {
+            "$id": "/properties/spas/items/properties/cacheBustHash",
+            "type": "string",
+            "title": "The Cachebusthash Schema.",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+              "1234"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
