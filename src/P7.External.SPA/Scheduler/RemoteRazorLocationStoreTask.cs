@@ -20,28 +20,10 @@ using Serilog;
 
 namespace P7.External.SPA.Scheduler
 {
-
-    public class ExternalViewOptions
-    {
-        [JsonProperty("urls")]
-        public string Urls { get; set; }
-
-        [JsonProperty("urlViewSchema")]
-        public string UrlViewSchema { get; set; }
-        
-    }
-    public partial class RemoteViewUrls
-    {
-        [JsonProperty("urls")]
-        public string[] Urls { get; set; }
-    }
-
-
     public class RemoteRazorLocationStoreTask : IScheduledTask
     {
-    //    private const string Url = "https://rawgit.com/ghstahl/P7.Core-2.0/master/src/P7.External.SPA/Areas/ExtSpa/views.json";
         private IRemoteRazorLocationStore RemoteRazorLocationStore { get; set; }
-        static Serilog.ILogger logger = Log.ForContext<RemoteRazorLocationStore>();
+        static Serilog.ILogger logger = Log.ForContext<RemoteRazorLocationStoreTask>();
         private IConfiguration _config { get; set; }
         public RemoteRazorLocationStoreTask(IConfiguration config,IRemoteRazorLocationStore store)
         {
@@ -49,19 +31,10 @@ namespace P7.External.SPA.Scheduler
             _config = config;
         }
         public string Schedule => "*/1 * * * *";  // every 1 minute
-        public static RemoteViewUrls FromJson(string json) => JsonConvert.DeserializeObject<RemoteViewUrls>(json, Settings);
-
-        public static string ToJson(RemoteViewUrls o) => JsonConvert.SerializeObject((object)o, (JsonSerializerSettings)Settings);
-        // JsonConverter stuff
-
-        static JsonSerializerSettings Settings = new JsonSerializerSettings
-        {
-            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-            DateParseHandling = DateParseHandling.None,
-        };
 
 
-        private async Task<RemoteViewUrls> GetRemoteViewUrlsAsync(string url, bool validateSchema = false)
+
+        private async Task<RemoteUrls> GetRemoteUrlsAsync(string url, bool validateSchema = false)
         {
             try
             {
@@ -69,8 +42,8 @@ namespace P7.External.SPA.Scheduler
                 var schema = await RemoteJsonFetch.GetRemoteJsonContentAsync(schemaUrl);
 
                 string content = await RemoteJsonFetch.GetRemoteJsonContentAsync(url, schema);
-                RemoteViewUrls remoteViewUrls;
-                remoteViewUrls = FromJson(content);
+                RemoteUrls remoteViewUrls;
+                remoteViewUrls = ExternUrlsOptionConvert.FromJson(content);
 
                 return remoteViewUrls;
             }
@@ -83,12 +56,12 @@ namespace P7.External.SPA.Scheduler
 
         public async Task Invoke(CancellationToken cancellationToken)
         {
-            var appConfig = new ExternalViewOptions();
+            var appConfig = new ExternalUrlsOptions();
             _config.GetSection("externalViews").Bind(appConfig);
 
             var urlViewSchema = await RemoteJsonFetch.GetRemoteJsonContentAsync(appConfig.UrlViewSchema);
 
-            var remoteViewUrls = await GetRemoteViewUrlsAsync(appConfig.Urls,true);
+            var remoteViewUrls = await GetRemoteUrlsAsync(appConfig.Urls,true);
 
             foreach (var url in remoteViewUrls.Urls)
             {
