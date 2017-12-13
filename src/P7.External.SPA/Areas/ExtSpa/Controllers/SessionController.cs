@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using P7.Core.Cache;
 using P7.Core.Utils;
 using P7.External.SPA.Core;
 
@@ -56,8 +58,8 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
                 return new NotFoundResult();
             }
             var key = $".extSpa.Session.{request.Key}";
-            Session.SetObject(key, request.Data);
-
+            SessionCacheManager<string>
+                .Insert(_httpContextAccessor.HttpContext, key, request.Data);
             return new OkResult(); 
         }
         [AllowAnonymous]
@@ -72,7 +74,9 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
             var key = $".extSpa.Session.{id}";
             if (Session.IsAvailable)
             {
-                var data = Session.GetObject<string>(key);
+                var data = SessionCacheManager<string>
+                    .Grab(_httpContextAccessor.HttpContext, key);
+               
                 return new JsonResult(data);
             }
             return new JsonResult(null);

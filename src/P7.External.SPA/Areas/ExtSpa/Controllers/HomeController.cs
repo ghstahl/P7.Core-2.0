@@ -117,14 +117,16 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
                     prompt: OidcConstants.PromptModes.None,
                     redirectUri: spa.RedirectUri,
                     scope: "openid profile email");
-                var mySpaRecrord = new MySpaRecord()
+                var mySpaRecord = new MySpaRecord()
                 {
                     ClientId = spa.ClientId,
                     Key = spa.Key,
                     RedirectUri = spa.RedirectUri,
                     CacheBustHash = spa.CacheBustHash
                 };
-                viewBagRecord = new ViewBagRecord { AuthorizeEndpoint = doc.AuthorizeEndpoint, AuthorizeUrl = url, SpaRecord = mySpaRecrord };
+                viewBagRecord = new ViewBagRecord { AuthorizeEndpoint = doc.AuthorizeEndpoint,
+                    AuthorizeUrl = url, SpaRecord = mySpaRecord
+                };
                 var val = ZeroFormatterSerializer.Serialize(viewBagRecord);
                 var cacheEntryOptions = new DistributedCacheEntryOptions()
                     .SetSlidingExpiration(TimeSpan.FromMinutes(5));
@@ -138,8 +140,10 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
                 SessionCacheManager<Dictionary<string, ExternalSPARecord>>
                     .Insert(_httpContextAccessor.HttpContext, _loadedSpasKey, loadedSpas);
             }
-            var key = $".extSpa.Session.{id}";
-            var customData = Session.GetObject<string>(key);
+            var key = $".extSpa.Session.{viewBagRecord.SpaRecord.Key}";
+            var customData = SessionCacheManager<string>
+                .Grab(_httpContextAccessor.HttpContext, key);
+           
             ViewBag.CacheBustHash = viewBagRecord.SpaRecord.CacheBustHash;
             ViewBag.CustomData = customData;
             return View(spa.View, result);
