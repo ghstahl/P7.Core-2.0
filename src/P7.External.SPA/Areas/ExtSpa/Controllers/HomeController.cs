@@ -16,6 +16,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using P7.Core.Cache;
+using P7.Core.Utils;
 using P7.External.SPA.Filters;
 using ZeroFormatter;
 
@@ -55,8 +56,6 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
 
     }
 
-
-    
     [Area("ExtSPA")]
     public class HomeController : Controller
     {
@@ -139,7 +138,10 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
                 SessionCacheManager<Dictionary<string, ExternalSPARecord>>
                     .Insert(_httpContextAccessor.HttpContext, _loadedSpasKey, loadedSpas);
             }
+            var key = $".extSpa.Session.{id}";
+            var customData = Session.GetObject<string>(key);
             ViewBag.CacheBustHash = viewBagRecord.SpaRecord.CacheBustHash;
+            ViewBag.CustomData = customData;
             return View(spa.View, result);
         }
     }
