@@ -39,6 +39,7 @@ using P7.Core.Middleware;
 using P7.Core.Scheduler.Scheduling;
 using P7.Core.Startup;
 using P7.Core.TagHelpers;
+using P7.GraphQLCore;
 using P7.GraphQLCore.Stores;
 using P7.IdentityServer4.Common;
 using P7.IdentityServer4.Common.ExtensionGrantValidator;
@@ -206,7 +207,9 @@ namespace WebApplication1
                 s => s.GetService<IHttpContextAccessor>().HttpContext.User);
             AddAuthenticationServices(services);
 
-            services.AddAllConfigureServicesRegistrants(Configuration);
+            services.RegisterP7CoreConfigurationServices(Configuration);
+            services.RegisterGraphQLCoreConfigurationServices(Configuration);
+
             services.AddDependenciesUsingAutofacModules();
 
             services.AddScheduler((sender, args) =>
@@ -347,7 +350,6 @@ namespace WebApplication1
 
 
            
-            app.AddAllConfigureRegistrants();
 
 
             if (env.IsDevelopment())

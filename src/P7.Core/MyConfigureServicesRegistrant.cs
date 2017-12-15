@@ -9,16 +9,12 @@ using P7.Core.Startup;
 
 namespace P7.Core
 {
-    public class MyConfigureServicesRegistrant : ConfigureServicesRegistrant
+    public static class ConfigurationServicesExtension
     {
-        public override void OnConfigureServices(IServiceCollection services)
+        public static void RegisterP7CoreConfigurationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<FiltersConfig>(Configuration.GetSection(FiltersConfig.WellKnown_SectionName));
-
-        }
-
-        public MyConfigureServicesRegistrant(IConfiguration configuration) : base(configuration)
-        {
+            services.Configure<FiltersConfig>(configuration.GetSection(FiltersConfig.WellKnown_SectionName));
         }
     }
+ 
 }

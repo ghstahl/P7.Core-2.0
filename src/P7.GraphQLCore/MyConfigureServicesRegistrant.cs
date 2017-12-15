@@ -25,18 +25,12 @@ namespace P7.GraphQLCore
         public MutationConfig Mutation { get; set; }
         public QueryConfig Query { get; set; }
     }
-    public class MyConfigureServicesRegistrant : ConfigureServicesRegistrant
+    public static class ConfigurationServicesExtension
     {
-        public override void OnConfigureServices(IServiceCollection services)
+        public static void RegisterGraphQLCoreConfigurationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<GraphQLAuthenticationConfig>(Configuration.GetSection(GraphQLAuthenticationConfig.WellKnown_SectionName));
-            services.Configure<GraphQLFieldAuthorityConfig>(Configuration.GetSection(GraphQLFieldAuthorityConfig.WellKnown_SectionName));
-
-            
-        }
-
-        public MyConfigureServicesRegistrant(IConfiguration configuration) : base(configuration)
-        {
+            services.Configure<GraphQLAuthenticationConfig>(configuration.GetSection(GraphQLAuthenticationConfig.WellKnown_SectionName));
+            services.Configure<GraphQLFieldAuthorityConfig>(configuration.GetSection(GraphQLFieldAuthorityConfig.WellKnown_SectionName));
         }
     }
 }

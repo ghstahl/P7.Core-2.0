@@ -36,11 +36,13 @@ using P7.Core.Middleware;
 using P7.Core.Scheduler.Scheduling;
 using P7.Core.Startup;
 using P7.Core.TagHelpers;
+using P7.GraphQLCore;
 using P7.GraphQLCore.Stores;
 using P7.Razor.FileProvider;
 using P7.RazorProvider.Store.Core;
 using P7.RazorProvider.Store.Core.Interfaces;
 using P7.TwitterAuthentication;
+using ReferenceWebApp.Controllers;
 using ReferenceWebApp.Health;
 using ReferenceWebApp.Models;
 using ReferenceWebApp.Services;
@@ -190,8 +192,11 @@ namespace ReferenceWebApp
 
             services.AddTransient<ClaimsPrincipal>(
                 s => s.GetService<IHttpContextAccessor>().HttpContext.User);
-      
-            services.AddAllConfigureServicesRegistrants(Configuration);
+
+            services.RegisterP7CoreConfigurationServices(Configuration);
+            services.RegisterGraphQLCoreConfigurationServices(Configuration);
+            services.RegisterAccountConfigurationServices(Configuration);
+            
             services.AddDependenciesUsingAutofacModules();
 
             services.AddScheduler((sender, args) =>
@@ -276,7 +281,6 @@ namespace ReferenceWebApp
 
 
 
-            app.AddAllConfigureRegistrants();
 
             if (env.IsDevelopment())
             {

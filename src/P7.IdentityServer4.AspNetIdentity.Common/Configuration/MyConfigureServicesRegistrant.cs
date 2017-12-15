@@ -4,16 +4,12 @@ using P7.Core.Startup;
 
 namespace P7.IdentityServer4.AspNetIdentity.Configuration
 {
-    public class MyConfigureServicesRegistrant : ConfigureServicesRegistrant
+    public static class ConfigurationServicesExtension
     {
-        public override void OnConfigureServices(IServiceCollection services)
+        public static void RegisterIdentityServer4ConfigurationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<IdentityServerConfig>(Configuration.GetSection(IdentityServerConfig.WellKnown_SectionName));
-            services.Configure<IdentityServerResourceClientCredentials>(options => Configuration.Bind(options));
-        }
-
-        public MyConfigureServicesRegistrant(IConfiguration configuration) : base(configuration)
-        {
+            services.Configure<IdentityServerConfig>(configuration.GetSection(IdentityServerConfig.WellKnown_SectionName));
+            services.Configure<IdentityServerResourceClientCredentials>(options => configuration.Bind(options));
         }
     }
 }

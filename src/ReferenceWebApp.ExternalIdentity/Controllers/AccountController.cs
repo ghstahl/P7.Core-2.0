@@ -37,16 +37,12 @@ namespace ReferenceWebApp.Controllers
         public const string WellKnown_SectionName = "account";
         public List<ClaimHandle> PostLoginClaims { get; set; }
     }
-    public class MyAccountConfigureServicesRegistrant : ConfigureServicesRegistrant
+
+    public static class ConfigurationServicesExtension
     {
-        public override void OnConfigureServices(IServiceCollection services)
+        public static void RegisterAccountConfigurationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<AccountConfig>(Configuration.GetSection(AccountConfig.WellKnown_SectionName));
-
-        }
-
-        public MyAccountConfigureServicesRegistrant(IConfiguration configuration) : base(configuration)
-        {
+            services.Configure<AccountConfig>(configuration.GetSection(AccountConfig.WellKnown_SectionName));
         }
     }
 
