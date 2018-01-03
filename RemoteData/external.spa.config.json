@@ -1,5 +1,15 @@
 {
   "spas": [
+     {
+      "key": "iFrameMeThis",
+      "requireAuth": true,
+      "view": "iFrameMeThis",
+      "clientId": "spa/p7core/io",
+      "redirectUri": "https://p7core.127.0.0.1.xip.io:44311/spa/signin-norton",
+      "keepAliveUri":"https://p7core.127.0.0.1.xip.io:44311/KeepAlive/Home/Index?id=iFrameMeThis",
+      "logoutUri":"https://p7core.127.0.0.1.xip.io:44311/Account/LogoutSpa?id=iFrameMeThis",
+      "cacheBustHash":"1234"
+    },   
     {
       "key": "Admin",
       "requireAuth": true,
