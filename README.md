@@ -19,13 +19,30 @@ Make sure you are running <b>Visual Studio</b> as <b>Administrator</b>!
 :> npm install
 ```
 
+### User Secrets 
+Don't forget to add your own personal user secrets via "manage user secrets".  Here is a copy of mine.
 ```
-build and run ReferenceWebApp.ExternalIdentity.NoIdentityServer4
+{
+  "Twitter-ConsumerKey": "blah",
+  "Twitter-ConsumerSecret": "blah",
+  "Google-ClientId": "blah.apps.googleusercontent.com",
+  "Google-ClientSecret": "blah" 
+}
+
+```
+## Build
+This is a Visual Studio 2017+ Version 15.3.4 project  
+Don't forget to install the [.Net Core 2.0 SDK](https://www.microsoft.com/net/download/core)  
+
 ```
 
 ## Build
 This is a Visual Studio 2017+ Version 15.3.4 project  
 Don't forget to install the [.Net Core 2.0 SDK](https://www.microsoft.com/net/download/core)  
+```
+build and run ReferenceWebApp.ExternalIdentity.NoIdentityServer4
+```
+
 
 ### [Application Overview](docs/application-overview.md)  
 ### [GraphQL Support](docs/graphQL.md)  
