@@ -34,11 +34,6 @@ Don't forget to add your own personal user secrets via "manage user secrets".  H
 This is a Visual Studio 2017+ Version 15.3.4 project  
 Don't forget to install the [.Net Core 2.0 SDK](https://www.microsoft.com/net/download/core)  
 
-
-## Build
-This is a Visual Studio 2017+ Version 15.3.4 project  
-Don't forget to install the [.Net Core 2.0 SDK](https://www.microsoft.com/net/download/core)  
-
 ```
 build and run ReferenceWebApp.ExternalIdentity.NoIdentityServer4  
 ```   
