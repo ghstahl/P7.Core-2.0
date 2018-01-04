@@ -1,10 +1,15 @@
 ﻿@section head  {
-    <script src="~/lib/pym.v1.js" asp-append-version="true"></script>
+    <script src="https://rawgit.com/ghstahl/P7.Core-2.0.RemoteData/master/spas/pym.v1.js" ></script>
 }
-<div id="example"></div>
+<div style="border:1px solid black;">
+    <div id="example">
+    </div>
+</div>
+
 
 @section scripts{
+   
     <script>
-        var pymParent = new pym.Parent('example', 'https://localhost.daplie.me/index.html', {});
+        var pymParent = new pym.Parent('example', 'https://localhost.daplie.me/index.html', { trackscroll: true });
     </script>
 }
