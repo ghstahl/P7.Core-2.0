@@ -3,7 +3,8 @@
     <link rel="stylesheet" href="https://localhost.daplie.me/bundle.css" />
     <link rel="stylesheet" href="/lib/pretty-json.css" />
 }
- 
+<div id="example"></div>
+
 <div>account:</div>
 <pre><code id=account></code></pre>
 </br>
@@ -18,10 +19,10 @@
 
 
 @section scripts{
-    
+   
     <script src="/lib/pretty-json.js"></script>
     <script>
-        
+        var pymParent = new pym.Parent('example', 'child.html', {});
 
        
         var accountPre = document.getElementById("account");

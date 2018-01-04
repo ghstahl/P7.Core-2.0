@@ -38,10 +38,11 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.min.js"></script>
     <script src="~/lib/keep-alive-hook.js" asp-append-version="true"></script>
+   
     @RenderSection("head", required: false)
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
-<body>
+<body class="Site">
  
 <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
@@ -91,8 +92,9 @@
         @await Html.PartialAsync("_LoginPartial.bulma")
     </div>
 </nav>
-
-@RenderBody()
+<div class="Site-content">
+    @RenderBody()
+</div>
 
 <footer class="footer">
     <div class="container">

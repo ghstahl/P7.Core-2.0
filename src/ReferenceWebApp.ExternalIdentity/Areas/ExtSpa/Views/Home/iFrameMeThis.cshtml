@@ -1,0 +1,10 @@
+﻿@section head  {
+    <script src="~/lib/pym.v1.js" asp-append-version="true"></script>
+}
+<div id="example"></div>
+
+@section scripts{
+    <script>
+        var pymParent = new pym.Parent('example', 'https://localhost.daplie.me/index.html', {});
+    </script>
+}
