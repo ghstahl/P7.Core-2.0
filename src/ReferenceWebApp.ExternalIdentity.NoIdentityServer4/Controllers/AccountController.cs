@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -111,6 +112,8 @@ namespace ReferenceWebApp.Controllers
             ViewBag.logoutRecords = frontChannelRecords;
 
             await _signInManager.SignOutAsync();
+            _httpContextAccessor.HttpContext.Session.Clear();
+            _httpContextAccessor.HttpContext.Items.Remove(".blueGreenLock");
             _logger.LogInformation("User logged out.");
             var url = Url.Action(nameof(HomeController.Index), "Home");
             ViewBag.RedirectUrl = url;
@@ -254,6 +257,7 @@ namespace ReferenceWebApp.Controllers
                 _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                 session.SetObject(".identity.oidc", oidc);
                 session.SetObject(".identity.strongLoginUtc", DateTimeOffset.UtcNow);
+                _httpContextAccessor.HttpContext.Items.Add(".blueGreenLock", true);
                 return RedirectToLocal(returnUrl);
 
             }

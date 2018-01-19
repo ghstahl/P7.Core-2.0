@@ -30,6 +30,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 using P7.AspNetCore.Identity.InMemory;
 using P7.Core;
+using P7.Core.Deployment;
 using P7.Core.FileProviders;
 using P7.Core.Identity;
 using P7.Core.IoC;
@@ -44,7 +45,7 @@ using P7.RazorProvider.Store.Core;
 using P7.RazorProvider.Store.Core.Interfaces;
 using P7.TwitterAuthentication;
 using ReferenceWebApp.Controllers;
-using ReferenceWebApp.Deployment;
+
 using ReferenceWebApp.Health;
 using ReferenceWebApp.Models;
 using ReferenceWebApp.Services;
@@ -248,10 +249,12 @@ namespace ReferenceWebApp
             IApplicationLifetime appLifetime)
         {
             app.UseMiddleware<Convert302ResponseMiddleware>();
-           // app.UseIpRateLimiting();
+            app.UseMiddleware<BlueGreenMiddleware>();
+            
+            // app.UseIpRateLimiting();
 
-         //   LoadGraphQLAuthority();
-          
+            //   LoadGraphQLAuthority();
+
 
             var supportedCultures = new List<CultureInfo>
             {
