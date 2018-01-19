@@ -26,6 +26,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 using P7.AspNetCore.Identity.InMemory;
 using P7.Core;
@@ -316,7 +317,15 @@ namespace ReferenceWebApp
 
             //enable session before MVC
             //=========================  
-            app.UseSession();
+            var sessionOptions = new SessionOptions
+            {
+                CookieSecure = CookieSecurePolicy.SameAsRequest
+            };
+            var deploymentOptions = app.GetService<IOptions<DeploymentOptions>>();
+            sessionOptions.Cookie.Name = $".{deploymentOptions.Value.Color}.AspNetCore.Session";
+            app.UseSession(sessionOptions);
+
+         
 
             app.UseAuthentication();
 
