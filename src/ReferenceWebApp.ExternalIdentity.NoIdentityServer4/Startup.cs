@@ -43,6 +43,7 @@ using P7.RazorProvider.Store.Core;
 using P7.RazorProvider.Store.Core.Interfaces;
 using P7.TwitterAuthentication;
 using ReferenceWebApp.Controllers;
+using ReferenceWebApp.Deployment;
 using ReferenceWebApp.Health;
 using ReferenceWebApp.Models;
 using ReferenceWebApp.Services;
@@ -116,6 +117,7 @@ namespace ReferenceWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.RegisterDeploymentConfigurationServices(Configuration);
             // needed to store rate limit counters and ip rules
             services.AddMemoryCache();
 

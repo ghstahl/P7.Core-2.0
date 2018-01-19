@@ -5,6 +5,7 @@
 @using P7.External.SPA.Core
 @inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject Microsoft.Extensions.Options.IOptions<ReferenceWebApp.Deployment.DeploymentOptions> DeploymentOptions
 
 <!DOCTYPE html>
 <html>
@@ -27,7 +28,7 @@
         ViewBag._frontChannelRecords = frontChannelRecords;
         var hash = SessionCacheManager<string>.Grab(HttpContextAccessor.HttpContext,".identity.userHash") ?? "";
         ViewBag._userHash = hash;
-
+        ViewBag._color = DeploymentOptions.Value.Color;
 
     }
     <script>
@@ -51,7 +52,7 @@
  
 <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="navbar-item" asp-area="" asp-controller="Home" asp-action="Index">Theory and Practice</a>
+        <a class="navbar-item" asp-area="" asp-controller="Home" asp-action="Index">@ViewBag._color - Theory and Practice</a>
         
         <div class="navbar-burger burger" data-target="navMenuColordark-example">
             <span></span>
