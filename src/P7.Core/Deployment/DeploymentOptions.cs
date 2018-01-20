@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace P7.Core.Deployment
@@ -17,6 +20,19 @@ namespace P7.Core.Deployment
         {
             services.Configure<DeploymentOptions>(configuration.GetSection(DeploymentOptions.WellKnown_SectionName));
             return services;
+        }
+
+        public static void DropBlueGreenApplicationCookie(this HttpContext context,IOptions<DeploymentOptions> options)
+        {
+            context.Response.Cookies.Append($".bluegreen.{options.Value.Color}", "true",
+                new CookieOptions()
+                {
+                    Expires = DateTime.Now.AddMinutes(40)
+                });
+        }
+        public static void DeleteBlueGreenApplicationCookie(this HttpContext context, IOptions<DeploymentOptions> options)
+        {
+            context.Response.Cookies.Delete($".bluegreen.{options.Value.Color}");
         }
     }
 }

@@ -117,9 +117,8 @@ namespace ReferenceWebApp.Controllers
 
             await _signInManager.SignOutAsync();
             _httpContextAccessor.HttpContext.Session.Clear();
-            _httpContextAccessor.HttpContext.Response.Cookies.Delete($".bluegreen.{_deploymentOptions.Value.Color}");
-
-            _httpContextAccessor.HttpContext.Items.Remove(".blueGreenLock");
+            _httpContextAccessor.HttpContext.DeleteBlueGreenApplicationCookie(_deploymentOptions);
+             
             _logger.LogInformation("User logged out.");
             var url = Url.Action(nameof(HomeController.Index), "Home");
             ViewBag.RedirectUrl = url;
@@ -263,11 +262,8 @@ namespace ReferenceWebApp.Controllers
                 _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                 session.SetObject(".identity.oidc", oidc);
                 session.SetObject(".identity.strongLoginUtc", DateTimeOffset.UtcNow);
-                _httpContextAccessor.HttpContext.Response.Cookies.Append($".bluegreen.{_deploymentOptions.Value.Color}", "true",
-                    new CookieOptions()
-                    {
-                        Expires = DateTime.Now.AddMinutes(40)
-                    });
+                _httpContextAccessor.HttpContext.DropBlueGreenApplicationCookie(_deploymentOptions);
+
                 return RedirectToLocal(returnUrl);
 
             }
