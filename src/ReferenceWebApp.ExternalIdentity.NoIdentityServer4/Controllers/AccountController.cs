@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using P7.Core.Cache;
+using P7.Core.Deployment;
 using P7.Core.Startup;
 using P7.Core.Utils;
 using P7.External.SPA.Areas.ExtSpa.Controllers;
@@ -60,12 +61,14 @@ namespace ReferenceWebApp.Controllers
         private readonly ILogger _logger;
         private IOptions<AccountConfig> _settings;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private IOptions<DeploymentOptions> _deploymentOptions;
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             IHttpContextAccessor httpContextAccessor,
             IOptions<AccountConfig> settings,
+            IOptions<DeploymentOptions> deploymentOptions,
             ILogger<AccountController> logger,
             IConfiguration config)
         {
@@ -74,6 +77,7 @@ namespace ReferenceWebApp.Controllers
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _deploymentOptions = deploymentOptions;
             _httpContextAccessor = httpContextAccessor;
             _config = config;
         }
@@ -113,6 +117,8 @@ namespace ReferenceWebApp.Controllers
 
             await _signInManager.SignOutAsync();
             _httpContextAccessor.HttpContext.Session.Clear();
+            _httpContextAccessor.HttpContext.Response.Cookies.Delete($".bluegreen.{_deploymentOptions.Value.Color}");
+
             _httpContextAccessor.HttpContext.Items.Remove(".blueGreenLock");
             _logger.LogInformation("User logged out.");
             var url = Url.Action(nameof(HomeController.Index), "Home");
@@ -257,7 +263,11 @@ namespace ReferenceWebApp.Controllers
                 _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                 session.SetObject(".identity.oidc", oidc);
                 session.SetObject(".identity.strongLoginUtc", DateTimeOffset.UtcNow);
-                _httpContextAccessor.HttpContext.Items.Add(".blueGreenLock", true);
+                _httpContextAccessor.HttpContext.Response.Cookies.Append($".bluegreen.{_deploymentOptions.Value.Color}", "true",
+                    new CookieOptions()
+                    {
+                        Expires = DateTime.Now.AddMinutes(40)
+                    });
                 return RedirectToLocal(returnUrl);
 
             }
