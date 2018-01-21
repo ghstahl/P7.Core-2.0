@@ -141,7 +141,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".RemoteData", ".RemoteData"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReferenceWebApp.CookieAuthApi", "ReferenceWebApp.CookieAuthApi\ReferenceWebApp.CookieAuthApi.csproj", "{96B96597-D714-4658-951F-1ACC2ADFF484}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceWebApp.JWTAuthApi", "ReferenceWebApp.JWTAuthApi\ReferenceWebApp.JWTAuthApi.csproj", "{5B523212-0C6D-49F5-B2DF-B65A03883BF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReferenceWebApp.JWTAuthApi", "ReferenceWebApp.JWTAuthApi\ReferenceWebApp.JWTAuthApi.csproj", "{5B523212-0C6D-49F5-B2DF-B65A03883BF3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orleans", "Orleans", "{34C4E3BF-BF0C-4463-9E97-4BECF4B0B531}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
