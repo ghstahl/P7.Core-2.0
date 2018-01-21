@@ -12,14 +12,8 @@
     <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="AddModule.js" />
     <None Remove="Properties\PublishProfiles\Pingo7 - Web Deploy.pubxml" />
     <None Remove="Properties\PublishProfiles\ReferenceWebAppExternalIdentityNoIdentityServer4201711081131 - Web Deploy.pubxml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="AddModule.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
   </ItemGroup>
 
 

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.NodeServices;
@@ -52,11 +53,14 @@ namespace ReferenceWebApp.Controllers
       return View();
     }
 
-    public async Task<IActionResult> Add([FromServices] INodeServices nodeServices)
+    public async Task<IActionResult> Add([FromServices] INodeServices nodeServices, [FromServices] IHostingEnvironment env)
     {
+      var webRoot = env.WebRootPath;
+      var file = System.IO.Path.Combine(webRoot, "js\\AddModule.js");
+
       var num1 = 10;
       var num2 = 20;
-      var result = await nodeServices.InvokeAsync<int>("AddModule.js", num1, num2);
+      var result = await nodeServices.InvokeAsync<int>(file, num1, num2);
       ViewData["ResultFromNode"] = $"Result of {num1} + {num2} is {result}";
       return View();
     }
