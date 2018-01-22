@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -179,7 +180,7 @@ namespace WebApplication1
             services.AddSingleton<RemoteRazorLocationStore>(razorLocationStore);
             services.Configure<RazorViewEngineOptions>(opts =>
                 opts.FileProviders.Add(
-                    new RazorFileProvider(razorLocationStore)
+                    new RazorFileProvider(P7.Core.Global.ServiceProvider.GetServices<IDistributedCache>().FirstOrDefault(), razorLocationStore)
                 )
             );
 

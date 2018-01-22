@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.FileProviders;
 using P7.RazorProvider.Store.Core.Interfaces;
 using P7.RazorProvider.Store.Core.Models;
@@ -11,13 +12,15 @@ namespace P7.Razor.FileProvider
 {
     public class RazorFileInfo : IFileInfo
     {
+        private readonly IDistributedCache _cache = null;
         private IRazorLocationStore _store;
         private string _viewPath;
         private byte[] _viewContent;
         private DateTimeOffset _lastModified;
         private bool _exists;
-        public RazorFileInfo(IRazorLocationStore store, string viewPath)
+        public RazorFileInfo(IDistributedCache cache, IRazorLocationStore store, string viewPath)
         {
+            _cache = cache;
             _viewPath = viewPath;
             _store = store;
         }

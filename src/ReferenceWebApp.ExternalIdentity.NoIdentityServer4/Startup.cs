@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 using AspNetCoreRateLimit;
@@ -21,9 +22,11 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -120,7 +123,10 @@ namespace ReferenceWebApp
     // This method gets called by the runtime. Use this method to add services to the container.
     public IServiceProvider ConfigureServices(IServiceCollection services)
     {
-      services.RegisterDeploymentConfigurationServices(Configuration);
+        var physicalProvider = _hostingEnvironment.ContentRootFileProvider;
+        var compositeProvider = new CompositeFileProvider(physicalProvider);
+        services.AddSingleton<IFileProvider>(compositeProvider);
+            services.RegisterDeploymentConfigurationServices(Configuration);
       // needed to store rate limit counters and ip rules
       services.AddMemoryCache();
 
@@ -176,7 +182,7 @@ namespace ReferenceWebApp
       services.AddSingleton<RemoteRazorLocationStore>(razorLocationStore);
       services.Configure<RazorViewEngineOptions>(opts =>
         opts.FileProviders.Add(
-          new RazorFileProvider(razorLocationStore)
+          new RazorFileProvider(P7.Core.Global.ServiceProvider.GetServices<IDistributedCache>().FirstOrDefault(), razorLocationStore)
         )
       );
 

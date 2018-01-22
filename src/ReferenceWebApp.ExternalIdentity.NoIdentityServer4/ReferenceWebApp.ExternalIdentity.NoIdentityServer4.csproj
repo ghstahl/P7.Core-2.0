@@ -66,6 +66,8 @@
 
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\NGServerSide\Data\" />
+    <Folder Include="Areas\NGServerSide\Models\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -81,6 +83,13 @@
     <None Include="Views.Ori\Shared\_ValidationScriptsPartial.cshtml" />
     <None Include="Views.Ori\_ViewImports.cshtml" />
     <None Include="Views.Ori\_ViewStart.cshtml" />
+    <None Include="wwwroot\dist\0.js" />
+    <None Include="wwwroot\dist\0.js.map" />
+    <None Include="wwwroot\dist\448c34a56d699c29117adc64c43affeb.woff2" />
+    <None Include="wwwroot\dist\89889688147bd7575d6327160d64e760.svg" />
+    <None Include="wwwroot\dist\main-client.js" />
+    <None Include="wwwroot\dist\main-client.js.map" />
+    <None Include="wwwroot\dist\vendor.js" />
   </ItemGroup>
 
   <ItemGroup>
