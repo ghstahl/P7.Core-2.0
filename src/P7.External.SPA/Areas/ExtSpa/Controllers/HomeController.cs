@@ -110,7 +110,7 @@ namespace P7.External.SPA.Areas.ExtSpa.Controllers
             {
                 var doc = await _discoveryCache.GetAsync();
 
-                var request = new AuthorizeRequest(doc.AuthorizeEndpoint);
+                var request = new RequestUrl(doc.AuthorizeEndpoint);
                 var url = request.CreateAuthorizeUrl(
                     clientId: spa.ClientId,
                     responseType: OidcConstants.ResponseTypes.Code,
