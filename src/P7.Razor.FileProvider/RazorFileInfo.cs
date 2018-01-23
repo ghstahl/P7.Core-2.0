@@ -6,6 +6,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.FileProviders;
 using P7.Core.Cache;
 using P7.Core.Reflection;
+using P7.Core.Utils;
 using P7.RazorProvider.Store.Core.Interfaces;
 using P7.RazorProvider.Store.Core.Models;
 
@@ -46,6 +47,12 @@ namespace P7.Razor.FileProvider
             }
         }
 
+        public static async Task<byte[]> GetRemoteContentAsync(string url)
+        {
+            var byteResult = await RemoteFetch.FetchAsync(url, new WebRequestInit() { Accept = "application/text" });
+            return byteResult;
+        }
+
         public async Task GetView()
         {
             var query = new RazorLocationQuery() {Location = _viewPath};
@@ -56,7 +63,16 @@ namespace P7.Razor.FileProvider
                 doc = await _store.FetchAsync(query);
                 if (doc != null)
                 {
-                    var viewContent = Encoding.UTF8.GetBytes(doc.Content);
+                    byte[] viewContent;
+                    if (!string.IsNullOrEmpty(doc.ContentUrl))
+                    {
+                        viewContent = await GetRemoteContentAsync(doc.ContentUrl);
+                    }
+                    else
+                    {
+                        viewContent = Encoding.UTF8.GetBytes(doc.Content);
+                    }
+                   
                     doc.ByteContent = viewContent;
                     await _cache.SetObjectAsZeroFormatter(_viewPath, doc, 3);
                 }

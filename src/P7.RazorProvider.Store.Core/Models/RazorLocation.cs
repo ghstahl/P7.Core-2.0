@@ -17,15 +17,21 @@ namespace P7.RazorProvider.Store.Core.Models
         [JsonProperty("content")]
         [Index(1)]
         public virtual string Content { get; set; }
-        [JsonProperty("lastModified")]
+
+        [JsonProperty("contentUrl")]
         [Index(2)]
-        public virtual DateTime LastModified { get; set; }
-        [JsonProperty("lastRequested")]
+        public virtual string ContentUrl { get; set; }
+
+        [JsonProperty("lastModified")]
         [Index(3)]
+        public virtual DateTime LastModified { get; set; }
+
+        [JsonProperty("lastRequested")]
+        [Index(4)]
         public virtual DateTime LastRequested { get; set; }
 
        
-        [Index(4)]
+        [Index(5)]
         public virtual byte[] ByteContent { get; set; }
 
 
@@ -35,7 +41,7 @@ namespace P7.RazorProvider.Store.Core.Models
 
         public RazorLocation(RazorLocation doc)
         {
-            
+            this.ContentUrl = doc.ContentUrl;
             this.Location = doc.Location;
             this.Content = doc.Content;
             this.LastModified = doc.LastModified;
