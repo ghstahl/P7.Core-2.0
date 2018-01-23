@@ -6,7 +6,8 @@
     },
     {
       "location": "/Areas/ExtSPA/Views/Home/Support.cshtml",
-      "content": "<div>\nWelcome to Support good sir!\n</div>"
+      "content": "<div>\nWelcome to Support good sir -- views.json!\n</div>",
+		  "contentUrl": "https://raw.githubusercontent.com/ghstahl/P7.Core-2.0.RemoteData/master/RazorPartials/Support.cshtml"
     },
     {
       "location": "/Areas/ExtSPA/Views/Home/Admin.cshtml",
