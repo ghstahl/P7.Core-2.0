@@ -4,6 +4,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.FileProviders;
+using P7.Core.Cache;
+using P7.Core.Reflection;
 using P7.RazorProvider.Store.Core.Interfaces;
 using P7.RazorProvider.Store.Core.Models;
 
@@ -18,6 +20,7 @@ namespace P7.Razor.FileProvider
         private byte[] _viewContent;
         private DateTimeOffset _lastModified;
         private bool _exists;
+
         public RazorFileInfo(IDistributedCache cache, IRazorLocationStore store, string viewPath)
         {
             _cache = cache;
@@ -31,6 +34,7 @@ namespace P7.Razor.FileProvider
         }
 
         public bool Exists => _exists;
+
         public long Length
         {
             get
@@ -44,20 +48,31 @@ namespace P7.Razor.FileProvider
 
         public async Task GetView()
         {
-            var query = new RazorLocationQuery() { Location = _viewPath };
+            var query = new RazorLocationQuery() {Location = _viewPath};
 
-            var doc = await _store.FetchAsync(query);
+            var doc = await _cache.GetObjectFromZeroFormatter<RazorLocation>(_viewPath);
+            if (doc == null)
+            {
+                doc = await _store.FetchAsync(query);
+                if (doc != null)
+                {
+                    var viewContent = Encoding.UTF8.GetBytes(doc.Content);
+                    doc.ByteContent = viewContent;
+                    await _cache.SetObjectAsZeroFormatter(_viewPath, doc, 3);
+                }
+
+            }
             if (doc != null)
             {
-                _viewContent = Encoding.UTF8.GetBytes(doc.Content);
+                _viewContent = doc.ByteContent;
+                //                _viewContent = Encoding.UTF8.GetBytes(doc.Content);
                 _lastModified = doc.LastModified;
                 doc.LastRequested = DateTime.UtcNow;
                 await _store.UpdateAsync(doc);
                 _exists = true;
             }
-            
         }
-    
+
 
         public string Name => Path.GetFileName(_viewPath);
 

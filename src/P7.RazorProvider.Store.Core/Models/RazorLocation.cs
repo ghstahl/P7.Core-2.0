@@ -1,23 +1,34 @@
 ﻿using System;
 using Newtonsoft.Json;
+using ZeroFormatter;
 
 namespace P7.RazorProvider.Store.Core.Models
 {
+    [ZeroFormattable]
     public class RazorLocation : IComparable
     {
         [JsonProperty("location")]
-        public string Location { get; set; }
+        [Index(0)]
+        public virtual string Location { get; set; }
 
+        [IgnoreFormat]
         public string Id => Location;
 
         [JsonProperty("content")]
-        public string Content { get; set; }
+        [Index(1)]
+        public virtual string Content { get; set; }
         [JsonProperty("lastModified")]
-        public DateTime LastModified { get; set; }
+        [Index(2)]
+        public virtual DateTime LastModified { get; set; }
         [JsonProperty("lastRequested")]
-        public DateTime LastRequested { get; set; }
+        [Index(3)]
+        public virtual DateTime LastRequested { get; set; }
 
-      
+       
+        [Index(4)]
+        public virtual byte[] ByteContent { get; set; }
+
+
         public RazorLocation()
         {
         }
