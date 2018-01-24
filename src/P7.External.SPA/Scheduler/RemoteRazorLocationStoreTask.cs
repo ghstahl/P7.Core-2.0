@@ -20,6 +20,58 @@ using Serilog;
 
 namespace P7.External.SPA.Scheduler
 {
+    public partial class FilesManifest
+    {
+        [JsonProperty("files")]
+        public string[] Files { get; set; }
+    }
+    public partial class FilesManifest
+    {
+        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+        {
+            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
+            DateParseHandling = DateParseHandling.None,
+        };
+        public static FilesManifest FromJson(string json) => JsonConvert.DeserializeObject<FilesManifest>(json, Settings);
+    }
+
+    public class RemoteFileSyncTask : IScheduledTask
+    {
+        static Serilog.ILogger logger = Log.ForContext<RemoteFileSyncTask>();
+        private IConfiguration _config { get; set; }
+        public RemoteFileSyncTask(IConfiguration config)
+        {
+            _config = config;
+        }
+        public string Schedule => "*/1 * * * *";  // every 1 minute
+        private async Task<FilesManifest> GetRemoteFilesConfigAsync(string url, bool validateSchema = false)
+        {
+            //https://rawgit.com/ghstahl/P7.Core-2.0.RemoteData/master/spas/AngularServerSide/files.json
+            try
+            {
+                var schemaUrl = url.Replace(".json", ".schema.json");
+                var schema = await RemoteJsonFetch.GetRemoteJsonContentAsync(schemaUrl);
+
+                string content = await RemoteJsonFetch.GetRemoteJsonContentAsync(url, schema);
+                FilesManifest filesManifest;
+                filesManifest = FilesManifest.FromJson(content);
+
+                return filesManifest;
+            }
+            catch (Exception e)
+            {
+                logger.Fatal("Exception Caught:{0}", e.Message);
+            }
+            return null;
+        }
+        public async Task Invoke(CancellationToken cancellationToken)
+        {
+            var filesConfig = await GetRemoteFilesConfigAsync(
+                "https://rawgit.com/ghstahl/P7.Core-2.0.RemoteData/master/spas/AngularServerSide/files.json");
+
+        }
+    }
+
     public class RemoteRazorLocationStoreTask : IScheduledTask
     {
         private IRemoteRazorLocationStore RemoteRazorLocationStore { get; set; }

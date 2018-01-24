@@ -12,6 +12,16 @@
     <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Areas\NGServerSide\Data\**" />
+    <Compile Remove="Areas\NGServerSide\Models\**" />
+    <Content Remove="Areas\NGServerSide\Data\**" />
+    <Content Remove="Areas\NGServerSide\Models\**" />
+    <EmbeddedResource Remove="Areas\NGServerSide\Data\**" />
+    <EmbeddedResource Remove="Areas\NGServerSide\Models\**" />
+    <None Remove="Areas\NGServerSide\Data\**" />
+    <None Remove="Areas\NGServerSide\Models\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Properties\PublishProfiles\Pingo7 - Web Deploy.pubxml" />
     <None Remove="Properties\PublishProfiles\ReferenceWebAppExternalIdentityNoIdentityServer4201711081131 - Web Deploy.pubxml" />
   </ItemGroup>
@@ -66,8 +76,6 @@
 
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\NGServerSide\Data\" />
-    <Folder Include="Areas\NGServerSide\Models\" />
   </ItemGroup>
 
   <ItemGroup>

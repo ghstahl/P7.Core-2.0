@@ -121,110 +121,120 @@ namespace ReferenceWebApp
     }
 
     // This method gets called by the runtime. Use this method to add services to the container.
-    public IServiceProvider ConfigureServices(IServiceCollection services)
-    {
-        var physicalProvider = _hostingEnvironment.ContentRootFileProvider;
-        var compositeProvider = new CompositeFileProvider(physicalProvider);
-        services.AddSingleton<IFileProvider>(compositeProvider);
-            services.RegisterDeploymentConfigurationServices(Configuration);
-      // needed to store rate limit counters and ip rules
-      services.AddMemoryCache();
-
-      ConfigureRateLimitingServices(services);
-
-      services.TryAddSingleton(typeof(IStringLocalizerFactory), typeof(ResourceManagerStringLocalizerFactory));
-      services.AddLocalization();
-
-      var inMemoryStore = new InMemoryStore<ApplicationUser, ApplicationRole>();
-
-      services.AddSingleton<IUserStore<ApplicationUser>>(provider =>
+      public IServiceProvider ConfigureServices(IServiceCollection services)
       {
-        return inMemoryStore;
-      });
-      services.AddSingleton<IUserRoleStore<ApplicationUser>>(provider =>
-      {
-        return inMemoryStore;
-      });
-      services.AddSingleton<IRoleStore<ApplicationRole>>(provider =>
-      {
-        return inMemoryStore;
-      });
-      services.AddIdentity<ApplicationUser, ApplicationRole>()
-        .AddDefaultTokenProviders();
-      //  .AddIdentityServer();
+          services.AddTransient<RemoteFileProvider>();
 
-      services.AddAuthentication<ApplicationUser>(Configuration);
+          services.RegisterDeploymentConfigurationServices(Configuration);
+          // needed to store rate limit counters and ip rules
+          services.AddMemoryCache();
 
-      services
-        .AddScoped
-        <Microsoft.AspNetCore.Identity.IUserClaimsPrincipalFactory<ApplicationUser>,
-          AppClaimsPrincipalFactory<ApplicationUser, ApplicationRole>>();
+          ConfigureRateLimitingServices(services);
 
-      // Add application services.
-      services.AddTransient<IEmailSender, EmailSender>();
+          services.TryAddSingleton(typeof(IStringLocalizerFactory), typeof(ResourceManagerStringLocalizerFactory));
+          services.AddLocalization();
 
-      services.AddAntiforgery(opts => opts.HeaderName = "X-XSRF-Token");
-      services.AddMyHealthCheck(Configuration);
-      services.AddMvc(opts =>
-      {
-        opts.Filters.AddService(typeof(AngularAntiforgeryCookieResultFilter));
-      }).AddJsonOptions(options =>
-      {
-        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+          var inMemoryStore = new InMemoryStore<ApplicationUser, ApplicationRole>();
 
-      });
-      services.AddNodeServices();
-      services.AddTransient<AngularAntiforgeryCookieResultFilter>();
+          services.AddSingleton<IUserStore<ApplicationUser>>(provider =>
+          {
+              return inMemoryStore;
+          });
+          services.AddSingleton<IUserRoleStore<ApplicationUser>>(provider =>
+          {
+              return inMemoryStore;
+          });
+          services.AddSingleton<IRoleStore<ApplicationRole>>(provider =>
+          {
+              return inMemoryStore;
+          });
+          services.AddIdentity<ApplicationUser, ApplicationRole>()
+              .AddDefaultTokenProviders();
+          //  .AddIdentityServer();
 
-      var razorLocationStore = new RemoteRazorLocationStore();
-      services.AddSingleton<IRemoteRazorLocationStore>(razorLocationStore);
-      services.AddSingleton<IRazorLocationStore>(razorLocationStore);
-      services.AddSingleton<RemoteRazorLocationStore>(razorLocationStore);
-      services.Configure<RazorViewEngineOptions>(opts =>
-        opts.FileProviders.Add(
-          new RazorFileProvider(P7.Core.Global.ServiceProvider.GetServices<IDistributedCache>().FirstOrDefault(), razorLocationStore)
-        )
-      );
+          services.AddAuthentication<ApplicationUser>(Configuration);
 
-      services.AddAuthorization();
+          services
+              .AddScoped
+              <Microsoft.AspNetCore.Identity.IUserClaimsPrincipalFactory<ApplicationUser>,
+                  AppClaimsPrincipalFactory<ApplicationUser, ApplicationRole>>();
 
-      services.AddLogging();
-      services.AddWebEncoders();
-      services.AddCors(options =>
-      {
-        options.AddPolicy("CorsPolicy",
-          builder => builder.AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials());
-      });
+          // Add application services.
+          services.AddTransient<IEmailSender, EmailSender>();
 
-      services.AddDistributedMemoryCache();
-      services.AddSession();
+          services.AddAntiforgery(opts => opts.HeaderName = "X-XSRF-Token");
+          services.AddMyHealthCheck(Configuration);
+          services.AddMvc(opts =>
+          {
+              opts.Filters.AddService(typeof(AngularAntiforgeryCookieResultFilter));
+          }).AddJsonOptions(options =>
+          {
+              options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
-      services.AddTransient<ClaimsPrincipal>(
-        s => s.GetService<IHttpContextAccessor>().HttpContext.User);
+          });
+          services.AddSingleton<IFileProvider>(cc =>
+          {
+              IFileProvider remoteFileProvider = P7.Core.Global.ServiceProvider.GetServices<RemoteFileProvider>().FirstOrDefault();
+              var physicalProvider = _hostingEnvironment.ContentRootFileProvider;
+              var compositeProvider = new CompositeFileProvider(physicalProvider);
+              return compositeProvider;
 
-      services.RegisterP7CoreConfigurationServices(Configuration);
-      services.RegisterGraphQLCoreConfigurationServices(Configuration);
-      services.RegisterAccountConfigurationServices(Configuration);
+          });
 
-      services.AddDependenciesUsingAutofacModules();
+          services.AddNodeServices();
+          services.AddTransient<AngularAntiforgeryCookieResultFilter>();
 
-      services.AddScheduler((sender, args) =>
-      {
-        Console.Write(args.Exception.Message);
-        args.SetObserved();
-      });
+          var razorLocationStore = new RemoteRazorLocationStore();
+          services.AddSingleton<IRemoteRazorLocationStore>(razorLocationStore);
+          services.AddSingleton<IRazorLocationStore>(razorLocationStore);
+          services.AddSingleton<RemoteRazorLocationStore>(razorLocationStore);
+          services.Configure<RazorViewEngineOptions>(opts =>
+              opts.FileProviders.Add(
+                  new RazorFileProvider(
+                      P7.Core.Global.ServiceProvider.GetServices<IDistributedCache>().FirstOrDefault(),
+                      razorLocationStore)
+              )
+          );
 
-      var serviceProvider = services.BuildServiceProvider(Configuration);
+          services.AddAuthorization();
 
-      P7.Core.Global.ServiceProvider = serviceProvider;
+          services.AddLogging();
+          services.AddWebEncoders();
+          services.AddCors(options =>
+          {
+              options.AddPolicy("CorsPolicy",
+                  builder => builder.AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader()
+                      .AllowCredentials());
+          });
 
-      return serviceProvider;
-    }
+          services.AddDistributedMemoryCache();
+          services.AddSession();
 
-    private async Task LoadGraphQLAuthority()
+          services.AddTransient<ClaimsPrincipal>(
+              s => s.GetService<IHttpContextAccessor>().HttpContext.User);
+
+          services.RegisterP7CoreConfigurationServices(Configuration);
+          services.RegisterGraphQLCoreConfigurationServices(Configuration);
+          services.RegisterAccountConfigurationServices(Configuration);
+
+          services.AddDependenciesUsingAutofacModules();
+
+          services.AddScheduler((sender, args) =>
+          {
+              Console.Write(args.Exception.Message);
+              args.SetObserved();
+          });
+
+          var serviceProvider = services.BuildServiceProvider(Configuration);
+
+          P7.Core.Global.ServiceProvider = serviceProvider;
+
+          return serviceProvider;
+      }
+
+      private async Task LoadGraphQLAuthority()
     {
       var graphQLFieldAuthority =
         P7.Core.Global.ServiceProvider.GetServices<InMemoryGraphQLFieldAuthority>().FirstOrDefault();

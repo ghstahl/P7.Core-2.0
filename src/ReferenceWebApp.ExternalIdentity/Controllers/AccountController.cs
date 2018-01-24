@@ -310,13 +310,14 @@ namespace ReferenceWebApp.Controllers
                 {"Authorization", $"Bearer {accessToken}"}
             };
 
-            var jwt = await RemoteJsonFetch.FetchAsync(
+            var byteJwt = await RemoteFetch.FetchAsync(
                 NortonDefaults.Development.UserInformationEndpoint,
                 new WebRequestInit()
                 {
                     Headers = webHeaderCollection
                 });
- 
+            var jwt = Encoding.UTF8.GetString(byteJwt);
+
             var handler = new JwtSecurityTokenHandler();
             var tokenS = handler.ReadToken(jwt) as JwtSecurityToken;
             var queryNameId = from claim in tokenS.Claims

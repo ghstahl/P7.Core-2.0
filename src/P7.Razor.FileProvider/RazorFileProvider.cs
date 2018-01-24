@@ -14,7 +14,6 @@ namespace P7.Razor.FileProvider
         {
             _cache = cache;
             _store = store;
-            _cache.Remove("Dog");
         }
 
         public IFileInfo GetFileInfo(string subpath)

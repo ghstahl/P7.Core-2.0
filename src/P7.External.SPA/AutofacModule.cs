@@ -45,7 +45,9 @@ namespace P7.External.SPA
                 .As<IScheduledTask>()
                 .SingleInstance();
 
-            
+            builder.RegisterType<RemoteFileSyncTask>()
+                .As<IScheduledTask>()
+                .SingleInstance();
         }
     }
 }

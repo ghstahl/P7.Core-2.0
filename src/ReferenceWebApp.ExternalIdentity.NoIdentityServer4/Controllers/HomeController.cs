@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.NodeServices;
+using Microsoft.Extensions.FileProviders;
 using P7.SessionContextStore.Core;
 using ReferenceWebApp.Models;
 
@@ -53,7 +54,9 @@ namespace ReferenceWebApp.Controllers
       return View();
     }
 
-    public async Task<IActionResult> Add([FromServices] INodeServices nodeServices, [FromServices] IHostingEnvironment env)
+    public async Task<IActionResult> Add([FromServices] INodeServices nodeServices, 
+                                         [FromServices] IHostingEnvironment env,
+                                         [FromServices] IFileProvider fileProvider)
     {
       var webRoot = env.WebRootPath;
       var file = System.IO.Path.Combine(webRoot, "js\\AddModule.js");
