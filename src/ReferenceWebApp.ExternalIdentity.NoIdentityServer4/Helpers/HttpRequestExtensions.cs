@@ -32,7 +32,7 @@ namespace ReferenceWebApp.Helpers
       var nodeServices = Request.HttpContext.RequestServices.GetRequiredService<INodeServices>();
       var hostEnv = Request.HttpContext.RequestServices.GetRequiredService<IHostingEnvironment>();
 
-      var applicationBasePath = hostEnv.ContentRootPath;
+      var applicationBasePath = hostEnv.WebRootPath;
       var requestFeature = Request.HttpContext.Features.Get<IHttpRequestFeature>();
       var unencodedPathAndQuery = requestFeature.RawTarget;
       var unencodedAbsoluteUrl = $"{Request.Scheme}://{Request.Host}{unencodedPathAndQuery}";
@@ -60,7 +60,7 @@ namespace ReferenceWebApp.Helpers
         "/",
         nodeServices,
         cancelToken,
-        new JavaScriptModuleExport(applicationBasePath + "/ClientApp/dist/main-server"),
+        new JavaScriptModuleExport(applicationBasePath + "/AngularServerSide/ClientApp/dist/main-server"),
         unencodedAbsoluteUrl,
         unencodedPathAndQuery,
         transferData, // Our simplified Request object & any other CustommData you want to send!

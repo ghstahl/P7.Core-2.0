@@ -117,7 +117,7 @@ namespace ReferenceWebApp.Controllers
 
             await _signInManager.SignOutAsync();
             _httpContextAccessor.HttpContext.Session.Clear();
-            _httpContextAccessor.HttpContext.DeleteBlueGreenApplicationCookie(_deploymentOptions);
+          //  _httpContextAccessor.HttpContext.DeleteBlueGreenApplicationCookie(_deploymentOptions);
              
             _logger.LogInformation("User logged out.");
             var url = Url.Action(nameof(HomeController.Index), "Home");
@@ -262,7 +262,7 @@ namespace ReferenceWebApp.Controllers
                 _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                 session.SetObject(".identity.oidc", oidc);
                 session.SetObject(".identity.strongLoginUtc", DateTimeOffset.UtcNow);
-                _httpContextAccessor.HttpContext.DropBlueGreenApplicationCookie(_deploymentOptions);
+          //      _httpContextAccessor.HttpContext.DropBlueGreenApplicationCookie(_deploymentOptions);
 
                 return RedirectToLocal(returnUrl);
 

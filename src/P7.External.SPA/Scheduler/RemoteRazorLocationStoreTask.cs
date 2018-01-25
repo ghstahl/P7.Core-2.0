@@ -112,7 +112,7 @@ namespace P7.External.SPA.Scheduler
             {
                 FilesManifest = filesConfig;
 
-                var outDir = Path.Combine(_env.ContentRootPath, "out/");
+                var outDir = Path.Combine(_env.WebRootPath, "AngularServerSide/");
                 Directory.CreateDirectory(outDir);
                 foreach (var file in filesConfig.Files)
                 {

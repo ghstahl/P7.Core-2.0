@@ -52,7 +52,9 @@
  
 <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="navbar-item" asp-area="" asp-controller="Home" asp-action="Index">@ViewBag._color - Theory and Practice</a>
+        <a class="navbar-item" asp-area="" asp-controller="Home" asp-action="Index">
+            <span class="tag is-primary">@ViewBag._color</span>  - Theory and Practice
+        </a>
         
         <div class="navbar-burger burger" data-target="navMenuColordark-example">
             <span></span>
