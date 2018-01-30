@@ -12,6 +12,7 @@ namespace P7.Core.Deployment
         public const string WellKnown_SectionName = "deployment";
         [JsonProperty("type")]
         public string Color { get; set; }
+        public string Host { get; set; }
     }
 
     public static class DeploymentExtensions
