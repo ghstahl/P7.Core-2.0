@@ -271,7 +271,8 @@ namespace ReferenceWebApp
             ILoggerFactory loggerFactory,
             IApplicationLifetime appLifetime)
         {
-            app.UseMiddleware<HostRewriteMiddleware>();
+            
+            app.UseMiddleware<HostNameRewriteMiddleware>();
             app.UseMiddleware<Convert302ResponseMiddleware>();
             app.UseMiddleware<BlueGreenMiddleware>();
 
