@@ -368,6 +368,26 @@ namespace ReferenceWebApp.Controllers
             }));
             return jsonResult;
         }
-      
     }
+
+    [Area("Api")]
+    [Route("signin-norton-two")]
+    public class SigninNortonTwoApiController : Controller
+    {
+        public async Task<ActionResult> Get()
+        {
+            if (Request.Query.ContainsKey("code"))
+            {
+                var jsonResult = new JsonResult(Request.Query);
+                return jsonResult;
+            }
+            if (Request.Query.ContainsKey("error"))
+            {
+                var jsonResult = new JsonResult(Request.Query);
+                return jsonResult;
+            }
+            return new NotFoundResult();
+        }
+    }
+
 }
