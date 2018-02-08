@@ -7,8 +7,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OAuth" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.1" />
-    <PackageReference Include="Microsoft.IdentityModel.Protocols" Version="2.1.5" />
-    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="2.1.5" />
+    <PackageReference Include="Microsoft.IdentityModel.Protocols" Version="5.2.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="5.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 

@@ -72,6 +72,7 @@
     <ProjectReference Include="..\P7.SimpleRedirector\P7.SimpleRedirector.csproj" />
     <ProjectReference Include="..\P7.Subscription\P7.Subscription.csproj" />
     <ProjectReference Include="..\P7.TwitterAuthentication\P7.TwitterAuthentication.csproj" />
+    <ProjectReference Include="..\P7201.AspNetCore.Authentication.OpenIdConnect\P7201.AspNetCore.Authentication.OpenIdConnect.csproj" />
   </ItemGroup>
 
   <ItemGroup>

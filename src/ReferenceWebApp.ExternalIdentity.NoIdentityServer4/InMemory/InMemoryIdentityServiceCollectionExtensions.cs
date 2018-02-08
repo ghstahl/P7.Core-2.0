@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using P7201.AspNetCore.Authentication.OpenIdConnect;
 
 namespace ReferenceWebApp.InMemory
 {
@@ -52,7 +53,7 @@ namespace ReferenceWebApp.InMemory
             if (!(string.IsNullOrEmpty(configuration["Google-ClientId"]) ||
                   string.IsNullOrEmpty(configuration["Google-ClientSecret"])))
             {
-                authenticationBuilder.AddOpenIdConnect(GoogleDefaults.AuthenticationScheme, GoogleDefaults.DisplayName,
+                authenticationBuilder.P7AddOpenIdConnect(GoogleDefaults.AuthenticationScheme, GoogleDefaults.DisplayName,
                     o =>
                     {
                         var openIdConnectOptions = new GoogleOpenIdConnectOptions();
@@ -66,7 +67,7 @@ namespace ReferenceWebApp.InMemory
                         o.GetClaimsFromUserInfoEndpoint = openIdConnectOptions.GetClaimsFromUserInfoEndpoint;
                         o.SaveTokens = openIdConnectOptions.SaveTokens;
 
-                        o.Events = new OpenIdConnectEvents()
+                        o.Events = new P7201.AspNetCore.Authentication.OpenIdConnect.Events.OpenIdConnectEvents()
                         {
                             OnRedirectToIdentityProvider = (context) =>
                             {
@@ -115,7 +116,7 @@ namespace ReferenceWebApp.InMemory
             if (!(string.IsNullOrEmpty(configuration["Norton-ClientId"]) ||
                   string.IsNullOrEmpty(configuration["Norton-ClientSecret"])))
             {
-                authenticationBuilder.AddOpenIdConnect(NortonDefaults.AuthenticationScheme, NortonDefaults.DisplayName,
+                authenticationBuilder.P7AddOpenIdConnect(NortonDefaults.AuthenticationScheme, NortonDefaults.DisplayName,
                     o =>
                     {
                         var openIdConnectOptions = new NortonOpenIdConnectOptions();
@@ -129,7 +130,7 @@ namespace ReferenceWebApp.InMemory
                         o.GetClaimsFromUserInfoEndpoint = openIdConnectOptions.GetClaimsFromUserInfoEndpoint;
                         o.SaveTokens = openIdConnectOptions.SaveTokens;
                         o.Scope.Add("offline_access");
-                        o.Events = new OpenIdConnectEvents()
+                        o.Events = new P7201.AspNetCore.Authentication.OpenIdConnect.Events.OpenIdConnectEvents()
                         {
                             OnRedirectToIdentityProvider = (context) =>
                             {
@@ -178,7 +179,7 @@ namespace ReferenceWebApp.InMemory
             if (!(string.IsNullOrEmpty(configuration["Norton-ClientId-non-ssl"]) ||
                   string.IsNullOrEmpty(configuration["Norton-ClientSecret-non-ssl"])))
             {
-                authenticationBuilder.AddOpenIdConnect($"{NortonDefaults.AuthenticationScheme}-non-ssl",
+                authenticationBuilder.P7AddOpenIdConnect($"{NortonDefaults.AuthenticationScheme}-non-ssl",
                     $"{NortonDefaults.DisplayName}-non-ssl",
                     o =>
                     {
@@ -193,7 +194,7 @@ namespace ReferenceWebApp.InMemory
                         o.GetClaimsFromUserInfoEndpoint = openIdConnectOptions.GetClaimsFromUserInfoEndpoint;
                         o.SaveTokens = openIdConnectOptions.SaveTokens;
 
-                        o.Events = new OpenIdConnectEvents()
+                        o.Events = new P7201.AspNetCore.Authentication.OpenIdConnect.Events.OpenIdConnectEvents()
                         {
                             OnRedirectToIdentityProvider = (context) =>
                             {
