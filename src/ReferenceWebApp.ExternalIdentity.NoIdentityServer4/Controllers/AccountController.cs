@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Internal;
@@ -17,6 +18,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using P7.Core.Cache;
 using P7.Core.Deployment;
 using P7.Core.Startup;
@@ -374,11 +377,31 @@ namespace ReferenceWebApp.Controllers
     [Route("signin-norton-two")]
     public class SigninNortonTwoApiController : Controller
     {
+        private DiscoveryCache _discoveryCache;
+        private IConfiguration _configuration;
+        public SigninNortonTwoApiController(IConfiguration configuration,DiscoveryCache discoveryCache)
+        {
+            _configuration = configuration;
+            _discoveryCache = discoveryCache;
+        }
         public async Task<ActionResult> Get()
         {
             if (Request.Query.ContainsKey("code"))
             {
-                var jsonResult = new JsonResult(Request.Query);
+                var doc = await _discoveryCache.GetAsync();
+                var clientId = _configuration["Norton-ClientId-Two"];
+                var cientSecret = _configuration["Norton-ClientSecret-Two"];
+
+                var client = new TokenClient(
+                    doc.TokenEndpoint,
+                    clientId, cientSecret,AuthenticationStyle.PostValues);
+                
+                StringValues codeValue;
+                Request.Query.TryGetValue("code", out codeValue);
+                var code = codeValue[0];
+                var redirectUri = "https://p7core.127.0.0.1.xip.io:44311/signin-norton-two";
+                var token = await client.RequestAuthorizationCodeAsync(code, redirectUri);
+                var jsonResult = new JsonResult(token.Json);
                 return jsonResult;
             }
             if (Request.Query.ContainsKey("error"))

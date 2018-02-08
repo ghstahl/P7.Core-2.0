@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{49239892-D807-42AB-8BD8-57E39B505511}"
 EndProject
@@ -142,6 +142,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReferenceWebApp.CookieAuthApi", "ReferenceWebApp.CookieAuthApi\ReferenceWebApp.CookieAuthApi.csproj", "{96B96597-D714-4658-951F-1ACC2ADFF484}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReferenceWebApp.JWTAuthApi", "ReferenceWebApp.JWTAuthApi\ReferenceWebApp.JWTAuthApi.csproj", "{5B523212-0C6D-49F5-B2DF-B65A03883BF3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityModel", "IdentityModel", "{627AD12B-EEC2-4522-AB46-5A8AE4314C85}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityModel2-v3.1.0", "IdentityModel2-v3.1.0", "{6E94DC89-8A85-46C1-8767-B3D220CFBB5D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityModel", "IdentityModel-v3.1.0\IdentityModel.csproj", "{817AE431-B8A5-4B4F-9741-EB227ABBC431}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -337,6 +343,10 @@ Global
 		{5B523212-0C6D-49F5-B2DF-B65A03883BF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B523212-0C6D-49F5-B2DF-B65A03883BF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B523212-0C6D-49F5-B2DF-B65A03883BF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{817AE431-B8A5-4B4F-9741-EB227ABBC431}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{817AE431-B8A5-4B4F-9741-EB227ABBC431}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{817AE431-B8A5-4B4F-9741-EB227ABBC431}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{817AE431-B8A5-4B4F-9741-EB227ABBC431}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -392,6 +402,8 @@ Global
 		{E6640373-FA38-43E3-928A-D689DB4E93BE} = {0168AD6E-C4F4-413F-BFBA-FBBBF80644FA}
 		{96B96597-D714-4658-951F-1ACC2ADFF484} = {0168AD6E-C4F4-413F-BFBA-FBBBF80644FA}
 		{5B523212-0C6D-49F5-B2DF-B65A03883BF3} = {0168AD6E-C4F4-413F-BFBA-FBBBF80644FA}
+		{6E94DC89-8A85-46C1-8767-B3D220CFBB5D} = {627AD12B-EEC2-4522-AB46-5A8AE4314C85}
+		{817AE431-B8A5-4B4F-9741-EB227ABBC431} = {6E94DC89-8A85-46C1-8767-B3D220CFBB5D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {607C5673-3DFE-444A-B0B8-45AB798154EB}
