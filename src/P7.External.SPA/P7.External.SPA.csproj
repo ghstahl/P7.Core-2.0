@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
+    <PackageReference Include="IdentityModel" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.5" />
@@ -13,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IdentityModel-v3.1.0\IdentityModel.csproj" />
     <ProjectReference Include="..\P7.Core\P7.Core.csproj" />
     <ProjectReference Include="..\P7.External.SPA.Core\P7.External.SPA.Core.csproj" />
     <ProjectReference Include="..\P7.HealthCheck.Core\P7.HealthCheck.Core.csproj" />

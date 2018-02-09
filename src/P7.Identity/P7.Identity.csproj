@@ -6,11 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
+    <PackageReference Include="IdentityModel" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GraphQL.AspNetCore\GraphQL.AspNetCore.csproj" />
-    <ProjectReference Include="..\IdentityModel-v3.1.0\IdentityModel.csproj" />
     <ProjectReference Include="..\P7.Core\P7.Core.csproj" />
     <ProjectReference Include="..\P7.GraphQLCore\P7.GraphQLCore.csproj" />
   </ItemGroup>
