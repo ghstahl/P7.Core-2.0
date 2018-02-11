@@ -373,17 +373,41 @@ namespace ReferenceWebApp.Controllers
         }
     }
 
+
+    [Area("Api")]
+    [Route("api/[controller]")]
+    public class RedirectorApiController : Controller
+    {
+        public async Task<ActionResult> Get(string url)
+        {
+            return new RedirectResult(url);
+        }
+    }
+
     [Area("Api")]
     [Route("signin-norton-two")]
     public class SigninNortonTwoApiController : Controller
     {
         private DiscoveryCache _discoveryCache;
         private IConfiguration _configuration;
-        public SigninNortonTwoApiController(IConfiguration configuration,DiscoveryCache discoveryCache)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private string OriginalPathBase => "/";
+
+        public SigninNortonTwoApiController(
+            IConfiguration configuration,
+            DiscoveryCache discoveryCache,
+            IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
             _discoveryCache = discoveryCache;
+            _httpContextAccessor = httpContextAccessor;
         }
+
+        protected string BuildRedirectUri(string targetPath)
+        {
+            return (((this.Request.Scheme + "://" + this.Request.Host) + this.OriginalPathBase) + targetPath);
+        }
+
         public async Task<ActionResult> Get()
         {
             if (Request.Query.ContainsKey("code"))
@@ -399,7 +423,7 @@ namespace ReferenceWebApp.Controllers
                 StringValues codeValue;
                 Request.Query.TryGetValue("code", out codeValue);
                 var code = codeValue[0];
-                var redirectUri = "https://p7core.127.0.0.1.xip.io:44311/signin-norton-two";
+                var redirectUri = BuildRedirectUri("signin-norton-two");
                 var token = await client.RequestAuthorizationCodeAsync(code, redirectUri);
                 var jsonResult = new JsonResult(token.Json);
                 return jsonResult;
