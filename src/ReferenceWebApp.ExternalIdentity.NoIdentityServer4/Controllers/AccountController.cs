@@ -34,6 +34,11 @@ using ReferenceWebApp.Services;
 
 namespace ReferenceWebApp.Controllers
 {
+     public class PreFlightOIDCOptions
+    {
+        public string Provider { get; set; }
+      
+    }
     public class ClaimHandle
     {
         public string Name { get; set; }
@@ -136,6 +141,32 @@ namespace ReferenceWebApp.Controllers
             var result = InternalExternalLogin(provider, returnUrl);
             return (result);
         }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task ImportantData()
+        {
+
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task UnimportantData()
+        {
+
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PreFlightOIDCAuthorize([FromBody]PreFlightOIDCOptions options)
+        {
+            var result = InternalExternalLogin(options.Provider);
+            return (result);
+        }
+
 
         [HttpPost]
         [AllowAnonymous]

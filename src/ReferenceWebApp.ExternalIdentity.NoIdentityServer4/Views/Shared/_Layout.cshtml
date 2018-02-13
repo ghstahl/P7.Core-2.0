@@ -122,7 +122,87 @@
  
 <script src="~/js/site.js" asp-append-version="true"></script>
 <script>
-        keepAliveHook.start(frontChannelRecords);
+    keepAliveHook.start(frontChannelRecords);
+
+    function readCookie(name) {
+        name += '=';
+        for (var ca = document.cookie.split(/;\s*/), i = ca.length - 1; i >= 0; i--)
+            if (!ca[i].indexOf(name))
+                return ca[i].replace(name, '');
+    }
+    function doOIDCPreFlightTest() {
+        var token = readCookie('XSRF-TOKEN');
+        var headers = new Headers({
+            'Content-Type': 'application/json',
+            'Accept-Type': 'application/json',
+            'X-XSRF-TOKEN': token,
+            'X-302to200':'true'
+        });
+
+       
+        fetch('/Account/PreFlightOIDCAuthorize', {
+            method: 'post',
+            credentials: 'include',
+            mode: 'cors', 
+            redirect: 'follow',
+            headers: headers,
+            body: JSON.stringify({ provider: "Norton" })
+
+        })
+        .then(res => res.json())
+       
+        .then(function (response) {
+           
+            console.log(response);
+
+            
+            fetch(response.headers.location, {
+                method: 'get',
+                credentials: 'include' 
+
+            }).then(function (response) {
+                
+                console.log(response);
+
+
+            }).catch(function(err) {
+                // Error :(
+                console.log(err);
+            });
+
+        }).catch(function(err) {
+            // Error :(
+            console.log(err);
+        });
+
+       
+    }
+    function doOIDCPreFlight() {
+        var token = readCookie('XSRF-TOKEN');
+        var headers = new Headers({
+            'Content-Type': 'application/json',
+            'X-XSRF-TOKEN': token
+        });
+
+       
+        fetch('/Account/PreFlightOIDCAuthorize', {
+            method: 'post',
+            credentials: 'include',
+            mode: 'cors', 
+            redirect: 'follow',
+            headers: headers,
+            body: JSON.stringify({ provider: "Norton" })
+
+        }).then(function (response) {
+            console.log(response);
+	
+        }).catch(function(err) {
+            // Error :(
+            console.log(err);
+            });
+
+       
+    }
 </script>
 @RenderSection("Scripts", required: false)
 </body>

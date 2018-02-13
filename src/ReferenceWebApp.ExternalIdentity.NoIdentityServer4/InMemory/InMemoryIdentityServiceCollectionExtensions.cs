@@ -145,12 +145,17 @@ namespace ReferenceWebApp.InMemory
                               //  
                                 if (context.Request.Path != "/Account/ExternalLogin"
                                     && context.Request.Path != "/Account/ExternalLoginWhatIf"
+                                    && context.Request.Path != "/Account/PreFlightOIDCAuthorize"
                                     && context.Request.Path != "/Manage/LinkLogin")
                                 {
                                     context.Response.Redirect("/account/login");
                                     context.HandleResponse();
                                 }
-
+                                if (context.Request.Path == "/Account/PreFlightOIDCAuthorize")
+                                {
+                                    context.ProtocolMessage.Prompt = "none";
+                                }
+                                
                                 return Task.FromResult(0);
                             },
                             OnTicketReceived = (context) =>
