@@ -9,14 +9,25 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using P7.AspNetCore.Identity.InMemory;
 using Reference.OIDCApp.Data;
 using Reference.OIDCApp.Services;
 using Reference.OIDCApp.InMemory;
+using Reference.OIDCApp.Pages.Account;
 
 namespace Reference.OIDCApp
 {
+    public class DeploymentOptions
+    {
+        public const string WellKnown_SectionName = "deployment";
+        [JsonProperty("type")]
+        public string Color { get; set; }
+        public string Host { get; set; }
+    }
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -50,6 +61,8 @@ namespace Reference.OIDCApp
                 .AddDefaultTokenProviders();
 
             services.AddAuthentication<ApplicationUser>(Configuration);
+
+            services.RegisterAccountConfigurationServices(Configuration);
 
             services.AddMvc()
                 .AddRazorPagesOptions(options =>
@@ -88,6 +101,16 @@ namespace Reference.OIDCApp
             }
 
             app.UseStaticFiles();
+
+            //enable session before MVC
+            //=========================  
+            var sessionOptions = new SessionOptions
+            {
+                CookieSecure = CookieSecurePolicy.SameAsRequest
+            };
+            var deploymentOptions = app.GetService<IOptions<DeploymentOptions>>();
+            sessionOptions.Cookie.Name = $".{deploymentOptions.Value.Color}.AspNetCore.Session";
+            app.UseSession(sessionOptions);
 
             app.UseAuthentication();
 
