@@ -29,7 +29,7 @@ namespace Reference.OIDCApp.Pages.Account
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         public string ReturnUrl { get; set; }
-
+        public string Prompt { get; set; }
         [TempData]
         public string ErrorMessage { get; set; }
 
@@ -47,7 +47,7 @@ namespace Reference.OIDCApp.Pages.Account
             public bool RememberMe { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string returnUrl = null, string prompt = null)
         {
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
@@ -60,6 +60,7 @@ namespace Reference.OIDCApp.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
+            Prompt = prompt;
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)

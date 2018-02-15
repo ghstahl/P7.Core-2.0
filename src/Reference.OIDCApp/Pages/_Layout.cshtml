@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -39,6 +39,10 @@
         </div>
     </nav>
     <div class="container body-content">
+        <div>
+            <button id='popupSignin'>signin with popup</button>
+            <button id='iframeSignin'>signin with iframe</button>
+        </div>
         @RenderBody()
         <hr />
         <footer>
@@ -49,24 +53,75 @@
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/oidc-client-js/oidc-client.js" asp-append-version="true"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
+<environment exclude="Development">
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery"
+            crossorigin="anonymous"
+            integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+    </script>
+    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+            crossorigin="anonymous"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+    </script>
+        
+    <script src="~/lib/oidc-client-js/oidc-client.js" asp-append-version="true"></script>
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+</environment>
 
+<script>
+    document.getElementById('popupSignin').addEventListener("click", popupSignin, false);
+    document.getElementById('iframeSignin').addEventListener("click", iframeSignin, false);
+    Oidc.Log.logger = console;
+    Oidc.Log.level = Oidc.Log.WARN;
+    var settings = {
+        authority: 'https://accounts.google.com',
+        client_id: '1096301616546-edbl612881t7rkpljp3qa3juminskulo.apps.googleusercontent.com',
+        redirect_uri: 'https://localhost:44351/signin-google',
+        post_logout_redirect_uri: 'http://localhost:5000/user-manager-sample.html',
+        response_type: 'id_token token',
+        scope: 'openid email profile',
+    
+        popup_redirect_uri:'https://localhost:44351/signin-google',
+        popup_post_logout_redirect_uri:'http://localhost:5000/user-manager-sample-popup-signout.html',
+    
+        silent_redirect_uri:'http://localhost:5000/user-manager-sample-silent.html',
+        automaticSilentRenew:true,
+        //silentRequestTimeout:10000,
+
+        filterProtocolClaims: true,
+        loadUserInfo: true
+    };
+    var mgr = new Oidc.UserManager(settings);
+    function popupSignin() {
+        mgr.signinPopup({state:'some data'}).then(function(user) {
+            log("signed in", user);
+        }).catch(function(err) {
+            log(err);
+        });
+    }
+
+    function popupSignout() {
+        mgr.signoutPopup({state:'some data'}).then(function() {
+            log("signed out");
+        }).catch(function(err) {
+            log(err);
+        });
+    }
+
+    function iframeSignin() {
+        mgr.signinSilent({state:'some data'}).then(function(user) {
+            log("signed in", user);
+        }).catch(function(err) {
+            log(err);
+        });
+    }
+</script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

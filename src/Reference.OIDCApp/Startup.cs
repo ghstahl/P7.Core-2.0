@@ -16,6 +16,7 @@ using P7.AspNetCore.Identity.InMemory;
 using Reference.OIDCApp.Data;
 using Reference.OIDCApp.Services;
 using Reference.OIDCApp.InMemory;
+using Reference.OIDCApp.Middleware;
 using Reference.OIDCApp.Pages.Account;
 
 namespace Reference.OIDCApp
@@ -89,6 +90,7 @@ namespace Reference.OIDCApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseMiddleware<Convert302ResponseMiddleware>();
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();

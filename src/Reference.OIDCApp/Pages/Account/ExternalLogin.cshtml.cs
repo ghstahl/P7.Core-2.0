@@ -67,6 +67,7 @@ namespace Reference.OIDCApp.Pages.Account
 
         public string ReturnUrl { get; set; }
 
+        public string Prompt { get; set; }
         [TempData]
         public string ErrorMessage { get; set; }
 
@@ -82,10 +83,10 @@ namespace Reference.OIDCApp.Pages.Account
             return RedirectToPage("./Login");
         }
 
-        public IActionResult OnPost(string provider, string returnUrl = null)
+        public IActionResult OnPost(string provider, string returnUrl = null, string prompt = null)
         {
             // Request a redirect to the external login provider.
-            var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
+            var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl, prompt });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return new ChallengeResult(provider, properties);
         }
@@ -107,7 +108,7 @@ namespace Reference.OIDCApp.Pages.Account
             };
             return oidc;
         }
-        public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
+        public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string prompt = null, string remoteError = null)
         {
             string currentNameIdClaimValue = null;
             if (User.Identity.IsAuthenticated)

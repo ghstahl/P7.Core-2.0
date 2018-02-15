@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Primitives;
 
 namespace Reference.OIDCApp.InMemory
 {
@@ -68,16 +69,43 @@ namespace Reference.OIDCApp.InMemory
 
                         o.Events = new OpenIdConnectEvents()
                         {
+                            OnMessageReceived = (context) =>
+                            {
+                                if (context.ProtocolMessage.Error != null)
+                                {
+                                    context.Response.Redirect($"/account/ErrorJson?error={context.ProtocolMessage.Error}");
+                                    context.HandleResponse();
+                                }
+                                return Task.FromResult(0);
+
+                            },
+                            OnAuthenticationFailed = (context) =>
+                            {
+                                return Task.FromResult(0);
+                            },
                             OnRedirectToIdentityProvider = (context) =>
                             {
                                 if (context.Request.Path != "/Account/ExternalLogin"
                                     && context.Request.Path != "/Account/ExternalLoginWhatIf"
+                                    && context.Request.Path != "/Account/PreFlightOIDCAuthorize"
                                     && context.Request.Path != "/Manage/LinkLogin")
                                 {
                                     context.Response.Redirect("/account/login");
                                     context.HandleResponse();
                                 }
 
+                                var query = from item in context.Request.Query
+                                    where string.Compare(item.Key, "prompt", true) == 0
+                                    select item.Value;
+                                if (query.Any())
+                                {
+                                    var prompt = query.FirstOrDefault();
+                                    context.ProtocolMessage.Prompt = prompt;
+                                }
+                               
+                                
+                                context.Request.Query.Append(
+                                    new KeyValuePair<string, StringValues>("returnUrl", "/account/SuccessJson"));
                                 return Task.FromResult(0);
                             },
                             OnTicketReceived = (context) =>
@@ -103,9 +131,18 @@ namespace Reference.OIDCApp.InMemory
                                 var newIdentity = new ClaimsIdentity(claimsToKeep, identity.AuthenticationType);
 
                                 context.Principal = new ClaimsPrincipal(newIdentity);
+//                                context.Response.Redirect($"/account/SuccessJson");
+  //                              context.HandleResponse();
+  //                              return Task.FromResult(0);
                                 return Task.CompletedTask;
 
+                            },
+                            OnUserInformationReceived = (context) =>
+                            {
+                                return Task.FromResult(0);
+
                             }
+
                         };
 
                     });
