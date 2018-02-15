@@ -65,5 +65,10 @@ namespace Reference.OIDCApp.Controllers
             var oidc = await HarvestOidcDataAsync();
             return new JsonResult(oidc);
         }
+        [HttpGet]
+        public async Task<IActionResult> Blank()
+        {
+            return new JsonResult("");
+        }
     }
 }
