@@ -34,17 +34,7 @@
                         </p>
                     </div>
                 </form>
-                    <form id="two" target="myFrame" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" asp-route-prompt="@Model.Prompt" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                <input type="text" name="provider" value="Google" />
-                                <input type="submit">
-                            </p>
-                        </div>
-                    </form>
-                    <iframe name="myFrame" src="/Account/Blank">
-                        Your browser does not support inline frames.
-                    </iframe>
+                   
                 }
             }
         </section>

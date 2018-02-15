@@ -39,28 +39,18 @@
         </div>
     </nav>
     <div class="container body-content">
-        <div>
-            <button id='popupSignin'>signin with popup</button>
-            <button id='iframeSignin'>signin with iframe</button>
-        </div>
+
         @RenderBody()
         <hr />
         <footer>
             <p>&copy; 2017 - Reference.OIDCApp</p>
         </footer>
         
-       
-
-      
-
-        
-        <div id="marker"></div>
     </div>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/lib/oidc-client-js/oidc-client.js" asp-append-version="true"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
 <environment exclude="Development">
@@ -77,60 +67,9 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
     </script>
         
-    <script src="~/lib/oidc-client-js/oidc-client.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
 </environment>
 
-<script>
-    document.getElementById('popupSignin').addEventListener("click", popupSignin, false);
-    document.getElementById('iframeSignin').addEventListener("click", iframeSignin, false);
-    Oidc.Log.logger = console;
-    Oidc.Log.level = Oidc.Log.WARN;
-    var settings = {
-        authority: 'https://accounts.google.com',
-        client_id: '1096301616546-edbl612881t7rkpljp3qa3juminskulo.apps.googleusercontent.com',
-        redirect_uri: 'https://localhost:44351/signin-google',
-        post_logout_redirect_uri: 'http://localhost:5000/user-manager-sample.html',
-        response_type: 'id_token token',
-        scope: 'openid email profile',
-    
-        popup_redirect_uri:'https://localhost:44351/signin-google',
-        popup_post_logout_redirect_uri:'http://localhost:5000/user-manager-sample-popup-signout.html',
-    
-        silent_redirect_uri:'http://localhost:5000/user-manager-sample-silent.html',
-        automaticSilentRenew:true,
-        //silentRequestTimeout:10000,
-
-        filterProtocolClaims: true,
-        loadUserInfo: true
-    };
-    var mgr = new Oidc.UserManager(settings);
-    function popupSignin() {
-        mgr.signinPopup({state:'some data'}).then(function(user) {
-            log("signed in", user);
-        }).catch(function(err) {
-            log(err);
-        });
-    }
-
-    function popupSignout() {
-        mgr.signoutPopup({state:'some data'}).then(function() {
-            log("signed out");
-        }).catch(function(err) {
-            log(err);
-        });
-    }
-
-    function iframeSignin() {
-        mgr.signinSilent({state:'some data'}).then(function(user) {
-            log("signed in", user);
-        }).catch(function(err) {
-            log(err);
-        });
-    }
-
-  
-</script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
