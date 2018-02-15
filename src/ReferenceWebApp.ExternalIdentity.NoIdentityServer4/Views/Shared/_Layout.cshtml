@@ -158,7 +158,9 @@
             
             fetch(response.headers.location, {
                 method: 'get',
-                credentials: 'include' 
+                credentials: 'include',
+                mode: 'cors', 
+                redirect: 'follow'
 
             }).then(function (response) {
                 

@@ -13,7 +13,7 @@ namespace ReferenceWebApp.CookieAuthApi.Controllers
         [HttpGet]
         public async Task<string> Get()
         {
-            return "Howdy!";
+            return $"Howdy! {Request.Scheme}://{Request.Host.Value}";
         }
     }
 }
