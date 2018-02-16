@@ -14,41 +14,51 @@
 </head>
  
 <body>
-<form id="loginform" target="guestFrame" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" asp-route-prompt="@Model.Prompt" method="post" class="form-horizontal">
+<button id='signin'>signin</button>
+<p id="received-message">I've heard nothing yet</p>
+<form style="display: none;" id="loginform" target="guestFrame" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" asp-route-prompt="@Model.Prompt" method="post" class="form-horizontal">
     <div>
         <p>
-            <input type="text" name="provider" value="Google" />
+            <input type="text" name="provider" value="Google"/>
             <input type="submit">
         </p>
     </div>
 </form>
-<iframe id="guestFrame" name="guestFrame" src="/Account/Blank">
+<iframe style="display: none;" id="guestFrame" name="guestFrame" src="/Account/Blank">
     Your browser does not support inline frames.
 </iframe>
 <script>
-    function onMessage(messageEvent) {  
+    document.getElementById('signin').addEventListener("click", signin, false);
+    ///////////////////////////////
+    // functions for UI elements
+    ///////////////////////////////
+    function signin() {
+        var loginform = document.getElementById("loginform");
+        loginform.submit();
+    }
+
+    function onMessage(messageEvent) {
         /*
        messageEvent.origin: Protocol and domain origin of the message
        messageEvent.data: Message itself
        messageEvent.source: Window proxy object, useful to post a response 
        */
+        document.getElementById("received-message").innerHTML = JSON.stringify(messageEvent);
     }
+
     var windowProxy;
-    window.onload=function(){ 
+    window.onload = function() {
         // Create a proxy window to send to and receive 
         // messages from the iFrame
         windowProxy = new Porthole.WindowProxy(
-            '/Account/iFrameProxy', 'guestFrame');
+            '/Account/iFrameProxy',
+            'guestFrame');
 
         // Register an event handler to receive messages;
         windowProxy.addEventListener(onMessage);
     };
 
-    function doSilentIFrameSignin() {
-        var loginform = document.getElementById("loginform");
-           
-        loginform.submit();
-    }
+  
 </script>
 </body>
 </html>
