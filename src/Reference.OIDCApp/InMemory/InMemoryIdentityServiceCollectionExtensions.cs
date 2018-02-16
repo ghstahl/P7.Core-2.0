@@ -73,7 +73,7 @@ namespace Reference.OIDCApp.InMemory
                             {
                                 if (context.ProtocolMessage.Error != null)
                                 {
-                                    context.Response.Redirect($"/account/ErrorJson?error={context.ProtocolMessage.Error}");
+                                    context.Response.Redirect($"/account/OIDCIFrameResult?error={context.ProtocolMessage.Error}");
                                     context.HandleResponse();
                                 }
                                 return Task.FromResult(0);
@@ -103,9 +103,6 @@ namespace Reference.OIDCApp.InMemory
                                     context.ProtocolMessage.Prompt = prompt;
                                 }
                                
-                                
-                                context.Request.Query.Append(
-                                    new KeyValuePair<string, StringValues>("returnUrl", "/account/SuccessJson"));
                                 return Task.FromResult(0);
                             },
                             OnTicketReceived = (context) =>
