@@ -10,9 +10,11 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>GoogleSilentSignin</title>
+    <script type="text/javascript" src="~/lib/ternarylabs-porthole/src/porthole.min.js"></script>
 </head>
+ 
 <body>
-<form id="two" target="myFrame" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" asp-route-prompt="@Model.Prompt" method="post" class="form-horizontal">
+<form id="loginform" target="guestFrame" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" asp-route-prompt="@Model.Prompt" method="post" class="form-horizontal">
     <div>
         <p>
             <input type="text" name="provider" value="Google" />
@@ -20,12 +22,30 @@
         </p>
     </div>
 </form>
-<iframe name="myFrame" src="/Account/Blank">
+<iframe id="guestFrame" name="guestFrame" src="/Account/Blank">
     Your browser does not support inline frames.
 </iframe>
 <script>
+    function onMessage(messageEvent) {  
+        /*
+       messageEvent.origin: Protocol and domain origin of the message
+       messageEvent.data: Message itself
+       messageEvent.source: Window proxy object, useful to post a response 
+       */
+    }
+    var windowProxy;
+    window.onload=function(){ 
+        // Create a proxy window to send to and receive 
+        // messages from the iFrame
+        windowProxy = new Porthole.WindowProxy(
+            '/Account/iFrameProxy', 'guestFrame');
+
+        // Register an event handler to receive messages;
+        windowProxy.addEventListener(onMessage);
+    };
+
     function doSilentIFrameSignin() {
-        var loginform = document.getElementById("two");
+        var loginform = document.getElementById("loginform");
            
         loginform.submit();
     }
