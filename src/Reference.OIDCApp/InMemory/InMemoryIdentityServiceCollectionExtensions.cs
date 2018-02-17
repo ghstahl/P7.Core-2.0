@@ -5,10 +5,11 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Primitives;
+
 
 namespace Reference.OIDCApp.InMemory
 {
@@ -73,7 +74,17 @@ namespace Reference.OIDCApp.InMemory
                             {
                                 if (context.ProtocolMessage.Error != null)
                                 {
-                                    context.Response.Redirect($"/account/OIDCIFrameResult?error={context.ProtocolMessage.Error}");
+                                    var errorUrl = context.HttpContext.Request.Cookies["x-errorUrl"];
+                                    CookieOptions option = new CookieOptions {Expires = DateTime.Now};
+
+                                    context.HttpContext.Response.Cookies.Append("x-errorUrl", "",  option);
+                                    if (string.IsNullOrEmpty(errorUrl))
+                                    {
+                                        errorUrl = "/account/ErrorJson";
+                                    }
+
+                                    context.Response.Redirect($"{errorUrl}?error={context.ProtocolMessage.Error}");
+
                                     context.HandleResponse();
                                 }
                                 return Task.FromResult(0);
@@ -102,7 +113,17 @@ namespace Reference.OIDCApp.InMemory
                                     var prompt = query.FirstOrDefault();
                                     context.ProtocolMessage.Prompt = prompt;
                                 }
-                               
+
+                                query = from item in context.Request.Query
+                                    where string.Compare(item.Key, "errorUrl", true) == 0
+                                    select item.Value;
+                                if (query.Any())
+                                {
+                                    var errorUrl = query.FirstOrDefault();
+                                    context.Response.Cookies.Append("x-errorUrl", errorUrl);
+                                }
+                              
+
                                 return Task.FromResult(0);
                             },
                             OnTicketReceived = (context) =>

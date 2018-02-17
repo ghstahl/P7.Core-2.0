@@ -108,10 +108,9 @@ namespace Reference.OIDCApp
             //=========================  
             var sessionOptions = new SessionOptions
             {
-                CookieSecure = CookieSecurePolicy.SameAsRequest
+                CookieSecure = CookieSecurePolicy.Always
             };
             var deploymentOptions = app.GetService<IOptions<DeploymentOptions>>();
-            sessionOptions.Cookie.Name = $".{deploymentOptions.Value.Color}.AspNetCore.Session";
             app.UseSession(sessionOptions);
 
             app.UseAuthentication();

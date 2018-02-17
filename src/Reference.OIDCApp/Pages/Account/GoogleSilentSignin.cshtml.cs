@@ -23,10 +23,13 @@ namespace Reference.OIDCApp.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
         }
-        public async Task OnGetAsync(string returnUrl = null, string prompt = null)
+        public async Task OnGetAsync(string returnUrl = null, string errorUrl = null, string prompt = null)
         {
             ReturnUrl = returnUrl;
+            ErrorUrl = errorUrl;
             Prompt = prompt;
         }
+
+        public string ErrorUrl { get; set; }
     }
 }

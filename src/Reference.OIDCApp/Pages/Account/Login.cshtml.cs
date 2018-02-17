@@ -33,6 +33,8 @@ namespace Reference.OIDCApp.Pages.Account
         [TempData]
         public string ErrorMessage { get; set; }
 
+        public string ErrorUrl { get; set; }
+
         public class InputModel
         {
             [Required]
@@ -47,7 +49,7 @@ namespace Reference.OIDCApp.Pages.Account
             public bool RememberMe { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null, string prompt = null)
+        public async Task OnGetAsync(string returnUrl = null, string errorUrl = null, string prompt = null)
         {
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
@@ -60,6 +62,7 @@ namespace Reference.OIDCApp.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
+            ErrorUrl = errorUrl;
             Prompt = prompt;
         }
 

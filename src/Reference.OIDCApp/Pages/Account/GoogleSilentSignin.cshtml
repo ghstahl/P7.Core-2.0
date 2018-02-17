@@ -16,7 +16,7 @@
 <body>
 <button id='signin'>signin</button>
 <p id="received-message">I've heard nothing yet</p>
-<form style="display: none;" id="loginform" target="guestFrame" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" asp-route-prompt="@Model.Prompt" method="post" class="form-horizontal">
+<form style="display: none;" id="loginform" target="guestFrame" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" asp-route-errorUrl="@Model.ErrorUrl" asp-route-prompt="@Model.Prompt" method="post" class="form-horizontal">
     <div>
         <p>
             <input type="text" name="provider" value="Google"/>

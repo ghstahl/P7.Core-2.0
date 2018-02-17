@@ -83,7 +83,7 @@ namespace Reference.OIDCApp.Pages.Account
             return RedirectToPage("./Login");
         }
 
-        public IActionResult OnPost(string provider, string returnUrl = null, string prompt = null)
+        public IActionResult OnPost(string provider, string returnUrl = null, string errorUrl = null, string prompt = null)
         {
             // Request a redirect to the external login provider.
             var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl, prompt });
