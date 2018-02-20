@@ -18,6 +18,8 @@ Your signin will be happening in an iFrame which is going to be hidden.  That iF
 
 My portal hole implementation source..  
 [The Proxy Page](Pages/Account/iFrameProxy.cshtml)  
+[Hosted iFrame Signin Page](Pages/Account/OIDCIFrameResult.cshtml)  
+[Hosting Signin Page](Pages/Account/GoogleSilentSignin.cshtml)  
 
 
 
