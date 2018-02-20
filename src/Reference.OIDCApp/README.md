@@ -39,7 +39,7 @@ Normal login still works as is, but lets do the silent approach.
 1. go to [Google Accounts](https://myaccount.google.com/), and login and logoff there.  
 2. Navigate to our [Test Page](https://localhost:44351/Account/GoogleSilentSignin?returnUrl=/account/OIDCIFrameResult&errorUrl=/account/OIDCIFrameResult&prompt=none)  
 
-
+![Screenshot](Signin-page.jpg)
 
 
 
