@@ -3,9 +3,15 @@ This project is an implementation of signin via a javascript initiated iFrame.
 
 I am using Google OIDC as my IDP for this implementation.  
 
-## What's needed
+## What's needed  
 
-### Javascript  
+The app has some secrets, which are set using "Manage User Secrets"    
+```
+{
+  "Google-ClientId": "blah.apps.googleusercontent.com",
+  "Google-ClientSecret": "blah"
+}
+```
 
 1. **JavaScript Library for Secure Cross Domain iFrame Communication.**  
 
@@ -21,6 +27,17 @@ My portal hole implementation source..
 [Hosted iFrame Signin Page](Pages/Account/OIDCIFrameResult.cshtml)  
 [Hosting Signin Page](Pages/Account/GoogleSilentSignin.cshtml)  
 
+
+2. **OIDC Options**  
+[google setup](InMemory/InMemoryIdentityServiceCollectionExtensions.cs)  
+I have introduced passing in prompt=none and an errorUrl to compliment the returnUrl.  
+
+
+## Usage  
+Normal login still works as is, but lets do the silent approach.  
+
+1. go to [Google Accounts](https://myaccount.google.com/), and login and logoff there.  
+2. Navigate to our [Test Page](https://localhost:44351/Account/GoogleSilentSignin?returnUrl=/account/OIDCIFrameResult&errorUrl=/account/OIDCIFrameResult&prompt=none)  
 
 
 
