@@ -149,9 +149,6 @@ namespace Reference.OIDCApp.InMemory
                                 var newIdentity = new ClaimsIdentity(claimsToKeep, identity.AuthenticationType);
 
                                 context.Principal = new ClaimsPrincipal(newIdentity);
-//                                context.Response.Redirect($"/account/SuccessJson");
-  //                              context.HandleResponse();
-  //                              return Task.FromResult(0);
                                 return Task.CompletedTask;
 
                             },
@@ -186,6 +183,30 @@ namespace Reference.OIDCApp.InMemory
                         o.Scope.Add("offline_access");
                         o.Events = new OpenIdConnectEvents()
                         {
+                            OnMessageReceived = (context) =>
+                            {
+                                if (context.ProtocolMessage.Error != null)
+                                {
+                                    var errorUrl = context.HttpContext.Request.Cookies["x-errorUrl"];
+                                    CookieOptions option = new CookieOptions { Expires = DateTime.Now };
+
+                                    context.HttpContext.Response.Cookies.Append("x-errorUrl", "", option);
+                                    if (string.IsNullOrEmpty(errorUrl))
+                                    {
+                                        errorUrl = "/account/ErrorJson";
+                                    }
+
+                                    context.Response.Redirect($"{errorUrl}?error={context.ProtocolMessage.Error}");
+
+                                    context.HandleResponse();
+                                }
+                                return Task.FromResult(0);
+
+                            },
+                            OnAuthenticationFailed = (context) =>
+                            {
+                                return Task.FromResult(0);
+                            },
                             OnRedirectToIdentityProvider = (context) =>
                             {
 
@@ -205,11 +226,26 @@ namespace Reference.OIDCApp.InMemory
                                     context.Response.Redirect("/account/login");
                                     context.HandleResponse();
                                 }
-                                if (context.Request.Path == "/Account/PreFlightOIDCAuthorize")
+
+                                var query = from item in context.Request.Query
+                                    where string.Compare(item.Key, "prompt", true) == 0
+                                    select item.Value;
+                                if (query.Any())
                                 {
-                                    context.ProtocolMessage.Prompt = "none";
+                                    var prompt = query.FirstOrDefault();
+                                    context.ProtocolMessage.Prompt = prompt;
                                 }
-                                
+
+                                query = from item in context.Request.Query
+                                    where string.Compare(item.Key, "errorUrl", true) == 0
+                                    select item.Value;
+                                if (query.Any())
+                                {
+                                    var errorUrl = query.FirstOrDefault();
+                                    context.Response.Cookies.Append("x-errorUrl", errorUrl);
+                                }
+
+
                                 return Task.FromResult(0);
                             },
                             OnTicketReceived = (context) =>
