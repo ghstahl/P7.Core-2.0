@@ -33,26 +33,20 @@
                         <p>
                             @foreach (var provider in loginProviders)
                             {
-                                bool display = true;
-                                if (provider.DisplayName.Contains("Norton"))
-                                {
-                                    if ((bool) ViewData["IsHttps"])
-                                    {
-                                        display = !provider.DisplayName.Contains("non-ssl");
-                                    }
-                                    else
-                                    {
-                                        display = provider.DisplayName.Contains("non-ssl");
-                                    }
+                                <button type="submit" class="button is-link" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
+                            }
+                        </p>
+                    </div>
+                </form>
+                <br>
+                <form asp-action="iFrameSilentSignin" asp-route-prompt="none" asp-route-returnurl="/Account/OIDCIFrameResult" asp-route-errorurl="/Account/OIDCIFrameResult" method="post" class="form-horizontal">
+                    <div>
+                        <p>
+                            @foreach (var provider in loginProviders)
+                            {
+                                
+                                   <button type="submit" class="button is-link" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name -silent</button>
 
-
-                                }
-
-
-                                if (display)
-                                {
-                                    <button type="submit" class="button is-link" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
-                                }
                             }
                         </p>
                     </div>

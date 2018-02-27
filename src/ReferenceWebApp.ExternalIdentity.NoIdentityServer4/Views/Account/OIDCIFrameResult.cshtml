@@ -1,0 +1,36 @@
+﻿@using Newtonsoft.Json
+@model ReferenceWebApp.Models.OIDCIFrameResultModel
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>OIDCIFrameResult</title>
+    <script type="text/javascript" src="~/lib/ternarylabs-porthole/src/porthole.min.js"></script>
+</head>
+<body>
+
+    <script>
+    var error = @Html.Raw(JsonConvert.SerializeObject(Model.Error));
+    var oidc = @Html.Raw(JsonConvert.SerializeObject(Model.OIDC));
+    var windowProxy;
+    window.onload=function(){
+        // Create a proxy window to send to and receive
+        // messages from the parent
+        windowProxy = new Porthole.WindowProxy(
+            '/Account/iFrameProxy');
+
+        // Register an event handler to receive messages;
+        windowProxy.addEventListener(function(event) {
+            // handle event
+        });
+        windowProxy.post({ 'action': {error:error,oidc:oidc} });
+    };
+
+    </script>
+
+</body>

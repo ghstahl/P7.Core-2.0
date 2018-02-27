@@ -145,6 +145,65 @@ namespace ReferenceWebApp.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        public async Task<IActionResult> iFrameSilentSignin(string provider = null, string returnUrl = null,
+            string errorUrl = null, string prompt = null)
+        {
+            return View(new iFrameSilentSigninModel()
+            {
+                Provider = provider == null ? "Google" : provider,
+                ReturnUrl = returnUrl,
+                ErrorUrl = errorUrl,
+                Prompt = prompt
+            });
+        }
+        
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> OIDCIFrameResult(string error = null)
+        {
+            var model = new OIDCIFrameResultModel()
+            {
+                Error = error,
+
+            };
+            if (string.IsNullOrEmpty(model.Error))
+            {
+                model.OIDC = await HarvestOidcDataAsync();
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SuccessJson()
+        {
+            var oidc = await HarvestOidcDataAsync();
+            return new JsonResult(oidc);
+        }
+        [HttpGet]
+        public async Task<IActionResult> ErrorJson(string error)
+        {
+            var payload = new ErrorPayload() { Error = error };
+            return new JsonResult(payload);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> iFrameProxy()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Blank()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task ImportantData()
         {
@@ -171,7 +230,7 @@ namespace ReferenceWebApp.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ExternalLogin(string provider, string returnUrl = null)
+        public async Task<IActionResult> ExternalLogin(string provider, string returnUrl = null, string errorUrl = null, string prompt = null)
         {
             var result = InternalExternalLogin(provider, returnUrl);
             return (result);

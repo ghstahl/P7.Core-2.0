@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -69,6 +70,30 @@ namespace ReferenceWebApp.InMemory
 
                         o.Events = new P7201.AspNetCore.Authentication.OpenIdConnect.Events.OpenIdConnectEvents()
                         {
+                            OnMessageReceived = (context) =>
+                            {
+                                if (context.ProtocolMessage.Error != null)
+                                {
+                                    var errorUrl = context.HttpContext.Request.Cookies["x-errorUrl"];
+                                    CookieOptions option = new CookieOptions { Expires = DateTime.Now };
+
+                                    context.HttpContext.Response.Cookies.Append("x-errorUrl", "", option);
+                                    if (string.IsNullOrEmpty(errorUrl))
+                                    {
+                                        errorUrl = "/account/ErrorJson";
+                                    }
+
+                                    context.Response.Redirect($"{errorUrl}?error={context.ProtocolMessage.Error}");
+
+                                    context.HandleResponse();
+                                }
+                                return Task.FromResult(0);
+
+                            },
+                            OnAuthenticationFailed = (context) =>
+                            {
+                                return Task.FromResult(0);
+                            },
                             OnRedirectToIdentityProvider = (context) =>
                             {
                                 if (context.Request.Path != "/Account/ExternalLogin"
@@ -80,6 +105,23 @@ namespace ReferenceWebApp.InMemory
                                     context.HandleResponse();
                                 }
 
+                                var query = from item in context.Request.Query
+                                    where string.Compare(item.Key, "prompt", true) == 0
+                                    select item.Value;
+                                if (query.Any())
+                                {
+                                    var prompt = query.FirstOrDefault();
+                                    context.ProtocolMessage.Prompt = prompt;
+                                }
+
+                                query = from item in context.Request.Query
+                                    where string.Compare(item.Key, "errorUrl", true) == 0
+                                    select item.Value;
+                                if (query.Any())
+                                {
+                                    var errorUrl = query.FirstOrDefault();
+                                    context.Response.Cookies.Append("x-errorUrl", errorUrl);
+                                }
                                 return Task.FromResult(0);
                             },
                             OnTicketReceived = (context) =>
@@ -133,6 +175,31 @@ namespace ReferenceWebApp.InMemory
                         o.Scope.Add("offline_access");
                         o.Events = new P7201.AspNetCore.Authentication.OpenIdConnect.Events.OpenIdConnectEvents()
                         {
+                            OnMessageReceived = (context) =>
+                            {
+                                if (context.ProtocolMessage.Error != null)
+                                {
+                                    var errorUrl = context.HttpContext.Request.Cookies["x-errorUrl"];
+                                    CookieOptions option = new CookieOptions { Expires = DateTime.Now };
+
+                                    context.HttpContext.Response.Cookies.Append("x-errorUrl", "", option);
+                                    if (string.IsNullOrEmpty(errorUrl))
+                                    {
+                                        errorUrl = "/account/ErrorJson";
+                                    }
+
+                                    context.Response.Redirect($"{errorUrl}?error={context.ProtocolMessage.Error}");
+
+                                    context.HandleResponse();
+                                }
+                                return Task.FromResult(0);
+
+                            },
+                            OnAuthenticationFailed = (context) =>
+                            {
+                                return Task.FromResult(0);
+                            },
+
                             OnRedirectToIdentityProvider = (context) =>
                             {
 
@@ -152,11 +219,24 @@ namespace ReferenceWebApp.InMemory
                                     context.Response.Redirect("/account/login");
                                     context.HandleResponse();
                                 }
-                                if (context.Request.Path == "/Account/PreFlightOIDCAuthorize")
+                                var query = from item in context.Request.Query
+                                    where string.Compare(item.Key, "prompt", true) == 0
+                                    select item.Value;
+                                if (query.Any())
                                 {
-                                    context.ProtocolMessage.Prompt = "none";
+                                    var prompt = query.FirstOrDefault();
+                                    context.ProtocolMessage.Prompt = prompt;
                                 }
-                                
+
+                                query = from item in context.Request.Query
+                                    where string.Compare(item.Key, "errorUrl", true) == 0
+                                    select item.Value;
+                                if (query.Any())
+                                {
+                                    var errorUrl = query.FirstOrDefault();
+                                    context.Response.Cookies.Append("x-errorUrl", errorUrl);
+                                }
+
                                 return Task.FromResult(0);
                             },
                             OnTicketReceived = (context) =>
@@ -182,60 +262,7 @@ namespace ReferenceWebApp.InMemory
                     });
             }
 
-            if (!(string.IsNullOrEmpty(configuration["Norton-ClientId-non-ssl"]) ||
-                  string.IsNullOrEmpty(configuration["Norton-ClientSecret-non-ssl"])))
-            {
-                authenticationBuilder.P7AddOpenIdConnect($"{NortonDefaults.AuthenticationScheme}-non-ssl",
-                    $"{NortonDefaults.DisplayName}-non-ssl",
-                    o =>
-                    {
-                        var openIdConnectOptions = new NortonOpenIdConnectNonSSLOptions();
-                        o.CallbackPath = openIdConnectOptions.CallbackPath;
-
-                        o.ClientId = configuration["Norton-ClientId-non-ssl"];
-                        o.ClientSecret = configuration["Norton-ClientSecret-non-ssl"];
-
-                        o.Authority = openIdConnectOptions.Authority;
-                        o.ResponseType = openIdConnectOptions.ResponseType;
-                        o.GetClaimsFromUserInfoEndpoint = openIdConnectOptions.GetClaimsFromUserInfoEndpoint;
-                        o.SaveTokens = openIdConnectOptions.SaveTokens;
-
-                        o.Events = new P7201.AspNetCore.Authentication.OpenIdConnect.Events.OpenIdConnectEvents()
-                        {
-                            OnRedirectToIdentityProvider = (context) =>
-                            {
-                                if (context.Request.Path != "/Account/ExternalLogin"
-                                    && context.Request.Path != "/Account/ExternalLoginWhatIf"
-                                    && context.Request.Path != "/Manage/LinkLogin")
-                                {
-                                    context.Response.Redirect("/account/login");
-                                    context.HandleResponse();
-                                }
-
-                                return Task.FromResult(0);
-                            },
-                            OnTicketReceived = (context) =>
-                            {
- 
-                                ClaimsIdentity identity = (ClaimsIdentity)context.Principal.Identity;
-                                var givenName = identity.FindFirst(ClaimTypes.GivenName);
-                                var familyName = identity.FindFirst(ClaimTypes.Surname);
-                                var nameIdentifier = identity.FindFirst(ClaimTypes.NameIdentifier);
-                                var userId = identity.FindFirst("UserId");
-
-
-                                var claimsToKeep = new List<Claim> { givenName, familyName, nameIdentifier, userId };
-                                claimsToKeep.Add(new Claim("DisplayName", $"{givenName.Value} {familyName.Value}"));
-                                var newIdentity = new ClaimsIdentity(claimsToKeep, identity.AuthenticationType);
-
-                                context.Principal = new ClaimsPrincipal(newIdentity);
-                                return Task.CompletedTask;
-                            }
-                        };
-
-
-                    });
-            }
+            
             /*
             // Hosting doesn't add IHttpContextAccessor by default
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
