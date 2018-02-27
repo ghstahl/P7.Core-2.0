@@ -13,7 +13,7 @@ The app has some secrets, which are set using "Manage User Secrets"
 }
 ```
 
-1. **JavaScript Library for Secure Cross Domain iFrame Communication.**  
+### JavaScript Library for Secure Cross Domain iFrame Communication.
 
 I picked [ternarylabs porthole](https://ternarylabs.github.io/porthole/).  
 Your signin will be happening in an iFrame which is going to be hidden.  That iFrame job will attempt to log in, and will know that state.  A successful login will result in your app having dropped cookies, however the iFrame is the only thing on the client that knows the state.  Your hosting page will need to be updated.  There is a couple ways you can implement how your hosting page knows this;
@@ -28,7 +28,7 @@ My portal hole implementation source..
 [Hosting Signin Page](Pages/Account/GoogleSilentSignin.cshtml)  
 
 
-2. **OIDC Options**  
+### OIDC Options  
 [google setup](InMemory/InMemoryIdentityServiceCollectionExtensions.cs)  
 I have introduced passing in prompt=none and an errorUrl to compliment the returnUrl.  
 
