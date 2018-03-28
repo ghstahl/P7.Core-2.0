@@ -14,10 +14,10 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
     <PackageReference Include="Autofac.Configuration" Version="4.0.1" />
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.0" />
-    <PackageReference Include="IdentityModel" Version="3.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.2" />
+    <PackageReference Include="IdentityModel" Version="3.3.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +26,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\P7.AspNetCore.Identity.InMemory\P7.AspNetCore.Identity.InMemory.csproj" />
+    <ProjectReference Include="..\P7.Filters\P7.Filters.csproj" />
+    <ProjectReference Include="..\P7201.AspNetCore.Authentication.OpenIdConnect\P7201.AspNetCore.Authentication.OpenIdConnect.csproj" />
   </ItemGroup>
 
 </Project>

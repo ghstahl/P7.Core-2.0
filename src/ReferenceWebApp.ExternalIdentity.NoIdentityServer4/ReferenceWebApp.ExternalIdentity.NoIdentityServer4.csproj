@@ -31,12 +31,12 @@
     <PackageReference Include="AspNetCoreRateLimit" Version="2.1.0" />
     <PackageReference Include="Autofac" Version="4.6.2" />
     <PackageReference Include="GraphQL-Parser" Version="3.0.0" />
-    <PackageReference Include="IdentityModel" Version="3.1.0" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="2.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" PrivateAssets="All" />
+    <PackageReference Include="IdentityModel" Version="3.3.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.2.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="2.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" PrivateAssets="All" />
     <PackageReference Include="Serilog" Version="2.6.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
     <PackageReference Include="Serilog.Sinks.Literate" Version="3.0.0" />
@@ -56,6 +56,7 @@
     <ProjectReference Include="..\P7.AspNetCore.Identity.InMemory\P7.AspNetCore.Identity.InMemory.csproj" />
     <ProjectReference Include="..\P7.BlogStore.Hugo\P7.BlogStore.Hugo.csproj" />
     <ProjectReference Include="..\P7.Core\P7.Core.csproj" />
+    <ProjectReference Include="..\P7.CosmosStore.Core\P7.CosmosStore.Core.csproj" />
     <ProjectReference Include="..\P7.Extensions.HealthChecks\P7.Extensions.HealthChecks.csproj" />
     <ProjectReference Include="..\P7.External.SPA.Core\P7.External.SPA.Core.csproj" />
     <ProjectReference Include="..\P7.External.SPA\P7.External.SPA.csproj" />
