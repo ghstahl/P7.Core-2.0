@@ -30,6 +30,7 @@
   <ItemGroup>
     <PackageReference Include="AspNetCoreRateLimit" Version="2.1.0" />
     <PackageReference Include="Autofac" Version="4.6.2" />
+    <PackageReference Include="GraphQL" Version="2.0.0-alpha-870" />
     <PackageReference Include="GraphQL-Parser" Version="3.0.0" />
     <PackageReference Include="IdentityModel" Version="3.3.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.2.1" />
@@ -50,7 +51,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GraphQL.AspNetCore\GraphQL.AspNetCore.csproj" />
     <ProjectReference Include="..\Hugo.Data.Json\Hugo.Data.Json.csproj" />
     <ProjectReference Include="..\P7.AspNetCore.HealthChecks\P7.AspNetCore.HealthChecks.csproj" />
     <ProjectReference Include="..\P7.AspNetCore.Identity.InMemory\P7.AspNetCore.Identity.InMemory.csproj" />
