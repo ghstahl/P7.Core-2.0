@@ -8,15 +8,15 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
-    <PackageReference Include="FakeItEasy" Version="4.4.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="FakeItEasy" Version="4.5.1" />
+    <PackageReference Include="GraphQL" Version="2.0.0-alpha-870" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
     <PackageReference Include="Shouldly" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GraphQL.AspNetCore\GraphQL.AspNetCore.csproj" />
     <ProjectReference Include="..\P7.BlogStore.Core\P7.BlogStore.Core.csproj" />
     <ProjectReference Include="..\P7.BlogStore.Hugo\P7.BlogStore.Hugo.csproj" />
     <ProjectReference Include="..\P7.Core\P7.Core.csproj" />

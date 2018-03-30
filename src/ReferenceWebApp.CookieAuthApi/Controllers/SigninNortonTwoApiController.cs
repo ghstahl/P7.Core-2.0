@@ -42,9 +42,9 @@ namespace ReferenceWebApp.CookieAuthApi.Controllers
                 var clientId = _configuration["Norton-ClientId-Two"];
                 var cientSecret = _configuration["Norton-ClientSecret-Two"];
 
-                var client = new TokenClient(
+                var client = new IdentityModel.Client.TokenClient(
                     doc.TokenEndpoint,
-                    clientId, cientSecret, AuthenticationStyle.PostValues);
+                    clientId, cientSecret, style:IdentityModel.Client.AuthenticationStyle.PostValues);
 
                 StringValues codeValue;
                 Request.Query.TryGetValue("code", out codeValue);

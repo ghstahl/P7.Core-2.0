@@ -508,7 +508,7 @@ namespace ReferenceWebApp.Controllers
 
                 var client = new TokenClient(
                     doc.TokenEndpoint,
-                    clientId, cientSecret,AuthenticationStyle.PostValues);
+                    clientId, cientSecret,style:AuthenticationStyle.PostValues);
                 
                 StringValues codeValue;
                 Request.Query.TryGetValue("code", out codeValue);
