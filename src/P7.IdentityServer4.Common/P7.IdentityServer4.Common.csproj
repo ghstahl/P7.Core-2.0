@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.7.1" />
+    <PackageReference Include="Autofac" Version="4.8.0" />
     <PackageReference Include="IdentityServer4" Version="2.2.0" />
     <PackageReference Include="Serilog" Version="2.6.0" />
   </ItemGroup>
