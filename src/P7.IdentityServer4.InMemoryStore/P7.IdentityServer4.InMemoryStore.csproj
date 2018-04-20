@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="ZeroFormatter" Version="1.6.4" />
+    <ProjectReference Include="..\P7.IdentityServer4.Common\P7.IdentityServer4.Common.csproj" />
   </ItemGroup>
 
 </Project>

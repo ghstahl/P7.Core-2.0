@@ -11,7 +11,8 @@ namespace P7.Core
 {
     public static class ConfigurationServicesExtension
     {
-        public static void RegisterP7CoreConfigurationServices(this IServiceCollection services, IConfiguration configuration)
+        public static void RegisterP7CoreConfigurationServices(this IServiceCollection services, 
+            IConfiguration configuration)
         {
             services.Configure<FiltersConfig>(configuration.GetSection(FiltersConfig.WellKnown_SectionName));
         }
