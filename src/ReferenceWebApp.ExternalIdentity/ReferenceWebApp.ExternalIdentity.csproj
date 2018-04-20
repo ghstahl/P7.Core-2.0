@@ -13,6 +13,9 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Properties\PublishProfiles\Pingo7 - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\Pingo7IdentityServer4 - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\WebDeployPackageProfile-Debug.pubxml" />
+    <None Remove="Properties\PublishProfiles\WebDeployPackageProfile-Release.pubxml" />
   </ItemGroup>
 
   <ItemGroup>
