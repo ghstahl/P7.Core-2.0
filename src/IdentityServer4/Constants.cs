@@ -196,6 +196,7 @@ namespace IdentityServer4
         public static class EndpointNames
         {
             public const string Authorize = "Authorize";
+            public const string Authorize2 = "Authorize2";
             public const string Token = "Token";
             public const string Discovery = "Discovery";
             public const string Introspection = "Introspection";
@@ -209,6 +210,9 @@ namespace IdentityServer4
         {
             public const string Authorize              = "connect/authorize";
             public const string AuthorizeCallback      = Authorize + "/callback";
+
+            public const string Authorize2 = "connect/authorize2";
+
             public const string DiscoveryConfiguration = ".well-known/openid-configuration";
             public const string DiscoveryWebKeys       = DiscoveryConfiguration + "/jwks";
             public const string Token                  = "connect/token";

@@ -149,6 +149,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P7.IdentityServer4.InMemory
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P7.IdentityServer4.Common", "P7.IdentityServer4.Common\P7.IdentityServer4.Common.csproj", "{D0115D62-F9FD-4DB6-B7EC-F781671C36AF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer4", "IdentityServer4\IdentityServer4.csproj", "{EBAE3FAB-9697-490E-B152-C040E4CDACF5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer4.AspNetIdentity", "IdentityServer4.AspNetIdentity\IdentityServer4.AspNetIdentity.csproj", "{B90372DE-9986-44A2-970E-AB99DB9891F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -351,6 +355,14 @@ Global
 		{D0115D62-F9FD-4DB6-B7EC-F781671C36AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0115D62-F9FD-4DB6-B7EC-F781671C36AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0115D62-F9FD-4DB6-B7EC-F781671C36AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBAE3FAB-9697-490E-B152-C040E4CDACF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBAE3FAB-9697-490E-B152-C040E4CDACF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBAE3FAB-9697-490E-B152-C040E4CDACF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBAE3FAB-9697-490E-B152-C040E4CDACF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B90372DE-9986-44A2-970E-AB99DB9891F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B90372DE-9986-44A2-970E-AB99DB9891F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B90372DE-9986-44A2-970E-AB99DB9891F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B90372DE-9986-44A2-970E-AB99DB9891F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -410,6 +422,8 @@ Global
 		{773EF906-E4BA-4A96-819F-9FC74EBF6943} = {0168AD6E-C4F4-413F-BFBA-FBBBF80644FA}
 		{17F79766-B98E-4B3D-A007-B1CE63122253} = {460E01E1-42A4-4EC0-8685-FF6C32B0009F}
 		{D0115D62-F9FD-4DB6-B7EC-F781671C36AF} = {460E01E1-42A4-4EC0-8685-FF6C32B0009F}
+		{EBAE3FAB-9697-490E-B152-C040E4CDACF5} = {460E01E1-42A4-4EC0-8685-FF6C32B0009F}
+		{B90372DE-9986-44A2-970E-AB99DB9891F2} = {460E01E1-42A4-4EC0-8685-FF6C32B0009F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {607C5673-3DFE-444A-B0B8-45AB798154EB}

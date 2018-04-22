@@ -23,8 +23,7 @@
     <PackageReference Include="Autofac" Version="4.8.0" />
     <PackageReference Include="GraphQL" Version="2.0.0-alpha-870" />
     <PackageReference Include="GraphQL-Parser" Version="3.0.0" />
-    <PackageReference Include="IdentityServer4" Version="2.2.0" />
-    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.1.0" />
+ 
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="2.0.2" />
@@ -45,6 +44,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Hugo.Data.Json\Hugo.Data.Json.csproj" />
+    <ProjectReference Include="..\IdentityServer4.AspNetIdentity\IdentityServer4.AspNetIdentity.csproj" />
+    <ProjectReference Include="..\IdentityServer4\IdentityServer4.csproj" />
     <ProjectReference Include="..\OldSchool.RazorPages\OldSchool.RazorPages.csproj" />
     <ProjectReference Include="..\P7.AspNetCore.HealthChecks\P7.AspNetCore.HealthChecks.csproj" />
     <ProjectReference Include="..\P7.AspNetCore.Identity.InMemory\P7.AspNetCore.Identity.InMemory.csproj" />

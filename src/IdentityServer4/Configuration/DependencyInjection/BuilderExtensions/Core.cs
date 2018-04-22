@@ -78,6 +78,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.AddTransient<IEndpointRouter, EndpointRouter>();
 
             builder.AddEndpoint<AuthorizeCallbackEndpoint>(EndpointNames.Authorize, ProtocolRoutePaths.AuthorizeCallback.EnsureLeadingSlash());
+            builder.AddEndpoint<Authorize2Endpoint>(EndpointNames.Authorize2, ProtocolRoutePaths.Authorize2.EnsureLeadingSlash());
             builder.AddEndpoint<AuthorizeEndpoint>(EndpointNames.Authorize, ProtocolRoutePaths.Authorize.EnsureLeadingSlash());
             builder.AddEndpoint<CheckSessionEndpoint>(EndpointNames.CheckSession, ProtocolRoutePaths.CheckSession.EnsureLeadingSlash());
             builder.AddEndpoint<DiscoveryKeyEndpoint>(EndpointNames.Discovery, ProtocolRoutePaths.DiscoveryWebKeys.EnsureLeadingSlash());
@@ -183,12 +184,15 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.TryAddTransient<IEndSessionRequestValidator, EndSessionRequestValidator>();
             builder.Services.TryAddTransient<ITokenRevocationRequestValidator, TokenRevocationRequestValidator>();
             builder.Services.TryAddTransient<IAuthorizeRequestValidator, AuthorizeRequestValidator>();
+            builder.Services.TryAddTransient<IAuthorize2RequestValidator, Authorize2RequestValidator>();
             builder.Services.TryAddTransient<ITokenRequestValidator, TokenRequestValidator>();
             builder.Services.TryAddTransient<IRedirectUriValidator, StrictRedirectUriValidator>();
             builder.Services.TryAddTransient<ITokenValidator, TokenValidator>();
             builder.Services.TryAddTransient<IIntrospectionRequestValidator, IntrospectionRequestValidator>();
             builder.Services.TryAddTransient<IResourceOwnerPasswordValidator, NotSupportedResourceOwnerPasswordValidator>();
             builder.Services.TryAddTransient<ICustomTokenRequestValidator, DefaultCustomTokenRequestValidator>();
+            builder.Services.TryAddTransient<ICustomAuthorize2RequestValidator, DefaultCustomAuthorize2RequestValidator>();
+            
             builder.Services.TryAddTransient<IUserInfoRequestValidator, UserInfoRequestValidator>();
             builder.Services.TryAddTransient<IClientConfigurationValidator, NopClientConfigurationValidator>();
 

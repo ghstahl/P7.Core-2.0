@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.0" />
-    <PackageReference Include="IdentityServer4" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Serilog" Version="2.6.0" />
   </ItemGroup>
@@ -14,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Hugo.Core\Hugo.Core.csproj" />
     <ProjectReference Include="..\Hugo.Data.Json\Hugo.Data.Json.csproj" />
+    <ProjectReference Include="..\IdentityServer4\IdentityServer4.csproj" />
     <ProjectReference Include="..\P7.Core\P7.Core.csproj" />
     <ProjectReference Include="..\P7.HugoStore.Core\P7.HugoStore.Core.csproj" />
     <ProjectReference Include="..\P7.IdentityServer4.Common\P7.IdentityServer4.Common.csproj" />

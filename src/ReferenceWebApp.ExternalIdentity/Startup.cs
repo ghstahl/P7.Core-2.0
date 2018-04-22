@@ -238,72 +238,123 @@ namespace ReferenceWebApp
                 new Claim("x-graphql-auth","")
             });
         }
+
         private async Task LoadIdentityServer4Data()
         {
-            var privateStore = P7.Core.Global.ServiceProvider.GetServices<InMemoryPrivateClaimsScopesStore>().FirstOrDefault();
-
-            privateStore.AddPrivateScopes("Bjorn",new string[]{"flames"});
-            privateStore.AddPrivateClaims("Bjorn", new string[] { "bullet" });
-
-            var fullClientStore = P7.Core.Global.ServiceProvider.GetServices<IFullClientStore>().FirstOrDefault();
-
-            await fullClientStore.InsertClientAsync(new Client
+            try
             {
-                ClientId = "client",
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
 
-                ClientSecrets =
+                var privateStore = P7.Core.Global.ServiceProvider.GetServices<InMemoryPrivateClaimsScopesStore>()
+                    .FirstOrDefault();
+
+                privateStore.AddPrivateScopes("Bjorn", new string[] {"flames"});
+                privateStore.AddPrivateClaims("Bjorn", new string[] {"bullet"});
+
+                var fullClientStore = P7.Core.Global.ServiceProvider.GetServices<IFullClientStore>().FirstOrDefault();
+
+                await fullClientStore.InsertClientAsync(new Client
                 {
-                    new Secret("secret".Sha256())
-                },
-                AllowedScopes = { "arbitrary" }
-            });
+                    ClientId = "client",
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
 
-            await fullClientStore.InsertClientAsync(new Client
-            {
-                ClientId = "resource-owner-client",
-                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                AllowOfflineAccess = true,
-                RefreshTokenUsage = TokenUsage.OneTimeOnly,
-                ClientSecrets =
-                {
-                    new Secret("secret".Sha256())
-                },
-                AllowedScopes = { "arbitrary" }
-            });
-
-
-
-            await fullClientStore.InsertClientAsync(new Client
-            {
-                ClientId = "public-resource-owner-client",
-                AllowedGrantTypes = new List<string> { "public_refresh_token" },
-                RequireClientSecret = false,
-                AllowedScopes = { "arbitrary" }
-            });
-
-
-            var apiResourceList = new List<ApiResource>
-            {
-                new ApiResource("arbitrary", "Arbitrary Scope")
-                {
-                    ApiSecrets =
+                    ClientSecrets =
                     {
                         new Secret("secret".Sha256())
+                    },
+                    AllowedScopes = {"arbitrary"},
+                    RequireConsent = false
+                });
+
+                await fullClientStore.InsertClientAsync(new Client
+                {
+                    ClientId = "resource-owner-client",
+                    AllowedGrantTypes = new[]
+                    {
+                        GrantType.AuthorizationCode,
+                        GrantType.ClientCredentials,
+                        GrantType.ResourceOwnerPassword
+                       
+                    },
+                    AllowOfflineAccess = true,
+                    RefreshTokenUsage = TokenUsage.OneTimeOnly,
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    AllowedScopes = {"arbitrary"},
+                    RedirectUris = new List<string>()
+                    {
+                        "https://blah"
+                    },
+                    RequireConsent = false
+
+                });
+                await fullClientStore.InsertClientAsync(new Client
+                {
+                    ClientId = "resource-owner-client_2",
+                    AllowedGrantTypes = new[]
+                    {
+                        GrantType.AuthorizationCode,
+                        GrantType.ClientCredentials,
+                        GrantType.ResourceOwnerPassword
+                       
+                    },
+                    AllowOfflineAccess = true,
+                    RefreshTokenUsage = TokenUsage.OneTimeOnly,
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    AllowedScopes = {"arbitrary"},
+                    RequireConsent = false,
+                });
+
+
+                await fullClientStore.InsertClientAsync(new Client
+                {
+                    ClientId = "public-resource-owner-client",
+                    AllowedGrantTypes = new List<string> {"public_refresh_token"},
+                    RequireClientSecret = false,
+                    AllowedScopes = {"arbitrary"},
+                    RequireConsent = false
+                });
+                await fullClientStore.InsertClientAsync(new Client
+                {
+                    ClientId = "public-resource-owner-client_2",
+                    AllowedGrantTypes = new List<string> {"public_refresh_token"},
+                    RequireClientSecret = false,
+                    AllowedScopes = {"arbitrary"},
+                    RequireConsent = false
+                });
+
+                var apiResourceList = new List<ApiResource>
+                {
+                    new ApiResource("arbitrary", "Arbitrary Scope")
+                    {
+                        ApiSecrets =
+                        {
+                            new Secret("secret".Sha256())
+                        }
                     }
+                };
+
+                var resourceStore = P7.Core.Global.ServiceProvider.GetServices<IResourceStore>().FirstOrDefault();
+                var adminResourceStore =
+                    P7.Core.Global.ServiceProvider.GetServices<IAdminResourceStore>().FirstOrDefault();
+
+                foreach (var apiResource in apiResourceList)
+                {
+                    await adminResourceStore.ApiResourceStore.InsertApiResourceAsync(apiResource);
                 }
-            };
 
-            var resourceStore = P7.Core.Global.ServiceProvider.GetServices<IResourceStore>().FirstOrDefault();
-            var adminResourceStore = P7.Core.Global.ServiceProvider.GetServices<IAdminResourceStore>().FirstOrDefault();
-
-            foreach (var apiResource in apiResourceList)
-            {
-                await adminResourceStore.ApiResourceStore.InsertApiResourceAsync(apiResource);
+                var dd = await adminResourceStore.ApiResourceStore.PageAsync(10, null);
             }
+            catch (Exception e)
+            {
 
-            var dd = await adminResourceStore.ApiResourceStore.PageAsync(10, null);
+            }
         }
+
         private static void ConfigureTagHelperBase(IHostingEnvironment env)
         {
             var version = typeof(Startup).GetTypeInfo()
