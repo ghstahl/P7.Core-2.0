@@ -31,7 +31,7 @@ namespace P7.IdentityServer4.Common.Services
                                                                        (_requiredArbitraryClaimsArguments =
                                                                            new List<string>
                                                                            {
-                                                                               "arbitrary-claims"
+                                                                               "arbitrary-claims","namespace","client_id"
                                                                            });
 
         private static List<string> _requiredArbitraryScopesArguments;
@@ -39,7 +39,7 @@ namespace P7.IdentityServer4.Common.Services
         private static List<string> RequiredArbitraryScopes => _requiredArbitraryScopesArguments ??
                                                                (_requiredArbitraryScopesArguments = new List<string>
                                                                {
-                                                                   "arbitrary-scopes"
+                                                                   "arbitrary-claims","namespace","client_id"
                                                                });
 
         private static List<string> _p7ClaimTypes;
@@ -117,6 +117,9 @@ namespace P7.IdentityServer4.Common.Services
                 }
                
             }
+
+            finalClaims.Add(new Claim("arbitrary-namespace", rr["namespace"]));
+
             if (subject != null)
             {
                 finalClaims.AddRange(subject.Claims.Where(p2 =>

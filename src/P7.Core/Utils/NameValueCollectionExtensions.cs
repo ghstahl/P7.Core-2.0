@@ -147,6 +147,13 @@ namespace P7.Core.Utils
             }
             return true;
         }
-    }
+        public static bool ContainsAll(this NameValueCollection nvc, IList<string> againstList)
+        {
+            if (againstList == null || againstList.Count == 0)
+                return true;
 
+            var result = againstList.All(key => nvc.AllKeys.Contains(key.ToLower()));
+            return result;
+        }
+    }
 }

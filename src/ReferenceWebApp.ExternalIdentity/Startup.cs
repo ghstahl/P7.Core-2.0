@@ -46,6 +46,7 @@ using P7.IdentityServer4.Common;
 using P7.IdentityServer4.Common.ExtensionGrantValidator;
 using P7.IdentityServer4.Common.Middleware;
 using P7.IdentityServer4.Common.Stores;
+using P7.IdentityServer4.Common.Validators;
 using P7.Razor.FileProvider;
 using P7.RazorProvider.Store.Core;
 using P7.RazorProvider.Store.Core.Interfaces;
@@ -126,7 +127,8 @@ namespace ReferenceWebApp
         {
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
-                .AddExtensionGrantValidator<PublicRefreshTokenExtensionGrantValidator>(); ;
+                .AddExtensionGrantValidator<PublicRefreshTokenExtensionGrantValidator>()
+                .AddCustomTokenRequestValidator<MyCustomTokenRequestValidator>(); 
 
             // needed to store rate limit counters and ip rules
             services.AddMemoryCache();
@@ -244,6 +246,12 @@ namespace ReferenceWebApp
             try
             {
 
+                var clientNamespaceValidationStore = 
+                    P7.Core.Global.ServiceProvider.GetServices<InMemoryClientNamespaceValidationStore>()
+                    .FirstOrDefault();
+                clientNamespaceValidationStore.AddClientNamespaces("resource-owner-client",new []{ "p7-services", "test" });
+                clientNamespaceValidationStore.AddClientNamespaces("resource-owner-client_2", new[] { "p7-services", "test" });
+
                 var privateStore = P7.Core.Global.ServiceProvider.GetServices<InMemoryPrivateClaimsScopesStore>()
                     .FirstOrDefault();
 
@@ -306,6 +314,10 @@ namespace ReferenceWebApp
                         new Secret("secret".Sha256())
                     },
                     AllowedScopes = {"arbitrary"},
+                    RedirectUris = new List<string>()
+                    {
+                        "https://blah"
+                    },
                     RequireConsent = false,
                 });
 
