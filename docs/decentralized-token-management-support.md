@@ -186,23 +186,31 @@ Don't forget to add the PublicRefeshTokenMiddleware, as it changes the incoming 
 
 ## Security  
 
-Having a token management system that lets you make a token with any claim and scope you want is a security hole.  It allows another client on the system to spoof another client's claims and scopes.  To stop this, we have introduced the ability for a client to stake a claim to any claim and scope name.  Its a first come first served situation.  If a client requests a token that has a claim or scope that someone has staked a claim to, that calling client gets nothing.  We don't leak the why they didn't get anything.  
+Having a token management system that lets you make a token with any claim and scope you want is a security hole.  It allows another client on the system to spoof another client's claims and scopes.  To stop this, we have introduced a namespace requirement where a client must be configured with a namespace.  Many clients can share the same namespace.  
+
+The burden of checking will fall on the consumer of the token, as this namespace will show up as a claim;
+```
+arbitrary-namespace:{namespace}
+```
 
 ```
 Register the private provider at startup.  
 
-builder.RegisterType<InMemoryPrivateClaimsScopesStore>()
-    .AsSelf()
-    .As<IPrivateClaimsScopesValidation>()
-    .SingleInstance();
+ builder.RegisterType<InMemoryClientNamespaceValidationStore>()
+                .AsSelf()
+                .As<IClientNamespaceValidation>()
+                .SingleInstance();
 ```
+
 ```
 Populate it with test data.  
-var privateStore = P7.Core.Global.ServiceProvider.GetServices<InMemoryPrivateClaimsScopesStore>().FirstOrDefault();
 
-privateStore.AddPrivateScopes("Bjorn",new string[]{"flames"});
-privateStore.AddPrivateClaims("Bjorn", new string[] { "bullet" });
+ var clientNamespaceValidationStore = 
+                    P7.Core.Global.ServiceProvider.GetServices<InMemoryClientNamespaceValidationStore>()
+                    .FirstOrDefault();
+clientNamespaceValidationStore.AddClientNamespaces("resource-owner-client",new []{ "p7-services", "test" });
+clientNamespaceValidationStore.AddClientNamespaces("resource-owner-client_2", new[] { "p7-services", "test" });
+clientNamespaceValidationStore.AddClientNamespaces("client", new[] { "p7-services", "test" });
 ```
 
-Any client that is NOT "Bjorn", requesting a scope of "flames" or a claim or "bullet", will get nothing.
-Only "Bjorn" gets to have a scope called "flames" and a claim called "bullet".
+
