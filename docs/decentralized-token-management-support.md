@@ -63,7 +63,7 @@ scope:arbitrary
 client_id:client
 client_secret:secret
 handler:arbitrary-claims-service
-arbitrary-claims:{"naguid":"1234abcd","In":"Flames"}
+arbitrary-claims:{"some-guid":"1234abcd","In":"Flames"}
 arbitrary-scopes:A quick brown fox
 namespace:p7-services
 ```
