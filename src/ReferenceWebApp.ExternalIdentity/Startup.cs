@@ -251,6 +251,7 @@ namespace ReferenceWebApp
                     .FirstOrDefault();
                 clientNamespaceValidationStore.AddClientNamespaces("resource-owner-client",new []{ "p7-services", "test" });
                 clientNamespaceValidationStore.AddClientNamespaces("resource-owner-client_2", new[] { "p7-services", "test" });
+                clientNamespaceValidationStore.AddClientNamespaces("client", new[] { "p7-services", "test" });
 
                 var fullClientStore = P7.Core.Global.ServiceProvider.GetServices<IFullClientStore>().FirstOrDefault();
 

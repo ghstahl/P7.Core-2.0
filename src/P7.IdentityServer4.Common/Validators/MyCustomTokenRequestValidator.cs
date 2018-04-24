@@ -26,8 +26,7 @@ namespace P7.IdentityServer4.Common.Validators
             var raw = context.Result.ValidatedRequest.Raw;
             var rr = raw.AllKeys.ToDictionary(k => k, k => raw[k]);
 
-
-            if (!string.IsNullOrWhiteSpace(rr["handler"]))
+            if (rr.ContainsKey("handler"))
             {
                 var namespaces = rr["namespace"].Split(new char[] { ' ', '\t' },
                     StringSplitOptions.RemoveEmptyEntries);
