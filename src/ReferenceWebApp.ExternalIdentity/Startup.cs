@@ -252,12 +252,6 @@ namespace ReferenceWebApp
                 clientNamespaceValidationStore.AddClientNamespaces("resource-owner-client",new []{ "p7-services", "test" });
                 clientNamespaceValidationStore.AddClientNamespaces("resource-owner-client_2", new[] { "p7-services", "test" });
 
-                var privateStore = P7.Core.Global.ServiceProvider.GetServices<InMemoryPrivateClaimsScopesStore>()
-                    .FirstOrDefault();
-
-                privateStore.AddPrivateScopes("Bjorn", new string[] {"flames"});
-                privateStore.AddPrivateClaims("Bjorn", new string[] {"bullet"});
-
                 var fullClientStore = P7.Core.Global.ServiceProvider.GetServices<IFullClientStore>().FirstOrDefault();
 
                 await fullClientStore.InsertClientAsync(new Client

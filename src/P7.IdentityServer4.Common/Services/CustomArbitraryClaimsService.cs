@@ -31,7 +31,9 @@ namespace P7.IdentityServer4.Common.Services
                                                                        (_requiredArbitraryClaimsArguments =
                                                                            new List<string>
                                                                            {
-                                                                               "arbitrary-claims","namespace","client_id"
+                                                                               "arbitrary-claims",
+                                                                               "namespace",
+                                                                               "client_id"
                                                                            });
 
         private static List<string> _requiredArbitraryScopesArguments;
@@ -39,7 +41,9 @@ namespace P7.IdentityServer4.Common.Services
         private static List<string> RequiredArbitraryScopes => _requiredArbitraryScopesArguments ??
                                                                (_requiredArbitraryScopesArguments = new List<string>
                                                                {
-                                                                   "arbitrary-claims","namespace","client_id"
+                                                                   "arbitrary-claims",
+                                                                   "namespace",
+                                                                   "client_id"
                                                                });
 
         private static List<string> _p7ClaimTypes;
@@ -55,16 +59,15 @@ namespace P7.IdentityServer4.Common.Services
                     var values = myConstants.GetConstantsValues<System.String>();
                     _p7ClaimTypes = values.ToList();
                 }
+
                 return _p7ClaimTypes;
             }
         }
-        IPrivateClaimsScopesValidation _privateClaimsScopesValidation;
+
         public CustomArbitraryClaimsService(
             IProfileService profile,
-            IPrivateClaimsScopesValidation privateClaimsScopesValidation,
             ILogger<CustomArbitraryClaimsService> logger) : base(profile, logger)
         {
-            _privateClaimsScopesValidation = privateClaimsScopesValidation;
             _logger = logger;
         }
 
@@ -82,6 +85,7 @@ namespace P7.IdentityServer4.Common.Services
                 _logger.LogError(LoggingEvents.REQUIRED_ITEMS_MISSING, ex);
                 throw ex;
             }
+
             var result = base.GetAccessTokenClaimsAsync(subject, resources, request);
             var rr = request.Raw.AllKeys.ToDictionary(k => k, k => request.Raw[k]);
             List<Claim> finalClaims = new List<Claim>(result.Result);
@@ -90,14 +94,13 @@ namespace P7.IdentityServer4.Common.Services
             {
                 var newScopes = rr["arbitrary-scopes"].Split(new char[] {' ', '\t'},
                     StringSplitOptions.RemoveEmptyEntries);
-                if (_privateClaimsScopesValidation.ValidatePrivateArbitraryScopes(rr["client_id"], newScopes))
+                foreach (var scope in newScopes)
                 {
-                    foreach (var scope in newScopes)
-                    {
-                        finalClaims.Add(new Claim("scope", scope));
-                    }
+                    finalClaims.Add(new Claim("scope", scope));
                 }
+
             }
+
             Dictionary<string, string> values;
             if (arbitraryClaimsCheck)
             {
@@ -107,15 +110,13 @@ namespace P7.IdentityServer4.Common.Services
                 var qq = from item in values
                     let c = item.Key
                     select c;
-                if (_privateClaimsScopesValidation.ValidatePrivateArbitraryClaims(rr["client_id"], qq.ToArray()))
-                {
-                    var query = from value in values
-                        where string.Compare(value.Key, "client_id", true) != 0
-                        select value;
-                    var trimmedClaims = query.ToList();
-                    finalClaims.AddRange(trimmedClaims.Select(value => new Claim(value.Key, value.Value)));
-                }
-               
+
+                var query = from value in values
+                    where string.Compare(value.Key, "client_id", true) != 0
+                    select value;
+                var trimmedClaims = query.ToList();
+                finalClaims.AddRange(trimmedClaims.Select(value => new Claim(value.Key, value.Value)));
+
             }
 
             finalClaims.Add(new Claim("arbitrary-namespace", rr["namespace"]));
@@ -125,6 +126,7 @@ namespace P7.IdentityServer4.Common.Services
                 finalClaims.AddRange(subject.Claims.Where(p2 =>
                     finalClaims.All(p1 => p1.Type != p2.Type)));
             }
+
             // if we find any, than add them to the original and send that back.
             IEnumerable<Claim> claimresults = finalClaims;
             return claimresults;

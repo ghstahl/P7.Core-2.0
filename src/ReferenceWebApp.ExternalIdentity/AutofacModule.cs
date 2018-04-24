@@ -37,10 +37,6 @@ namespace ReferenceWebApp
                 .As<IClientNamespaceValidation>()
                 .SingleInstance();
 
-            builder.RegisterType<InMemoryPrivateClaimsScopesStore>()
-                .AsSelf()
-                .As<IPrivateClaimsScopesValidation>()
-                .SingleInstance();
             builder.Register(c => new InMemorySimpleRedirectStore())
                 .As<ISimpleRedirectorStore>()
                 .SingleInstance();
