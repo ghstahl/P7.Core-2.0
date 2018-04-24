@@ -144,7 +144,7 @@ The fact that it is configured to require a password, is what makes it not usabl
 ```
 ```
 https://localhost:44311/connect/token POST
-grant_type=client_credentials&scope=arbitrary&client_id=client&client_secret=secret&handler=arbitrary-claims-service&arbitrary-claims={"naguid":"1234abcd","In":"Flames"}&arbitrary-scopes=A quick brown fox
+grant_type=client_credentials&scope=arbitrary&client_id=client&client_secret=secret&handler=arbitrary-claims-service&arbitrary-claims={"some-guid":"1234abcd","In":"Flames"}&arbitrary-scopes=A quick brown fox
 ```
 
 The next problem is how do we get to use the refresh_token that came back from that above request without passing a client_secret?
