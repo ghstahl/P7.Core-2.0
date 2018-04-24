@@ -1,19 +1,19 @@
 # Decentralized Token Management Support
 ## Discovery
 ```
-https://localhost:44311/.well-known/openid-configuration
+https://localhost:44312/.well-known/openid-configuration
 produces:
 
 {
-	"issuer": "https://localhost:44311",
-	"jwks_uri": "https://localhost:44311/.well-known/openid-configuration/jwks",
-	"authorization_endpoint": "https://localhost:44311/connect/authorize",
-	"token_endpoint": "https://localhost:44311/connect/token",
-	"userinfo_endpoint": "https://localhost:44311/connect/userinfo",
-	"end_session_endpoint": "https://localhost:44311/connect/endsession",
-	"check_session_iframe": "https://localhost:44311/connect/checksession",
-	"revocation_endpoint": "https://localhost:44311/connect/revocation",
-	"introspection_endpoint": "https://localhost:44311/connect/introspect",
+	"issuer": "https://localhost:44312",
+	"jwks_uri": "https://localhost:44312/.well-known/openid-configuration/jwks",
+	"authorization_endpoint": "https://localhost:44312/connect/authorize",
+	"token_endpoint": "https://localhost:44312/connect/token",
+	"userinfo_endpoint": "https://localhost:44312/connect/userinfo",
+	"end_session_endpoint": "https://localhost:44312/connect/endsession",
+	"check_session_iframe": "https://localhost:44312/connect/checksession",
+	"revocation_endpoint": "https://localhost:44312/connect/revocation",
+	"introspection_endpoint": "https://localhost:44312/connect/introspect",
 	"frontchannel_logout_supported": true,
 	"frontchannel_logout_session_supported": true,
 	"backchannel_logout_supported": true,
@@ -38,7 +38,8 @@ The service being provided is the creation of tokens and the management of those
 The interesting thing is what is NOT being considered as part of the service, and those are as follows;  
 1. Users  
 2. Scopes  
-3. Claims  
+3. Claims
+4. id_token is NOT SUPPORTED
 
 What I have found is that those artifacts tend to be decentralized, especially in large enterprises.  Inside enterprises, there are multiple business units, each with their own concept of what a user is and more importantly what a user has access to.  Basically one business inside an enterprise has nothing to do with the workings of another, and if by coincidence a single user does business with more than one there still should not be an association between the business units.
 
@@ -55,13 +56,21 @@ Please visit [JWT.IO](https://jwt.io/) to interigate what is inside the access_t
 #### The ability to create a Client_Credentials Flow type token
 I need to be able to create a Client_Credentials token, where I can pass in an arbitrary user, with arbitrary scopes, and abitrary claims.  I need the service to then manage that token whilst in flight.
 ```
-https://localhost:44311/connect/token POST
-grant_type=client_credentials&scope=arbitrary&client_id=client&client_secret=secret&handler=arbitrary-claims-service&arbitrary-claims={"naguid":"1234abcd","In":"Flames"}&arbitrary-scopes=A quick brown fox
+https://localhost:44312/connect/token POST
+
+grant_type:client_credentials
+scope:arbitrary
+client_id:client
+client_secret:secret
+handler:arbitrary-claims-service
+arbitrary-claims:{"naguid":"1234abcd","In":"Flames"}
+arbitrary-scopes:A quick brown fox
+namespace:p7-services
 ```
 produces
 ```
 {
-    "access_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjMzNzRmYjYxYWI2NWM3OTczMzViMWEyNzFiNjExNjE2IiwidHlwIjoiSldUIn0.eyJuYmYiOjE0ODg1NTkzMTAsImV4cCI6MTQ4ODU2MjkxMCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo3NzkxIiwiYXVkIjpbImh0dHA6Ly9sb2NhbGhvc3Q6Nzc5MS9yZXNvdXJjZXMiLCJhcmJpdHJhcnkiXSwiY2xpZW50X2lkIjoiY2xpZW50IiwibmFndWlkIjoiMTIzNGFiY2QiLCJJbiI6IkZsYW1lcyIsInNjb3BlIjpbImFyYml0cmFyeSIsIkEiLCJxdWljayIsImJyb3duIiwiZm94Il19.C0C8qD1vO9hzbmLKqvjhQ5p4b-uhAC5iEyTeBefh6MK9ba7tfq9s4Xa2sn-_3VhhEzwP4KVRxmyyUDI1rBj8qXPQ4AILuyVMyPnuLEH2k38eOk1ATuoLvTpQe4i2MiAlifymvxW2nbJhjH35928U5khL_7Pp7sG4mGyRD4ldFe544z7DLChhaCfWo6eVEjZfP02DnOsrWTx5o40E_EF9T8U1SOixdIkkSsCofnroNGjBpYh4CS4Ja_8c8UZKznDQ5KSQuaskgrqLn5840dzboo0Cyv-AKptR-KWsy_5gncFLGjIrdLsWCRhf3PvzxLow_tt4RdLaJT6x1iOP1FmzZg",
+    "access_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc4OGRhZjMxYmRjYWUwMzE1MWUwYzRkMWQ1MDNjOTU0IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1MjQ1OTAyODUsImV4cCI6MTUyNDU5Mzg4NSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTIiLCJhdWQiOlsiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTIvcmVzb3VyY2VzIiwiYXJiaXRyYXJ5Il0sImNsaWVudF9pZCI6ImNsaWVudCIsIm5hZ3VpZCI6IjEyMzRhYmNkIiwiSW4iOiJGbGFtZXMiLCJhcmJpdHJhcnktbmFtZXNwYWNlIjoicDctc2VydmljZXMiLCJzY29wZSI6WyJhcmJpdHJhcnkiLCJBIiwicXVpY2siLCJicm93biIsImZveCJdfQ.T1MlY-Uhaa6yNnjg5nueRXFqHhb2FkkLg567YwgxOf88lO0euEhl1uE-0Zuy6cyH5YTkp3kKW6V-dvndzQ28Htj3XF-moRsajV65EVIVfLxl6UwYEnzWB331UF1q1l3bi9cPF2SXid8bOnKiVYR6Avi24P33pdJZY3miwf71seBdUf_italcr81IGuPDfndk_JH9hf1VMA4LuQ2Ieu7Y6BXSQoF0Npsx_hwnJIhcwmC57vc1IroFVRZMDRwYmJkRHdh1I5KvRCs_iii1vo3wtCzDQN1HsfzFAiGo0NOyAi2b3OIUH1lpw_ColwBATn7UHY24Fe8s5smOjkrOHJuckw",
     "expires_in": 3600,
     "token_type": "Bearer"
 }
@@ -71,32 +80,44 @@ I need to be able to create a Resource_Owner token, where I can pass in an arbit
 
 ``` 
 Probably should make this an enhanced grant as well.  The username is carried through, but the password can be anything.
-https://localhost:44311/connect/token POST
-grant_type=password&scope=arbitrary offline_access&client_id=resource-owner-client&client_secret=secret&handler=arbitrary-claims-service&arbitrary-claims={"naguid":"1234abcd","In":"Flames"}&username=rat&password=poison&arbitrary-scopes=A quick brown fox
+https://localhost:44312/connect/token POST
+
+grant_type:password
+scope:arbitrary offline_access
+client_id:resource-owner-client
+client_secret:secret
+handler:arbitrary-claims-service
+arbitrary-claims:{"some-guid":"1234abcd","In":"Flames"}
+arbitrary-scopes:A quick brown fox openid
+username:rat
+password:poison
+namespace:p7-services
 ```
 produces
 ```
 {
-    "access_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImUzZWJiZTk5MzViNjI1NzkzNTE1MjZmMTYwYmQ2YmE2IiwidHlwIjoiSldUIn0.eyJuYmYiOjE0ODkxNzE3NjcsImV4cCI6MTQ4OTE3NTM2NywiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo3NzkxIiwiYXVkIjpbImh0dHA6Ly9sb2NhbGhvc3Q6Nzc5MS9yZXNvdXJjZXMiLCJhcmJpdHJhcnkiXSwiY2xpZW50X2lkIjoicmVzb3VyY2Utb3duZXItY2xpZW50Iiwic3ViIjoicmF0IiwiYXV0aF90aW1lIjoxNDg5MTcxNzY3LCJpZHAiOiJsb2NhbCIsIm5hZ3VpZCI6IjEyMzRhYmNkIiwiSW4iOiJGbGFtZXMiLCJzY29wZSI6WyJhcmJpdHJhcnkiLCJvZmZsaW5lX2FjY2VzcyIsIkEiLCJxdWljayIsImJyb3duIiwiZm94Il0sImFtciI6WyJwd2QiXX0.qqFwGOb36pxgcoxuxQ_91mU7a4nu_95krUu21AkdXBoeKFSyKVsvEV_vf3CHtpBV_0pxSocHZD-iipjujfI5BYegmtE-J3fdNUdoN5F9f3h9enUYWoTC1eo0gj1DDN1IAiT4oZcL05Mze49nSZ46S7bjN3xJpHo_-bOqJ94hggsgaTcjJw-r0ocGpwcd2u7pH8TiCrbZTLDqb6EOivsjUGJUgUwymaaoLxG6BxQTZ0JQs81uP_Psxesnwdolp6kj4PUc4OCx3FN8XOqAYQi2o_BHVsUvy_4Jq3teVxUrbWp2s-3vSQ0_R_EFm_s2dNdEyD7G12dJf2bgCWeVAaT5dA",
+    "access_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc4OGRhZjMxYmRjYWUwMzE1MWUwYzRkMWQ1MDNjOTU0IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1MjQ1OTA5ODAsImV4cCI6MTUyNDU5NDU4MCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTIiLCJhdWQiOlsiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTIvcmVzb3VyY2VzIiwiYXJiaXRyYXJ5Il0sImNsaWVudF9pZCI6InJlc291cmNlLW93bmVyLWNsaWVudCIsInN1YiI6InJhdCIsImF1dGhfdGltZSI6MTUyNDU5MDk3OCwiaWRwIjoibG9jYWwiLCJzb21lLWd1aWQiOiIxMjM0YWJjZCIsIkluIjoiRmxhbWVzIiwiYXJiaXRyYXJ5LW5hbWVzcGFjZSI6InA3LXNlcnZpY2VzIiwic2NvcGUiOlsiYXJiaXRyYXJ5Iiwib2ZmbGluZV9hY2Nlc3MiLCJBIiwicXVpY2siLCJicm93biIsImZveCIsIm9wZW5pZCJdLCJhbXIiOlsicHdkIl19.pPQXOzDny39bXnFPzP-nk7OpTbdsHzNGRs8Sn7I5e6c-9B1JkZ87Anve70lmg1SVJxMerV_jURb0QRRCtR6y5ceQjm6VKL0qAga7IniGmpmZrztJ_koCPaQdvC0CWq7Rogl5-b7g_RnTZ_RhcLj7sGGKc8DctcdZOrqfbrOhIFAK5iyBJrNe-XluA59imvLxXEAY4kSI_h3oJTLBxv9UpEQMsoCnb-TmiYv8uGhN3_SJxQfis-4WO1-A7Z2dtjMb_C8gCZApyAoyLHupgH5Bo1PKDB0rirCImjFm-SAdQqY7pWYmzmLvZEGWN9rdPqqj4ik95PTnzzHEQviUkgU4sQ",
     "expires_in": 3600,
     "token_type": "Bearer",
-    "refresh_token": "37c43e936af65423bbc62a28dcd9505a008203eeddc75d1043a33be0547ad075"
+    "refresh_token": "7e6e4dd9ca70df9747b7ce9c3b609c21569a42bbf5dce7bad2fcc4be5d90d1b8"
 }
 ```
 #### The ability to refresh a Resource_Owner Flow type token
 
 taking the refresh_token from above;
 ```
-https://localhost:44311/connect/token POST
-refresh_token=37c43e936af65423bbc62a28dcd9505a008203eeddc75d1043a33be0547ad075&client_id=resource-owner-client
+https://localhost:44312/connect/token POST
+
+refresh_token:7e6e4dd9ca70df9747b7ce9c3b609c21569a42bbf5dce7bad2fcc4be5d90d1b8
+client_id:resource-owner-client
 ```
 produces the following;
 ```
 {
-    "access_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImUzZWJiZTk5MzViNjI1NzkzNTE1MjZmMTYwYmQ2YmE2IiwidHlwIjoiSldUIn0.eyJuYmYiOjE0ODkxNzE4NTUsImV4cCI6MTQ4OTE3NTQ1NSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo3NzkxIiwiYXVkIjpbImh0dHA6Ly9sb2NhbGhvc3Q6Nzc5MS9yZXNvdXJjZXMiLCJhcmJpdHJhcnkiXSwiY2xpZW50X2lkIjoicmVzb3VyY2Utb3duZXItY2xpZW50Iiwic3ViIjoicmF0IiwiYXV0aF90aW1lIjoxNDg5MTcxNzY3LCJpZHAiOiJsb2NhbCIsIm5hZ3VpZCI6IjEyMzRhYmNkIiwiSW4iOiJGbGFtZXMiLCJzY29wZSI6WyJhcmJpdHJhcnkiLCJvZmZsaW5lX2FjY2VzcyIsIkEiLCJxdWljayIsImJyb3duIiwiZm94Il0sImFtciI6WyJwd2QiXX0.UiL89PR35QiB-eX2KMDjtMLV80yL1IWR0XZMf9CkAsdIZEmptvy5w4uwqmpQBldYwT4q_Vtp5wRYWfer1_zhf3YCY5lQ21S-JLidz3Dkrd5pMrEaoiO3Ur0MyQMkFnVtj7uwuvKTxFJen3rAgbHC5b5VXGRspT0Kr0g0IgNh7EQWLdA_p6MAa5r4S9yXlkNHwz1rmTPBOB1a0zOZumMZYNZ5JmTI26dwGtUC0n5IlJB7NqD4O_4LZSlCOFJZwm2AqAJoCjylqKkOLvlv8YaQyL6-tRdH6q9x0VnFgn0m9pZqdMR9_CqCnRe7qbQrBuroBSs2i7cdiRmvcgIpAzvIMA",
+    "access_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc4OGRhZjMxYmRjYWUwMzE1MWUwYzRkMWQ1MDNjOTU0IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1MjQ1OTA5OTIsImV4cCI6MTUyNDU5NDU5MiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTIiLCJhdWQiOlsiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTIvcmVzb3VyY2VzIiwiYXJiaXRyYXJ5Il0sImNsaWVudF9pZCI6InJlc291cmNlLW93bmVyLWNsaWVudCIsInN1YiI6InJhdCIsImF1dGhfdGltZSI6MTUyNDU5MDk3OCwiaWRwIjoibG9jYWwiLCJzb21lLWd1aWQiOiIxMjM0YWJjZCIsIkluIjoiRmxhbWVzIiwiYXJiaXRyYXJ5LW5hbWVzcGFjZSI6InA3LXNlcnZpY2VzIiwic2NvcGUiOlsiYXJiaXRyYXJ5Iiwib2ZmbGluZV9hY2Nlc3MiLCJBIiwicXVpY2siLCJicm93biIsImZveCIsIm9wZW5pZCJdLCJhbXIiOlsicHdkIl19.YfCB_yZGudxSXMCezUGgyTlPsCUvrDWw_vOAFcpuJC8kKs8oI902cHelKxNjU7aDJRm3W8RiXi1rsAtLA4BYAoswXFIylPFHD9Tv9G06AmfrU3UyC91ix8SqtPs3gmvPgYta9EH-AyKKQJOSRpgvGUA3Zaoyxkc0s37S-S8DFkcCSHx3pwJGzbhnj8Br9_gx3mMQBpdFb2yi8NYB2hP88LRO7GnPJpab6SaYNG2Y-YbAc9shfJuBBARtZnyd5rC3iR7QH1PZhdVOGCH94gGWDoJ77r7M1vndhwLSuhYCa4gx_jgG3T83nUoc6W5RmXF3GYRtBFkX7hvnJ75dmBdj7g",
     "expires_in": 3600,
     "token_type": "Bearer",
-    "refresh_token": "dfe6d6451f2879aa2bed087ae3b04f0a70134be4fc70a51970eb1e0de626b7a7"
+    "refresh_token": "c471580d716d443c9e5c6535678ea1442e32bd5502fffa200e0d347f9b8a8f05"
 }
 ```
 
