@@ -14,7 +14,7 @@ using P7.Core.Logging;
 
 namespace P7.IdentityServer4.Common.Services
 {
-    public class CustomOpenIdClaimsService : DefaultClaimsService, ICustomClaimsService
+    public class CustomOpenIdClaimsService : DefaultClaimsService, ICustomOpenIdClaimsService
     {
         public class LoggingEvents
         {
@@ -25,7 +25,7 @@ namespace P7.IdentityServer4.Common.Services
         {
             _logger = logger;
         }
-        public string Name => "arbitrary-openid-claims";
+        public string Name => "arbitrary_openid_claims";
         private readonly ILogger<CustomOpenIdClaimsService> _logger;
         private static List<string> _requiredArguments;
 

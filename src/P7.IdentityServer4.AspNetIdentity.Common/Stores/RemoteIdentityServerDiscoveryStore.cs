@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using P7.IdentityServer4.AspNetIdentity.Configuration;
+using P7.IdentityServer4.Common.Constants;
 using P7.IdentityServer4.Common.Models.oidc;
 using Converter = P7.IdentityServer4.AspNetIdentity.Configuration.Converter;
 
@@ -76,17 +77,17 @@ namespace P7.IdentityServer4.AspNetIdentity.Stores
             _s = $"client_secret={clientSecret}";
             finalQueryList.Add(_s);
 
-            _s = "handler=arbitrary-claims-service";
+            _s = "handler=arbitrary_claims_service";
             finalQueryList.Add(_s);
 
             var _s_arbitraryClaims = JsonConvert.SerializeObject(arbitraryClaims);
-            _s = $"arbitrary-claims={_s_arbitraryClaims}";
+            _s = $"{AbritraryOwnerResourceConstants.ArbitraryClaims}={_s_arbitraryClaims}";
             finalQueryList.Add(_s);
 
             _s = $"username={userName}";
             finalQueryList.Add(_s);
 
-            _s = $"arbitrary-scopes={string.Join(" ", arbitraryScopes)}";
+            _s = $"{AbritraryOwnerResourceConstants.ArbitraryScopes}={string.Join(" ", arbitraryScopes)}";
             finalQueryList.Add(_s);
 
             var _s_finalQuery =  string.Join(" ", finalQueryList);

@@ -2,7 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using IdentityServer4.Validation;
+using Microsoft.AspNetCore.Http;
+using P7.Core.Utils;
 using P7.IdentityServer4.Common.Services;
+using P7.IdentityServer4.Common.Stores;
 
 namespace P7.IdentityServer4.Common.Validators
 {
@@ -37,9 +40,7 @@ namespace P7.IdentityServer4.Common.Validators
                     context.Result.IsError = true;
                     context.Result.Error = "namespace not allowed for this client";
                 }
-
             }
-           
             return Task.CompletedTask;
         }
     }

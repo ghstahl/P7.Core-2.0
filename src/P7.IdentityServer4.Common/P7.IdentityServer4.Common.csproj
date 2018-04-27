@@ -16,4 +16,8 @@
     <ProjectReference Include="..\P7.Store\P7.Store.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Context\" />
+  </ItemGroup>
+
 </Project>

@@ -11,18 +11,19 @@ using Newtonsoft.Json;
 using P7.Core.Reflection;
 using P7.Core.Utils;
 using P7.Core.Logging;
+using P7.IdentityServer4.Common.Constants;
 
 namespace P7.IdentityServer4.Common.Services
 {
 
-    public class CustomArbitraryClaimsService : DefaultClaimsService, ICustomClaimsService
+    public class CustomArbitraryClaimsService : DefaultClaimsService, ICustomArbitraryClaimsService
     {
         public class LoggingEvents
         {
             public const int REQUIRED_ITEMS_MISSING = 1000;
         }
 
-        public string Name => "arbitrary-claims-service";
+        public string Name => "arbitrary_claims_service";
 
         private readonly ILogger<CustomArbitraryClaimsService> _logger;
         private static List<string> _requiredArbitraryClaimsArguments;
@@ -31,8 +32,7 @@ namespace P7.IdentityServer4.Common.Services
                                                                        (_requiredArbitraryClaimsArguments =
                                                                            new List<string>
                                                                            {
-                                                                               "arbitrary-claims",
-                                                                               "namespace",
+                                                                               AbritraryOwnerResourceConstants.ArbitraryClaims,
                                                                                "client_id"
                                                                            });
 
@@ -41,8 +41,7 @@ namespace P7.IdentityServer4.Common.Services
         private static List<string> RequiredArbitraryScopes => _requiredArbitraryScopesArguments ??
                                                                (_requiredArbitraryScopesArguments = new List<string>
                                                                {
-                                                                   "arbitrary-claims",
-                                                                   "namespace",
+                                                                   AbritraryOwnerResourceConstants.ArbitraryScopes,
                                                                    "client_id"
                                                                });
 
@@ -74,8 +73,8 @@ namespace P7.IdentityServer4.Common.Services
         public async override Task<IEnumerable<Claim>> GetAccessTokenClaimsAsync(ClaimsPrincipal subject,
             Resources resources, ValidatedRequest request)
         {
-            var arbitraryClaimsCheck = request.Raw.ContainsAny(RequiredArbitraryClaimsArgument);
-            var arbitraryScopesCheck = request.Raw.ContainsAny(RequiredArbitraryScopes);
+            var arbitraryClaimsCheck = request.Raw.ContainsAll(RequiredArbitraryClaimsArgument);
+            var arbitraryScopesCheck = request.Raw.ContainsAll(RequiredArbitraryScopes);
             if (!arbitraryClaimsCheck && !arbitraryScopesCheck)
             {
                 var missing = string.Join(",", RequiredArbitraryClaimsArgument.ToArray());
@@ -92,7 +91,7 @@ namespace P7.IdentityServer4.Common.Services
 
             if (arbitraryScopesCheck)
             {
-                var newScopes = rr["arbitrary-scopes"].Split(new char[] {' ', '\t'},
+                var newScopes = rr[AbritraryOwnerResourceConstants.ArbitraryScopes].Split(new char[] {' ', '\t'},
                     StringSplitOptions.RemoveEmptyEntries);
                 foreach (var scope in newScopes)
                 {
@@ -105,7 +104,7 @@ namespace P7.IdentityServer4.Common.Services
             if (arbitraryClaimsCheck)
             {
                 values =
-                    JsonConvert.DeserializeObject<Dictionary<string, string>>(rr["arbitrary-claims"]);
+                    JsonConvert.DeserializeObject<Dictionary<string, string>>(rr[AbritraryOwnerResourceConstants.ArbitraryClaims]);
                 // paranoia check.  In no way can we allow creation which tries to spoof someone elses client_id.
                 var qq = from item in values
                     let c = item.Key
@@ -119,7 +118,7 @@ namespace P7.IdentityServer4.Common.Services
 
             }
 
-            finalClaims.Add(new Claim("arbitrary-namespace", rr["namespace"]));
+            finalClaims.Add(new Claim("arbitrary_namespace", rr["namespace"]));
 
             if (subject != null)
             {

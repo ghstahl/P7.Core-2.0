@@ -12,10 +12,10 @@ namespace P7.IdentityServer4.AspNetIdentity.Stores
             grant_type=password&scope=arbitrary offline_access
             &client_id=resource-owner-client
             &client_secret=secret
-            &handler=arbitrary-claims-service
-            &arbitrary-claims={"naguid":"1234abcd","In":"Flames"}
+            &handler=arbitrary_claims_service
+            &arbitrary_claims={"naguid":"1234abcd","In":"Flames"}
             &username=rat&password=poison
-            &arbitrary-scopes=A quick brown fox
+            &arbitrary_scopes=A quick brown fox
 */
         Task<OIDCRecord> FetchArbitraryResourceOwnerTokens(string clientId, 
             string clientSecret, 

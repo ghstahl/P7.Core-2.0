@@ -43,8 +43,10 @@ using P7.GraphQLCore;
 using P7.GraphQLCore.Stores;
 using P7.IdentityServer4.AspNetIdentity.Configuration;
 using P7.IdentityServer4.Common;
+using P7.IdentityServer4.Common.Constants;
 using P7.IdentityServer4.Common.ExtensionGrantValidator;
 using P7.IdentityServer4.Common.Middleware;
+using P7.IdentityServer4.Common.ProfileService;
 using P7.IdentityServer4.Common.Stores;
 using P7.IdentityServer4.Common.Validators;
 using P7.Razor.FileProvider;
@@ -58,6 +60,7 @@ using ReferenceWebApp.Services;
  
 using Serilog;
 using ReferenceWebApp.InMemory;
+using ClaimTypes = System.Security.Claims.ClaimTypes;
 
 namespace ReferenceWebApp
 {
@@ -128,6 +131,8 @@ namespace ReferenceWebApp
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
                 .AddExtensionGrantValidator<PublicRefreshTokenExtensionGrantValidator>()
+                .AddExtensionGrantValidator<ArbitraryOwnerResourceExtensionGrantValidator>()
+                .AddProfileService<MyProfileService>()
                 .AddCustomTokenRequestValidator<MyCustomTokenRequestValidator>(); 
 
             // needed to store rate limit counters and ip rules
@@ -264,7 +269,7 @@ namespace ReferenceWebApp
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = {"arbitrary"},
+                    AllowedScopes = { AbritraryOwnerResourceConstants.Arbitrary},
                     RequireConsent = false
                 });
 
@@ -275,8 +280,9 @@ namespace ReferenceWebApp
                     {
                         GrantType.AuthorizationCode,
                         GrantType.ClientCredentials,
-                        GrantType.ResourceOwnerPassword
-                       
+                        GrantType.ResourceOwnerPassword,
+                        AbritraryOwnerResourceConstants.GrantType
+
                     },
                     AllowOfflineAccess = true,
                     RefreshTokenUsage = TokenUsage.OneTimeOnly,
@@ -284,7 +290,7 @@ namespace ReferenceWebApp
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = {"arbitrary"},
+                    AllowedScopes = { "nitro" },
                     RedirectUris = new List<string>()
                     {
                         "https://blah"
@@ -308,7 +314,7 @@ namespace ReferenceWebApp
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = {"arbitrary"},
+                    AllowedScopes = { AbritraryOwnerResourceConstants.Arbitrary },
                     RedirectUris = new List<string>()
                     {
                         "https://blah"
@@ -322,7 +328,7 @@ namespace ReferenceWebApp
                     ClientId = "public-resource-owner-client",
                     AllowedGrantTypes = new List<string> {"public_refresh_token"},
                     RequireClientSecret = false,
-                    AllowedScopes = {"arbitrary"},
+                    AllowedScopes = { AbritraryOwnerResourceConstants.Arbitrary },
                     RequireConsent = false
                 });
                 await fullClientStore.InsertClientAsync(new Client
@@ -330,13 +336,20 @@ namespace ReferenceWebApp
                     ClientId = "public-resource-owner-client_2",
                     AllowedGrantTypes = new List<string> {"public_refresh_token"},
                     RequireClientSecret = false,
-                    AllowedScopes = {"arbitrary"},
+                    AllowedScopes = { AbritraryOwnerResourceConstants.Arbitrary },
                     RequireConsent = false
                 });
 
                 var apiResourceList = new List<ApiResource>
                 {
-                    new ApiResource("arbitrary", "Arbitrary Scope")
+                    new ApiResource(AbritraryOwnerResourceConstants.Arbitrary, "Arbitrary Scope")
+                    {
+                        ApiSecrets =
+                        {
+                            new Secret("secret".Sha256())
+                        }
+                    },
+                    new ApiResource("nitro", "nitro")
                     {
                         ApiSecrets =
                         {
@@ -345,6 +358,7 @@ namespace ReferenceWebApp
                     }
                 };
 
+                 
                 var resourceStore = P7.Core.Global.ServiceProvider.GetServices<IResourceStore>().FirstOrDefault();
                 var adminResourceStore =
                     P7.Core.Global.ServiceProvider.GetServices<IAdminResourceStore>().FirstOrDefault();
