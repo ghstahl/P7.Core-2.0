@@ -76,30 +76,26 @@ produces
 }
 ```
 #### The ability to create a Resource_Owner Flow type token
-I need to be able to create a Resource_Owner token, where I can pass in an arbitrary user, with arbitrary scopes, and abitrary claims.  I need the service to then manage that token whilst in flight.
+I need to be able to create a Resource_Owner token, where I can pass in an arbitrary subject and abitrary claims.  I need the service to then manage that token whilst in flight.
 
 ``` 
 Probably should make this an enhanced grant as well.  The username is carried through, but the password can be anything.
 https://localhost:44312/connect/token POST
 
-grant_type:password
-scope:arbitrary offline_access
+grant_type:arbitrary_owner_resource
+scope:offline_access nitro
 client_id:resource-owner-client
 client_secret:secret
-handler:arbitrary-claims-service
-arbitrary-claims:{"some-guid":"1234abcd","In":"Flames"}
-arbitrary-scopes:A quick brown fox openid
-username:rat
-password:poison
-namespace:p7-services
+arbitrary_claims:{"some-guid":"1234abcd","In":"Flames"}
+subject:camera1
 ```
 produces
 ```
 {
-    "access_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc4OGRhZjMxYmRjYWUwMzE1MWUwYzRkMWQ1MDNjOTU0IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1MjQ1OTA5ODAsImV4cCI6MTUyNDU5NDU4MCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTIiLCJhdWQiOlsiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTIvcmVzb3VyY2VzIiwiYXJiaXRyYXJ5Il0sImNsaWVudF9pZCI6InJlc291cmNlLW93bmVyLWNsaWVudCIsInN1YiI6InJhdCIsImF1dGhfdGltZSI6MTUyNDU5MDk3OCwiaWRwIjoibG9jYWwiLCJzb21lLWd1aWQiOiIxMjM0YWJjZCIsIkluIjoiRmxhbWVzIiwiYXJiaXRyYXJ5LW5hbWVzcGFjZSI6InA3LXNlcnZpY2VzIiwic2NvcGUiOlsiYXJiaXRyYXJ5Iiwib2ZmbGluZV9hY2Nlc3MiLCJBIiwicXVpY2siLCJicm93biIsImZveCIsIm9wZW5pZCJdLCJhbXIiOlsicHdkIl19.pPQXOzDny39bXnFPzP-nk7OpTbdsHzNGRs8Sn7I5e6c-9B1JkZ87Anve70lmg1SVJxMerV_jURb0QRRCtR6y5ceQjm6VKL0qAga7IniGmpmZrztJ_koCPaQdvC0CWq7Rogl5-b7g_RnTZ_RhcLj7sGGKc8DctcdZOrqfbrOhIFAK5iyBJrNe-XluA59imvLxXEAY4kSI_h3oJTLBxv9UpEQMsoCnb-TmiYv8uGhN3_SJxQfis-4WO1-A7Z2dtjMb_C8gCZApyAoyLHupgH5Bo1PKDB0rirCImjFm-SAdQqY7pWYmzmLvZEGWN9rdPqqj4ik95PTnzzHEQviUkgU4sQ",
+    "access_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImM1MjlmNDk0NzM5MGE4ZmE2ZThkMTJiOTEwMmI3Y2NjIiwidHlwIjoiSldUIn0.eyJuYmYiOjE1MjQ4NTM3NzgsImV4cCI6MTUyNDg1NzM3OCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTIiLCJhdWQiOlsiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTIvcmVzb3VyY2VzIiwibml0cm8iXSwiY2xpZW50X2lkIjoicmVzb3VyY2Utb3duZXItY2xpZW50Iiwic3ViIjoiY2FtZXJhMSIsImF1dGhfdGltZSI6MTUyNDg1Mzc2OSwiaWRwIjoibG9jYWwiLCJzb21lLWd1aWQiOiIxMjM0YWJjZCIsIkluIjoiRmxhbWVzIiwic2NvcGUiOlsibml0cm8iLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsiYXJiaXRyYXJ5X293bmVyX3Jlc291cmNlIl19.UXBdiFmzaGdUTDA2gqahbLOHpRvqaw2Ht3CJZuAmJNBJoZlcYwTFT8kIPfMa-DF3BBuDwCZLu0fGojT1qDVSC07PBUEN8-DkSjbrm7UhuJFdWahEqf3-vgBZx0unX6u411a2QO4OTd8SFqnWHYDx51zLd0jqRECvLoDtNzFh5QFWJyuCnABwJ_Oef5G22H4gh5hvwJyrlqCzDW1hBRvaGgywKd2i9PqwrsytEu91bV3Tc2sAULFEyyZhhfpAm3VQCZYGQNm8NQYWtgYYx8uFM9NimqReh1-5Oe5aXL1U7BnD-CaBJcO-vXAm7df33m6G0rwF1KasXbE_8W18hq0xZg",
     "expires_in": 3600,
     "token_type": "Bearer",
-    "refresh_token": "7e6e4dd9ca70df9747b7ce9c3b609c21569a42bbf5dce7bad2fcc4be5d90d1b8"
+    "refresh_token": "6451cf5a63f82f9faa3e7b6854188337d41a1ea73c80c34f0ff23797c343aada"
 }
 ```
 #### The ability to refresh a Resource_Owner Flow type token
