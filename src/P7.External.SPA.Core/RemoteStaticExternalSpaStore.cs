@@ -9,7 +9,7 @@ namespace P7.External.SPA.Core
 {
     public class RemoteStaticExternalSpaStore : InMemoryExternalSpaStore, IRemoteExternalSPAStore
     {
-        //"https://rawgit.com/ghstahl/P7/master/src/WebApplication5/external.spa.config.json";
+        //"https://cdn.jsdelivr.net/gh/ghstahl/P7/src/WebApplication5/external.spa.config.json";
         public static SpaRecords FromJson(string json) => JsonConvert.DeserializeObject<SpaRecords>(json, Settings);
         public static string ToJson(SpaRecords o) => JsonConvert.SerializeObject((object) o, (JsonSerializerSettings) Settings);
 

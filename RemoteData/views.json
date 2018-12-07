@@ -15,7 +15,7 @@
     },
     {
       "location": "/Areas/ExtSPA/Views/Home/Moon.cshtml",
-      "content": "<link rel=\"stylesheet\" href=\"https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css\"/><link rel=\"stylesheet\" href=\"https://rawgit.com/ghstahl/asset-repo/master/moon/one/style.css\" /><main class=\"app\"><top-bar></top-bar><router-view></router-view></main><script src=\"https://rawgit.com/ghstahl/asset-repo/master/moon/one/public/bundle.min.js\"></script>"
+      "content": "<link rel=\"stylesheet\" href=\"https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css\"/><link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/ghstahl/asset-repo/moon/one/style.css\" /><main class=\"app\"><top-bar></top-bar><router-view></router-view></main><script src=\"https://cdn.jsdelivr.net/gh/ghstahl/asset-repo/moon/one/public/bundle.min.js\"></script>"
     },
     {
       "location": "/Areas/ExtSPA/Views/Home/Stock.cshtml",
@@ -23,7 +23,7 @@
     },
     {
       "location": "/Areas/ExtSPA/Views/Home/GraphiQL.cshtml",
-      "content": "@section head{\r\n    <link rel=\"stylesheet\" href=\"https://rawgit.com/ghstahl/P7.Core-2.0/master/src/P7.GraphQLViewer/static/P7.GraphQLViewer/style.css\" />\r\n}\r\n<div id=\"app\"></div>\r\n@section scripts{   \r\n    <script src=\"https://rawgit.com/ghstahl/P7.Core-2.0/master/src/P7.GraphQLViewer/static/P7.GraphQLViewer/bundle.js\" type=\"text/javascript\"></script>   \r\n}"
+      "content": "@section head{\r\n    <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/ghstahl/P7.Core-2.0/src/P7.GraphQLViewer/static/P7.GraphQLViewer/style.css\" />\r\n}\r\n<div id=\"app\"></div>\r\n@section scripts{   \r\n    <script src=\"https://cdn.jsdelivr.net/gh/ghstahl/P7.Core-2.0/src/P7.GraphQLViewer/static/P7.GraphQLViewer/bundle.js\" type=\"text/javascript\"></script>   \r\n}"
     },
     {
       "location": "/Areas/ExtSPA/Views/Home/Money.cshtml",
@@ -39,7 +39,7 @@
     },
     {
       "location": "/Areas/ExtSPA/Views/Home/MyApp.cshtml",
-      "content": "@section head{\r\n  <base href=\"\">\r\n  <link rel=\"stylesheet\" href=\"https://rawgit.com/ghstahl/angular4-my-app/master/src/dist/css/app.css\" />\r\n}\r\n\r\n<my-app>Loading...</my-app>\r\n\r\n@section scripts{   \r\n \r\n  <script type=\"text/javascript\" src=\"https://rawgit.com/ghstahl/angular4-my-app/master/src/dist/js/polyfills.js\">\r\n  </script><script type=\"text/javascript\" src=\"https://rawgit.com/ghstahl/angular4-my-app/master/src/dist/js/vendor.js\">\r\n  </script><script type=\"text/javascript\" src=\"https://rawgit.com/ghstahl/angular4-my-app/master/src/dist/js/app.js\"></script>   \r\n}"
+      "content": "@section head{\r\n  <base href=\"\">\r\n  <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/ghstahl/angular4-my-app/src/dist/css/app.css\" />\r\n}\r\n\r\n<my-app>Loading...</my-app>\r\n\r\n@section scripts{   \r\n \r\n  <script type=\"text/javascript\" src=\"https://cdn.jsdelivr.net/gh/ghstahl/angular4-my-app/src/dist/js/polyfills.js\">\r\n  </script><script type=\"text/javascript\" src=\"https://cdn.jsdelivr.net/gh/ghstahl/angular4-my-app/src/dist/js/vendor.js\">\r\n  </script><script type=\"text/javascript\" src=\"https://cdn.jsdelivr.net/gh/ghstahl/angular4-my-app/src/dist/js/app.js\"></script>   \r\n}"
     },
     {
       "location": "/Areas/OldSchool/Views/_ViewImports.cshtml",
