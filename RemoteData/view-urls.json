@@ -1,9 +1,9 @@
 {
   "urls": [
-    "https://rawgit.com/ghstahl/P7.Core-2.0/master/RemoteData/views.shared.json",
-    "https://rawgit.com/ghstahl/P7.Core-2.0/master/RemoteData/views.json",
-    "https://rawgit.com/ghstahl/svelte-app/master/RemoteData/views.json",
-    "https://rawgit.com/ghstahl/P7.Core-2.0.RemoteData/master/RazorPartials/views.react.one.json",
-    "https://rawgit.com/ghstahl/P7.Core-2.0.RemoteData/master/RazorPartials/views.support.json"
+    "https://cdn.jsdelivr.net/gh/ghstahl/P7.Core-2.0/RemoteData/views.shared.json",
+    "https://cdn.jsdelivr.net/gh/ghstahl/P7.Core-2.0/RemoteData/views.json",
+    "https://cdn.jsdelivr.net/gh/ghstahl/svelte-app/RemoteData/views.json",
+    "https://cdn.jsdelivr.net/gh/ghstahl/P7.Core-2.0.RemoteData/RazorPartials/views.react.one.json",
+    "https://cdn.jsdelivr.net/gh/ghstahl/P7.Core-2.0.RemoteData/RazorPartials/views.support.json"
   ]
 }

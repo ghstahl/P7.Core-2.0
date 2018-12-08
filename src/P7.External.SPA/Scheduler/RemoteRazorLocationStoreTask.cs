@@ -63,7 +63,7 @@ namespace P7.External.SPA.Scheduler
         public string Schedule => "*/1 * * * *";  // every 1 minute
         private async Task<FilesManifest> GetRemoteFilesConfigAsync(string url, bool validateSchema = false)
         {
-            //https://rawgit.com/ghstahl/P7.Core-2.0.RemoteData/master/spas/AngularServerSide/files.json
+            //https://cdn.jsdelivr.net/gh/ghstahl/P7.Core-2.0.RemoteData/spas/AngularServerSide/files.json
             try
             {
                 var schemaUrl = url.Replace(".json", ".schema.json");
@@ -101,7 +101,7 @@ namespace P7.External.SPA.Scheduler
             }
 
             var filesConfig = await GetRemoteFilesConfigAsync(
-                "https://rawgit.com/ghstahl/P7.Core-2.0.RemoteData/master/spas/AngularServerSide/files.json");
+                "https://cdn.jsdelivr.net/gh/ghstahl/P7.Core-2.0.RemoteData/spas/AngularServerSide/files.json");
             bool newFile = true;
             if (FilesManifest != null)
             {
@@ -116,7 +116,7 @@ namespace P7.External.SPA.Scheduler
                 Directory.CreateDirectory(outDir);
                 foreach (var file in filesConfig.Files)
                 {
-                    var fileUrl = $"https://rawgit.com/ghstahl/P7.Core-2.0.RemoteData/master/spas/AngularServerSide/{file}";
+                    var fileUrl = $"https://cdn.jsdelivr.net/gh/ghstahl/P7.Core-2.0.RemoteData/spas/AngularServerSide/{file}";
                     var fileData = await GetRemoteContentAsync(fileUrl);
                     var finalPath = Path.Combine(outDir, file);
                     var index = finalPath.LastIndexOf('/');

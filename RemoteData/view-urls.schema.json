@@ -14,7 +14,7 @@
         "description": "An explanation about the purpose of this instance.", 
         "default": "", 
         "examples": [
-          "https://rawgit.com/ghstahl/P7.Core-2.0/master/src/P7.External.SPA/Areas/ExtSpa/views.json"
+          "https://cdn.jsdelivr.net/gh/ghstahl/P7.Core-2.0/src/P7.External.SPA/Areas/ExtSpa/views.json"
         ]
       }
     }
